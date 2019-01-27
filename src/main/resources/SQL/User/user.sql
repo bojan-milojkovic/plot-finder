@@ -12,7 +12,7 @@ CREATE TABLE `user` (
   `last_login` datetime NOT NULL,
   `last_password_change` datetime NOT NULL,
   `last_update` datetime NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `username_UNIQUE` (`username`)
+PRIMARY KEY (`user_id`),
+UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1
