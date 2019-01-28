@@ -2,7 +2,9 @@ package com.plot.finder.user.entity;
 
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @JsonInclude(Include.NON_NULL)
 public class UserDTO {
@@ -10,6 +12,9 @@ public class UserDTO {
 	private Long id;
 	
 	private String username;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private String password;
 	
 	private String firstName;
 	
@@ -19,6 +24,7 @@ public class UserDTO {
 	
 	private String mobile;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime registerred;
 	
 
@@ -76,5 +82,13 @@ public class UserDTO {
 
 	public void setRegisterred(LocalDateTime registerred) {
 		this.registerred = registerred;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

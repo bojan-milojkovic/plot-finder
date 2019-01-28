@@ -11,4 +11,7 @@ public interface UserService {
 	UserDTO getOneByUsername(String username) throws MyRestPreconditionsException;
 	UserDTO getOneByEmail(String email) throws MyRestPreconditionsException;
 	UserDTO getOneByMobile(String mobile) throws MyRestPreconditionsException;
+	
+	void deleteUser(Long id) throws MyRestPreconditionsException;
+	UserDTO create(final UserDTO model) throws MyRestPreconditionsException;
 }

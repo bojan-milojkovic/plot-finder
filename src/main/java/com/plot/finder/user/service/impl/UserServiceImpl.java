@@ -47,6 +47,60 @@ public class UserServiceImpl implements UserService {
 				"Find user by mobile failed", "That user does not exist in our database"));
 	}
 	
+	public void deleteUser(Long id) throws MyRestPreconditionsException {
+		RestPreconditions.checkId(id);
+		
+		RestPreconditions.checkNotNull(userRepo.getOne(id), "Delete user failed","No user found for id = "+id);
+		
+		userRepo.deleteById(id);
+	}
+	
+	public UserDTO create(final UserDTO model) throws MyRestPreconditionsException {
+		RestPreconditions.assertTrue(model!=null, "User crete error", "Add new user cannot be done without the user object");
+		model.setId(null);
+		if(checkPostData(model)) {
+			// check username unique :
+			RestPreconditions.assertTrue(userRepo.findOneByUsername(model.getUsername())==null, "User create error", 
+						"User with that username already exists");
+			// check email format :
+			RestPreconditions.verifyStringFormat(model.getEmail(), "^[^@]+@[^@.]+(([.][a-z]{3})|(([.][a-z]{2}){1,2}))$",
+					"User create error","email is in invalid format");
+			// check email unique :
+			RestPreconditions.assertTrue(userRepo.findOneByEmail(model.getEmail())==null, "User create error", 
+					"User with that email already exists");
+			// check mobile format :
+			RestPreconditions.verifyStringFormat(model.getMobile(), "^(+[0-9]{1-3})?[0-9 -]+$", 
+									"User create error","mobile number is in invalid format");
+			// check mobile unique :
+			RestPreconditions.assertTrue(userRepo.findOneByMobile(model.getMobile())==null, "User create error", 
+					"User with that mobile phone number already exists");
+		
+			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
+		}
+		
+		MyRestPreconditionsException e = new MyRestPreconditionsException("User create error", 
+				"Some mandatory fields are missing from request body");
+		if(RestPreconditions.checkString(model.getUsername())) {
+			e.getErrors().add("Username is mandatory");
+		}
+		if(RestPreconditions.checkString(model.getPassword())) {
+			e.getErrors().add("Password is mandatory");
+		}
+		if(RestPreconditions.checkString(model.getFirstName())) {
+			e.getErrors().add("First name is mandatory");
+		}
+		if(RestPreconditions.checkString(model.getLastName())) {
+			e.getErrors().add("Last name is mandatory");
+		}
+		if(RestPreconditions.checkString(model.getEmail())) {
+			e.getErrors().add("Email is mandatory");
+		}
+		if(RestPreconditions.checkString(model.getMobile())) {
+			e.getErrors().add("Mobile phone number is mandatory");
+		}
+		throw e;
+	}
+	
 	public UserDTO convertJpaToModel(UserJPA jpa) {
 		UserDTO model = new UserDTO();
 		
@@ -89,5 +143,14 @@ public class UserServiceImpl implements UserService {
 			jpa.setMobile(model.getMobile());
 		}
 		return jpa;
+	}
+	
+	private boolean checkPostData(UserDTO model) {
+		return RestPreconditions.checkString(model.getUsername()) &&
+				RestPreconditions.checkString(model.getPassword()) &&
+				RestPreconditions.checkString(model.getFirstName()) &&
+				RestPreconditions.checkString(model.getLastName()) &&
+				RestPreconditions.checkString(model.getEmail()) &&
+				RestPreconditions.checkString(model.getMobile());
 	}
 }

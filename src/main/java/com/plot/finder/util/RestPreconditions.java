@@ -34,6 +34,13 @@ public class RestPreconditions {
 		return s!=null && s.matches(regExp);
 	}
 	
+	public static void verifyStringFormat(final String s, final String format, final String message, final String details) 
+			throws MyRestPreconditionsException {
+		if(!checkStringMatches(s, format)) {
+			throw new MyRestPreconditionsException(message, details);
+		}
+	}
+	
 	
 	public static <T> T checkNotNull(T object, String description) throws MyRestPreconditionsException {
 		if(object!=null){
