@@ -18,6 +18,9 @@
         padding: 0;
       }
     </style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   </head>
   <body>
     <div id="map"></div>
@@ -39,18 +42,20 @@
 			
 		var infowindow = new google.maps.InfoWindow;
 		
-		var xml = downloadUrl();
-		var markers = xml.documentElement.getElementsByTagName('marker');
+		var json;
 		
-		Array.prototype.forEach.call(markers, function(markerElem) {
-			var id = markerElem.getAttribute('id');
-			var name = markerElem.getAttribute('name');
-			var address = markerElem.getAttribute('address');
-			var type = markerElem.getAttribute('type');
+		$.get(url, function(result, status){
+			json = result;
+		});
+		
+		Array.prototype.forEach.call(json.markers, function(markerElem) {
+			var name = markerElem.name;
+			var address = markerElem.address;
+			var type = markerElem.type;
 			
 			var point = new google.maps.LatLng(
-				parseFloat(markerElem.getAttribute('lat')),
-				parseFloat(markerElem.getAttribute('lng'))
+				parseFloat(markerElem.lat),
+				parseFloat(markerElem.lng)
 			);
 			
 			var infowincontent = document.createElement('div');
@@ -97,7 +102,7 @@
 	  
     </script>
     <script async defer 
-		src="https://maps.googleapis.com/maps/api/js?v=quarterly&key=AIzaSyAnUcOUuCwexpeI5wIAZMkpK5LRYDAajgk&callback=initMap">
+		src="https://maps.googleapis.com/maps/api/js?v=quarterly&key=AIzaSyC32o-io8ytkxJjZcvuchJGBhPmPnmn3hs&callback=initMap">
 	</script>
   </body>
 </html>
