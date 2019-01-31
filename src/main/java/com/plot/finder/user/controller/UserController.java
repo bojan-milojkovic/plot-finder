@@ -1,18 +1,23 @@
 package com.plot.finder.user.controller;
 
+import java.security.Principal;
 import java.util.List;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserDTO;
 import com.plot.finder.user.service.UserService;
+import com.plot.finder.util.RestPreconditions;
 
 @RestController
 @RequestMapping(value="/users")
@@ -49,5 +54,27 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO getUserByMobile(@RequestParam(value="mobile") final String mobile) throws MyRestPreconditionsException {
 		return userServiceImpl.getOneByMobile(mobile);
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
+	public @ResponseBody UserDTO createNewUser(@RequestBody UserDTO model) throws MyRestPreconditionsException {
+		return userServiceImpl.create(model);
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void deleteUser(@PathParam("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		userServiceImpl.delete(id, principal.getName());
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public UserDTO editUser(@PathParam("id") final Long id, UserDTO model, Principal principal) throws MyRestPreconditionsException {
+		RestPreconditions.assertTrue(model!=null, "Edit user error", "Edit user cannot be performed without the user object.");
+		model.setUsername(principal.getName());
+		return userServiceImpl.edit(model, id);
 	}
 }

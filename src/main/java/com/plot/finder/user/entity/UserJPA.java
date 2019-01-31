@@ -33,7 +33,10 @@ public class UserJPA {
 	private String email;
 	
 	@Column
-	private String mobile;
+	private String phone1;
+	
+	@Column
+	private String phone2;
 	
 	@Column
 	private Boolean active;
@@ -92,13 +95,21 @@ public class UserJPA {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getMobile() {
-		return mobile;
+	
+	public String getPhone1() {
+		return phone1;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
+
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
 	}
 
 	public String getUsername() {

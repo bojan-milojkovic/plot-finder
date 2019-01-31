@@ -43,14 +43,17 @@ public class UserServiceImpl implements UserService {
 	
 	public UserDTO getOneByMobile(String mobile) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(mobile, "Find user by mobile phone number failed");
-		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByMobile(mobile), 
+		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByPhone(mobile), 
 				"Find user by mobile failed", "That user does not exist in our database"));
 	}
 	
-	public void deleteUser(Long id) throws MyRestPreconditionsException {
+	public void delete(Long id, String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		
-		RestPreconditions.checkNotNull(userRepo.getOne(id), "Delete user failed","No user found for id = "+id);
+		UserJPA tmp = userRepo.getOne(id);
+		RestPreconditions.checkNotNull(tmp, "Delete user failed","No user found for id = "+id);
+		RestPreconditions.assertTrue(tmp.getUsername().equals(username), "Delete user failed", 
+				"You are trying to delete someone else's user");
 		
 		userRepo.deleteById(id);
 	}
@@ -58,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	public UserDTO create(final UserDTO model) throws MyRestPreconditionsException {
 		RestPreconditions.assertTrue(model!=null, "User crete error", "Add new user cannot be done without the user object");
 		model.setId(null);
-		if(checkPostData(model)) {
+		if(checkPostDataPresent(model)) {
 			// check username unique :
 			RestPreconditions.assertTrue(userRepo.findOneByUsername(model.getUsername())==null, "User create error", 
 						"User with that username already exists");
@@ -69,11 +72,20 @@ public class UserServiceImpl implements UserService {
 			RestPreconditions.assertTrue(userRepo.findOneByEmail(model.getEmail())==null, "User create error", 
 					"User with that email already exists");
 			// check mobile format :
-			RestPreconditions.verifyStringFormat(model.getMobile(), "^(+[0-9]{1-3})?[0-9 -]+$", 
+			RestPreconditions.verifyStringFormat(model.getPhone1(), "^([+][0-9]{1-3})?[0-9 -]+$", 
 									"User create error","mobile number is in invalid format");
 			// check mobile unique :
-			RestPreconditions.assertTrue(userRepo.findOneByMobile(model.getMobile())==null, "User create error", 
+			RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone1())==null, "User create error", 
 					"User with that mobile phone number already exists");
+			
+			if(model.getPhone2() != null) { // next line checks that it is not empty string
+				// check mobile format :
+				RestPreconditions.verifyStringFormat(model.getPhone2(), "^([+][0-9]{1-3})?[0-9 -]+$", 
+										"User create error","mobile number is in invalid format");
+				// check mobile unique :
+				RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone2())==null, "User create error", 
+						"User with that mobile phone number already exists");
+			}
 		
 			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
 		}
@@ -95,10 +107,64 @@ public class UserServiceImpl implements UserService {
 		if(RestPreconditions.checkString(model.getEmail())) {
 			e.getErrors().add("Email is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getMobile())) {
-			e.getErrors().add("Mobile phone number is mandatory");
+		if(RestPreconditions.checkString(model.getPhone1())) {
+			e.getErrors().add("User's phone number is mandatory");
 		}
 		throw e;
+	}
+	
+	private void checkProperty(String property, String propertyName, Long id, String regex, UserJPA tmp) 
+							throws MyRestPreconditionsException {
+		if(RestPreconditions.checkString(property)) { // here, it must be RestPreconditions.checkString(...) 
+			RestPreconditions.verifyStringFormat(property, regex, "User edit error", 
+					propertyName+" is in invalid format");
+			
+			if(tmp!=null) {
+				RestPreconditions.assertTrue(tmp.getId()==id,
+						"User edit error", propertyName+" you are adding belongs to another user.");
+			}
+		}
+	}
+	
+	public UserDTO edit(UserDTO model, Long id) throws MyRestPreconditionsException {
+		RestPreconditions.checkId(id);
+		model.setId(id);
+		
+		if(checkPatchDataPresent(model)) {
+			// check username (model.getUsername() is set in controller)
+			{
+				UserJPA tmp = userRepo.findOneByUsername(model.getUsername());
+				RestPreconditions.checkNotNull(tmp, "User edit error", 
+						"User with username "+model.getUsername()+" does not exist in our database.");
+				RestPreconditions.assertTrue(tmp.getId()==id, "User edit error", 
+						"You are trying to edit someone else's user.");
+				// tmp ceases to exist  here
+			}
+			// check email :
+			checkProperty(model.getEmail(),
+						  "email",
+						  id,
+						  "^[^@]+@[^@.]+(([.][a-z]{3})|(([.][a-z]{2}){1,2}))$",
+						  userRepo.findOneByEmail(model.getEmail()) );
+			// check phone1 :
+			checkProperty(model.getPhone1(),
+					  "Phone number 1",
+					  id,
+					  "^([+][0-9]{1-3})?[0-9 -]+$",
+					  userRepo.findOneByPhone(model.getPhone1()) );
+			
+			// check phone2 :
+			checkProperty(model.getPhone2(),
+					  "Phone number 2",
+					  id,
+					  "^([+][0-9]{1-3})?[0-9 -]+$",
+					  userRepo.findOneByPhone(model.getPhone2()) );
+			
+			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
+		} else {
+			throw new MyRestPreconditionsException("Edit user error",
+					"You must provide some editable data.");
+		}
 	}
 	
 	public UserDTO convertJpaToModel(UserJPA jpa) {
@@ -108,7 +174,8 @@ public class UserServiceImpl implements UserService {
 		model.setFirstName(jpa.getFirstName());
 		model.setId(jpa.getId());
 		model.setLastName(jpa.getLastName());
-		model.setMobile(jpa.getMobile());
+		model.setPhone1(jpa.getPhone1());
+		model.setPhone2(jpa.getPhone2());
 		model.setUsername(jpa.getUsername());
 		model.setRegisterred(jpa.getRegistration());
 		
@@ -125,6 +192,7 @@ public class UserServiceImpl implements UserService {
 			jpa.setNotLocked(true);
 			jpa.setLastLogin(LocalDateTime.now());
 			jpa.setLastPasswordChange(LocalDateTime.now());
+			jpa.setUsername(model.getUsername());
 		} else {
 			jpa = userRepo.getOne(model.getId());
 		}
@@ -139,18 +207,29 @@ public class UserServiceImpl implements UserService {
 		if(RestPreconditions.checkString(model.getLastName())) {
 			jpa.setLastName(model.getLastName());
 		}
-		if(RestPreconditions.checkString(model.getMobile())) {
-			jpa.setMobile(model.getMobile());
+		if(RestPreconditions.checkString(model.getPhone1())) {
+			jpa.setPhone1(model.getPhone1());
+		}
+		if(RestPreconditions.checkString(model.getPhone2())) {
+			jpa.setPhone2(model.getPhone2());
 		}
 		return jpa;
 	}
 	
-	private boolean checkPostData(UserDTO model) {
+	private boolean checkPostDataPresent(UserDTO model) {
 		return RestPreconditions.checkString(model.getUsername()) &&
 				RestPreconditions.checkString(model.getPassword()) &&
 				RestPreconditions.checkString(model.getFirstName()) &&
 				RestPreconditions.checkString(model.getLastName()) &&
 				RestPreconditions.checkString(model.getEmail()) &&
-				RestPreconditions.checkString(model.getMobile());
+				RestPreconditions.checkString(model.getPhone1());
+	}
+	
+	private boolean checkPatchDataPresent(UserDTO model) {
+		return RestPreconditions.checkString(model.getFirstName()) ||
+				RestPreconditions.checkString(model.getLastName()) ||
+				RestPreconditions.checkString(model.getEmail()) ||
+				RestPreconditions.checkString(model.getPhone1()) ||
+				RestPreconditions.checkString(model.getPhone2());
 	}
 }

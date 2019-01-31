@@ -22,7 +22,9 @@ public class UserDTO {
 	
 	private String email;
 	
-	private String mobile;
+	private String phone1;
+	
+	private String phone2;
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDateTime registerred;
@@ -67,13 +69,21 @@ public class UserDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	public String getMobile() {
-		return mobile;
+	
+	public String getPhone1() {
+		return phone1;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
+
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
 	}
 
 	public LocalDateTime getRegisterred() {
