@@ -10,7 +10,7 @@ public interface StorageService {
 
 	void saveImage(final MultipartFile multipartfile, Long id, boolean isUser) throws MyRestPreconditionsException;
 	
-	Resource readImage(final Long Id, final String name) throws MyRestPreconditionsException;
+	Resource readImage(final Long Id, String name, final boolean thumbnail) throws MyRestPreconditionsException;
 	
 	void deleteImage(final Long id, final String name) throws MyRestPreconditionsException;
 	
