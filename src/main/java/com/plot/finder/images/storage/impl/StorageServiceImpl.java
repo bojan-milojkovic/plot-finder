@@ -73,17 +73,26 @@ public class StorageServiceImpl implements StorageService {
 				"Max upload file size is 3MB");
 		RestPreconditions.assertTrue(checkMpFileExtension(mpf.getOriginalFilename()), "Image save error", 
 				"You are only allowed to upload files with extensions jpg, jpeg, png and bmp");
-		/*RestPreconditions.assertTrue(id!=null && id>0, "Image save error", 
-				"Uploading file for invalid plot id ("+id+")");*/    // checked in buildDirPath()
 		
 		// compose dir structure :
-		String dir = buildDirPath(id);
+		String path = buildDirPath(id);
+		File dir = new File(path);
 		
-		// check resulting dir :
-		checkResultingDir(dir);
+		// if dir does not exist yet, make it :
+		if(!dir.exists()){
+			try {
+				dir.mkdirs();
+			} catch (Exception e) {
+				throw new MyRestPreconditionsException("Save image error", e.getMessage());
+			}
+		}
+		
+		// check that it is writeable
+		RestPreconditions.assertTrue(java.nio.file.Files.isWritable(dir.toPath()), 
+				"Directory creation error", "File location is not writable");
 		
 		// put files in dir :
-		saveFileInDir(dir, mpf);
+		saveFileInDir(path, mpf);
 	}
 	
 	public Resource readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
@@ -95,8 +104,6 @@ public class StorageServiceImpl implements StorageService {
 			File tmp = new File(imgDir);
 			RestPreconditions.assertTrue(tmp.exists(), 
 					"Image read error","File path "+imgDir+" does not exist");
-			RestPreconditions.assertTrue(tmp.isDirectory(), 
-					"Image read error","File path "+imgDir+" is not a directory");
 			RestPreconditions.assertTrue(java.nio.file.Files.isReadable(tmp.toPath()), 
 					"Image read error", "File path "+imgDir+" is not readable");
 		} // tmp ceases to exist here.
@@ -140,11 +147,9 @@ public class StorageServiceImpl implements StorageService {
 		{
 			File tmp = new File(dirPath);
 			RestPreconditions.assertTrue(tmp.exists(), 
-					"Image read error","File path "+dirPath+" does not exist");
-			RestPreconditions.assertTrue(tmp.isDirectory(), 
-					"Image read error","File path "+dirPath+" is not a directory");
+					"Image delete error","File path "+dirPath+" does not exist");
 			RestPreconditions.assertTrue(java.nio.file.Files.isWritable(tmp.toPath()), 
-					"Image read error", "File path "+dirPath+" is not writable");
+					"Image delete error", "File path "+dirPath+" is not writable");
 		} // tmp ceases to exist here.
 		
 		deletePreviousImage(dirPath, name);
@@ -173,16 +178,15 @@ public class StorageServiceImpl implements StorageService {
 		
 		String[] parts = mpf.getOriginalFilename().split("[\\/]");
 		String fileName = parts[parts.length-1];
-		String contentType = fileName.split("[.]")[1];
 		
 		try {
 			// save original :
-			Path targetLocation = Paths.get(dir + fileName+"."+contentType).toAbsolutePath().normalize();
+			Path targetLocation = Paths.get(dir + fileName).toAbsolutePath().normalize();
 			Files.copy(mpf.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 			// save thumbnail :
-			targetLocation = Paths.get(dir + fileName+"_THUMBNAIL."+contentType).toAbsolutePath().normalize();
-			Files.copy(scaleImageInputstream(mpf, contentType, 80, 100), 
+			targetLocation = Paths.get(dir + thumbnailName(fileName)).toAbsolutePath().normalize();
+			Files.copy(scaleImageInputstream(mpf, fileName.split("[.]")[1], 80, 100), 
 					targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 		}catch (IllegalStateException | IOException e) {
@@ -224,34 +228,9 @@ public class StorageServiceImpl implements StorageService {
 			throw new MyRestPreconditionsException("Image scaling error","Ooops - something went wrong !");
 		}
     }
-	
-	// directory verification
-	private void checkResultingDir(String path) throws MyRestPreconditionsException {
-		
-		File dir = new File(path);
-		
-		// if dir does not exist yet, try to make it :
-		try {
-			if(!dir.exists()){
-				dir.mkdirs();
-			}
-		} catch(Exception e) {
-			throw new MyRestPreconditionsException("Directory creation error", e.getMessage());
-		}
-		
-		// check that it is a directory
-		RestPreconditions.assertTrue(dir.isDirectory(), "Directory creation error", "Invalid path to directory");
-		
-		// check that it is writeable
-		RestPreconditions.assertTrue(java.nio.file.Files.isWritable(dir.toPath()), "Directory creation error", 
-				"File location is not writable");
-	}
 
 	// create dir path in classpath: from userId / herbId
 	private String buildDirPath(Long id) throws MyRestPreconditionsException{
-		RestPreconditions.assertTrue(id!=null && id>=0, "Save Image File !",
-				"Id used for directory structure traverse is invalid");
-		
 		char[] folders = (""+id).toCharArray();
 		
 		String dir = fileStorageLocation;
@@ -259,6 +238,9 @@ public class StorageServiceImpl implements StorageService {
 		for(int i=folders.length-1 ; i>=0 ; i--){
 			dir += (folders[i]+File.separator);
 		}
+		
+		RestPreconditions.assertTrue((new File(dir)).isDirectory(), 
+				"Image delete error","File path "+dir+" is not a directory");
 		
 		return dir;
 	}

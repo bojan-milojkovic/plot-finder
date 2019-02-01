@@ -15,4 +15,5 @@ public interface UserService {
 	void delete(Long id, String username) throws MyRestPreconditionsException;
 	UserDTO create(final UserDTO model) throws MyRestPreconditionsException;
 	UserDTO edit(final UserDTO model, final Long id) throws MyRestPreconditionsException;
+	void changePassword(UserDTO model, String username) throws MyRestPreconditionsException;
 }

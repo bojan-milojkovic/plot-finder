@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserDTO;
@@ -167,6 +168,43 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
+	public void changePassword(UserDTO model, String username) throws MyRestPreconditionsException {
+		{
+			MyRestPreconditionsException ex = 
+					new MyRestPreconditionsException("Change password error","request json is missing some elements.");
+	
+			if((model.getId()==null || (model.getId()!=null && model.getId()<0))) {
+				ex.getErrors().add("Invalid or missing user id");
+			}
+			if(!RestPreconditions.checkString(model.getPassword())) {
+				ex.getErrors().add("Original password is mandatory");
+			}
+			if(!RestPreconditions.checkString(model.getNewPassword())) {
+				ex.getErrors().add("New password is mandatory");
+			}
+			
+			if(!ex.getErrors().isEmpty()){
+				throw ex;
+			}
+		}
+		
+		RestPreconditions.assertTrue(!model.getPassword().equals(model.getNewPassword()),
+				"Change password error","Old password and new password should be different.");
+		
+		//check that user exists
+		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
+				"Change password error : user you are changing the password for does not exist.");
+		// check that ids match
+		RestPreconditions.assertTrue(jpa.getId() == model.getId(), 
+				"Access violation !!!","You are trying to change someone elses's password");
+		// password is verified with : BCrypt.checkpw(password_plaintext, stored_hash)
+		RestPreconditions.assertTrue(BCrypt.checkpw(model.getPassword(), jpa.getPassword()), 
+				"Change password error","Your entry for original password does not match with the DB value");
+		
+		jpa.setPassword(BCrypt.hashpw(model.getPassword(), BCrypt.gensalt()));
+		userRepo.save(jpa);
+	}
+	
 	public UserDTO convertJpaToModel(UserJPA jpa) {
 		UserDTO model = new UserDTO();
 		
@@ -188,14 +226,17 @@ public class UserServiceImpl implements UserService {
 		if(model.getId()==null) {
 			jpa = new UserJPA();
 			
+			//TODO : email user activation link
 			jpa.setActive(true);
 			jpa.setNotLocked(true);
 			jpa.setLastLogin(LocalDateTime.now());
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			jpa.setUsername(model.getUsername());
+			jpa.setPassword(BCrypt.hashpw(model.getPassword(), BCrypt.gensalt()));
 		} else {
 			jpa = userRepo.getOne(model.getId());
 		}
+		
 		jpa.setLastUpdate(LocalDateTime.now());
 		
 		if(RestPreconditions.checkString(model.getEmail())) {

@@ -18,14 +18,14 @@ import com.plot.finder.util.RestPreconditions;
 public class BokiAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
-	private UserRepository userSecurityRepository;
+	private UserRepository userRepo;
 	
 	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
 		String username = auth.getName();
 		
 		if(RestPreconditions.checkString(username)){
-			UserJPA jpa = userSecurityRepository.findOneByUsername(username);
+			UserJPA jpa = userRepo.findOneByUsername(username);
 			
 			if(jpa!=null){
 				String password = auth.getCredentials().toString();

@@ -1,12 +1,18 @@
 package com.plot.finder.user.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.plot.finder.security.entities.UserHasRolesJPA;
 
 @Entity
 @Table(name = "user")
@@ -55,6 +61,9 @@ public class UserJPA {
 	
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
+	
+	@OneToMany(mappedBy="userJpa", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<UserHasRolesJPA> userHasRolesJpa = new ArrayList<UserHasRolesJPA>();
 
 	public Long getId() {
 		return id;

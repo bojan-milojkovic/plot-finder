@@ -6,6 +6,7 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,30 +28,35 @@ public class UserController {
 	private UserService userServiceImpl;
 
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public List<UserDTO> getAllUsers(){
 		return userServiceImpl.getAll();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO getUserById(@PathVariable("id") Long id) throws MyRestPreconditionsException{
 		return userServiceImpl.getOneById(id);
 	}
 	
 	@RequestMapping(value = "/un", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO getUserByUsername(@RequestParam(value="username") final String username) throws MyRestPreconditionsException {
 		return userServiceImpl.getOneByUsername(username);
 	}
 	
 	@RequestMapping(value = "/e", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO getUserByEmail(@RequestParam(value="email") final String email) throws MyRestPreconditionsException {
 		return userServiceImpl.getOneByEmail(email);
 	}
 	
 	@RequestMapping(value = "/m", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public UserDTO getUserByMobile(@RequestParam(value="mobile") final String mobile) throws MyRestPreconditionsException {
 		return userServiceImpl.getOneByMobile(mobile);
@@ -64,6 +70,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void deleteUser(@PathParam("id") final Long id, Principal principal) throws MyRestPreconditionsException {
 		userServiceImpl.delete(id, principal.getName());
@@ -71,6 +78,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public UserDTO editUser(@PathParam("id") final Long id, UserDTO model, Principal principal) throws MyRestPreconditionsException {
 		RestPreconditions.assertTrue(model!=null, "Edit user error", "Edit user cannot be performed without the user object.");

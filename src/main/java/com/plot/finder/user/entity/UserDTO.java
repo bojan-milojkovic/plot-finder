@@ -16,6 +16,9 @@ public class UserDTO {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	private String newPassword;
+	
 	private String firstName;
 	
 	private String lastName;
@@ -100,5 +103,13 @@ public class UserDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 }
