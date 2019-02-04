@@ -170,9 +170,9 @@ public class UserServiceImpl implements UserService {
 	public void changePassword(UserDTO model, String username) throws MyRestPreconditionsException {
 		{
 			MyRestPreconditionsException ex = 
-					new MyRestPreconditionsException("Change password error","request json is missing some elements.");
+					new MyRestPreconditionsException("Change password error","Input information is invalid.");
 	
-			if((model.getId()==null || (model.getId()!=null && model.getId()<0))) {
+			if(model.getId()<0) {
 				ex.getErrors().add("Invalid or missing user id");
 			}
 			if(!RestPreconditions.checkString(model.getPassword())) {

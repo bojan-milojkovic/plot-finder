@@ -2,6 +2,8 @@ package com.plot.finder.user.controller;
 
 import java.security.Principal;
 import java.util.List;
+
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,7 +67,7 @@ public class UserController {
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public @ResponseBody UserDTO createNewUser(@RequestBody UserDTO model) throws MyRestPreconditionsException {
+	public @ResponseBody UserDTO createNewUser(@RequestBody @Valid UserDTO model) throws MyRestPreconditionsException {
 		return userServiceImpl.create(model);
 	}
 	
@@ -80,9 +82,20 @@ public class UserController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public UserDTO editUser(@PathParam("id") final Long id, UserDTO model, Principal principal) throws MyRestPreconditionsException {
+	public UserDTO editUser(@PathParam("id") final Long id, @Valid UserDTO model, Principal principal) throws MyRestPreconditionsException {
 		RestPreconditions.assertTrue(model!=null, "Edit user error", "Edit user cannot be performed without the user object.");
 		model.setUsername(principal.getName());
 		return userServiceImpl.edit(model, id);
+	}
+	
+	// .../gh/users/cpw
+	@RequestMapping(value="/cpw/{id}", method = RequestMethod.PATCH, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void changePassword(@RequestBody @Valid UserDTO model, @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		RestPreconditions.assertTrue(model!=null, "User password edit error !!!", "You are sending a request without the object");
+		RestPreconditions.assertTrue(id!=null, "User password edit error !!!", "User id is mandatory.");
+		model.setId(id);
+		userServiceImpl.changePassword(model, principal.getName());
 	}
 }
