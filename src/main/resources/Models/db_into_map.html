@@ -44,9 +44,13 @@
 		
 		var json;
 		
-		$.get(url, function(result, status){
-			json = result;
-		});
+		$.get(
+			'hhtp://localhost:8080.......', 
+			function(data, status, xhr){
+				json = data;
+			},
+			'json'
+		);
 		
 		Array.prototype.forEach.call(json.markers, function(markerElem) {
 			var name = markerElem.name;

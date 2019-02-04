@@ -35,8 +35,10 @@ public class UserDTO {
 	
 	private String email;
 	
+	@Pattern(regexp="^[0-9 +-]+$", message="Phone number must consist of digits, blank spaces, + and -")
 	private String phone1;
 	
+	@Pattern(regexp="^[0-9 +-]+$", message="Secong phone number must consist of digits, blank spaces, + and -")
 	private String phone2;
 	
 	@JsonProperty(access = Access.READ_ONLY)
