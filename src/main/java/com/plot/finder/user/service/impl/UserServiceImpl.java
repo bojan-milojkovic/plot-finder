@@ -134,8 +134,7 @@ public class UserServiceImpl implements UserService {
 		if(checkPatchDataPresent(model)) {
 			// check username (model.getUsername() is set in controller)
 			{
-				UserJPA tmp = userRepo.findOneByUsername(model.getUsername());
-				RestPreconditions.checkNotNull(tmp, "User edit error", 
+				UserJPA tmp = RestPreconditions.checkNotNull(userRepo.findOneByUsername(model.getUsername()), "User edit error", 
 						"User with username "+model.getUsername()+" does not exist in our database.");
 				RestPreconditions.assertTrue(tmp.getId()==id, "User edit error", 
 						"You are trying to edit someone else's user.");
