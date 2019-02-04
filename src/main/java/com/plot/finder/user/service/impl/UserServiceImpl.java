@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 			RestPreconditions.assertTrue(userRepo.findOneByEmail(model.getEmail())==null, "User create error", 
 					"User with that email already exists");
 			// check mobile format :
-			RestPreconditions.verifyStringFormat(model.getPhone1(), "^([+][0-9]{1-3})?[0-9 -]+$", 
+			RestPreconditions.verifyStringFormat(model.getPhone1(), "^([+][0-9]{1,3})?[0-9 -]+$", 
 									"User create error","mobile number is in invalid format");
 			// check mobile unique :
 			RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone1())==null, "User create error", 
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 			
 			if(model.getPhone2() != null) { // next line checks that it is not empty string
 				// check mobile format :
-				RestPreconditions.verifyStringFormat(model.getPhone2(), "^([+][0-9]{1-3})?[0-9 -]+$", 
+				RestPreconditions.verifyStringFormat(model.getPhone2(), "^([+][0-9]{1,3})?[0-9 -]+$", 
 										"User create error","mobile number is in invalid format");
 				// check mobile unique :
 				RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone2())==null, "User create error", 
@@ -150,14 +150,14 @@ public class UserServiceImpl implements UserService {
 			checkProperty(model.getPhone1(),
 					  "Phone number 1",
 					  id,
-					  "^([+][0-9]{1-3})?[0-9 -]+$",
+					  "^([+][0-9]{1,3})?[0-9 -]+$",
 					  userRepo.findOneByPhone(model.getPhone1()) );
 			
 			// check phone2 :
 			checkProperty(model.getPhone2(),
 					  "Phone number 2",
 					  id,
-					  "^([+][0-9]{1-3})?[0-9 -]+$",
+					  "^([+][0-9]{1,3})?[0-9 -]+$",
 					  userRepo.findOneByPhone(model.getPhone2()) );
 			
 			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
@@ -232,6 +232,7 @@ public class UserServiceImpl implements UserService {
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			jpa.setUsername(model.getUsername());
 			jpa.setPassword(BCrypt.hashpw(model.getPassword(), BCrypt.gensalt()));
+			jpa.setRegistration(LocalDateTime.now());
 		} else {
 			jpa = userRepo.getOne(model.getId());
 		}

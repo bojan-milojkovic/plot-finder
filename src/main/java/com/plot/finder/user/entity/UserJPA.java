@@ -137,7 +137,7 @@ public class UserJPA {
 		this.password = password;
 	}
 
-	public Boolean getActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
@@ -145,7 +145,7 @@ public class UserJPA {
 		this.active = active;
 	}
 
-	public Boolean getNotLocked() {
+	public Boolean isNotLocked() {
 		return notLocked;
 	}
 
@@ -175,5 +175,13 @@ public class UserJPA {
 
 	public void setLastUpdate(LocalDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public List<UserHasRolesJPA> getUserHasRolesJpa() {
+		return userHasRolesJpa;
+	}
+
+	public void setUserHasRolesJpa(List<UserHasRolesJPA> userHasRolesJpa) {
+		this.userHasRolesJpa = userHasRolesJpa;
 	}
 }
