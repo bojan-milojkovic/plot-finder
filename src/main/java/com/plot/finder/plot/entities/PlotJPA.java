@@ -27,6 +27,9 @@ public class PlotJPA {
 
 	@Column(name="up_right_y")
 	private Float ur_y;
+	
+	@Column
+	private String polygon;
 
 	public Long getId() {
 		return id;
@@ -66,5 +69,13 @@ public class PlotJPA {
 
 	public void setUr_y(Float ur_y) {
 		this.ur_y = ur_y;
+	}
+
+	public String getPolygon() {
+		return polygon;
+	}
+
+	public void setPolygon(String polygon) {
+		this.polygon = polygon;
 	}
 }
