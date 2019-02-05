@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Reading from database into Google Maps</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+		var map;
+		var poly;
+		var clicks;
+		
+		var polygon;
+		
+		function initMap(){
+			clicks = 0;
+		
+			map = new google.maps.Map(
+				document.getElementById('map'),
+				{
+					zoom: 7,
+					center: {lat: 41.879, lng: -87.624}
+				}
+			);
+			
+			poly = new google.maps.Polyline({
+				strokeColor: '#000000',
+				strokeOpacity: 1.0,
+				strokeWeight: 3
+			});
+			
+			poly.setMap(map);
+			
+			map.addListener('click', addLatLng);
+		}
+		
+		function addLatLng(event){
+			if(clicks < 4){
+				var path = poly.getPath();
+				path.push(event.latLng);
+				if (clicks==3){
+					polygon = new google.maps.Polygon({
+						paths: path,
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.35,
+						editable: true
+					});
+					poly.setMap(null);
+					polygon.setMap(map);
+					
+				}
+				clicks ++;
+			}
+		}
+    </script>
+	
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC32o-io8ytkxJjZcvuchJGBhPmPnmn3hs&callback=initMap">
+		</script>
+</html>
