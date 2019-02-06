@@ -19,16 +19,16 @@ public class PlotJPA {
 	@Column(name="id")
 	private Long id;
 	
-	@Column(name="low_left_x")
+	@Column
 	private Float ll_x;
 	
-	@Column(name="low_left_y")
+	@Column
 	private Float ll_y;
 	
-	@Column(name="up_right_x")
+	@Column
 	private Float ur_x;
 
-	@Column(name="up_right_y")
+	@Column
 	private Float ur_y;
 	
 	@Column
