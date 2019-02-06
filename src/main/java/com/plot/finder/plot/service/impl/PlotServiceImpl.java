@@ -1,8 +1,8 @@
 package com.plot.finder.plot.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
@@ -55,23 +55,9 @@ public class PlotServiceImpl implements PlotService {
 		model.setSewer(jpa.isSewer());
 		model.setWater(jpa.isWater());
 		
-		//model.setVertices(extractVertices(jpa.getPolygon()));
-		
 		return model;
 	}
-	
-	/*private List<Vertice> extractVertices(String vertices){
-		List<Vertice> result = new ArrayList<Vertice>();
-		
-		for(String v : vertices.split("@")) {
-			if(!v.isEmpty()) {
-				result.add(new Vertice(v));
-			}
-		}
-		
-		return result;
-	}*/
-	
+
 	private PlotJPA setCoordinates(List<Vertice> vertices, PlotJPA jpa) {
 		String tmp="";
 		// jpa ll and ur x/y coordinates are already set
@@ -167,27 +153,28 @@ public class PlotServiceImpl implements PlotService {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
 				"some data are missing from the request");
 		
-		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
-			e.getErrors().add("plot vertices set cannot be empty");
+		if(model.getVertices()!=null && (model.getVertices().isEmpty() || model.getVertices().size()<4)) {
+			e.getErrors().add("plot vertices set must have at least 4 vertices");
 		}
-		if(RestPreconditions.checkString(model.getTitle())) {
+		if(!RestPreconditions.checkString(model.getTitle())) {
 			e.getErrors().add("title is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getDescription())) {
+		if(!RestPreconditions.checkString(model.getDescription())) {
 			e.getErrors().add("description is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getAddress1())) {
+		if(!RestPreconditions.checkString(model.getAddress1())) {
 			e.getErrors().add("Address1 is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getCity())) {
+		if(!RestPreconditions.checkString(model.getCity())) {
 			e.getErrors().add("city is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getCountry())) {
+		if(!RestPreconditions.checkString(model.getCountry())) {
 			e.getErrors().add("country is mandatory");
 		}
 		
-		if(!e.getErrors().isEmpty())
+		if(!e.getErrors().isEmpty()){
 			throw e;
+		}
 	}
 	
 	public PlotDTO addNew(PlotDTO model, final String username) throws MyRestPreconditionsException {

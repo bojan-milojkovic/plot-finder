@@ -39,10 +39,10 @@ public class PlotJPA {
 	private UserJPA userJpa;
 	
 	public PlotJPA() {
-		setLl_x(0f);
-		setLl_y(0f);
-		setUr_x(0f);
-		setUr_y(0f);
+		setLl_x(900f);
+		setLl_y(900f);
+		setUr_x(-900f);
+		setUr_y(-900f);
 	}
 
 	@Column

@@ -39,6 +39,11 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 			.antMatchers(HttpMethod.PATCH, "/users/*").hasRole("USER")
 			.antMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")
 			
+			.antMatchers(HttpMethod.GET, "/plot/*").hasRole("USER")
+			.antMatchers(HttpMethod.POST, "/plot").hasRole("USER")
+			.antMatchers(HttpMethod.PATCH, "/plot/*").hasRole("USER")
+			.antMatchers(HttpMethod.DELETE, "/plot/*").hasRole("USER")
+			
 			.antMatchers(HttpMethod.POST, "/roles").permitAll() // everyone should access login-api
 			;
 		

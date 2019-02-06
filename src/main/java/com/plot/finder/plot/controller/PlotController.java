@@ -23,10 +23,10 @@ public class PlotController {
 	@Autowired
 	private PlotService plotServiceImpl;
 	
-	@RequestMapping(value="/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody PlotDTO getOneById(@PathVariable("id") final Long id) throws MyRestPreconditionsException {
+	public @ResponseBody PlotDTO getOneById(@PathVariable("id") Long id) throws MyRestPreconditionsException {
 		return plotServiceImpl.findOneById(id);
 	}
 	
