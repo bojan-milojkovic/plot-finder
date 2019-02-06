@@ -1,6 +1,5 @@
 package com.plot.finder.plot.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.util.Arrays;
@@ -36,9 +35,10 @@ public class PlotServiceImpl implements PlotService {
 		
 		model.setId(jpa.getId());
 		
-		model.setVertices(Arrays.asList(jpa.getPolygon().split("#"))
+		model.setVertices(Arrays.asList(jpa.getPolygon().split("@"))
 				.stream()
-				.map(v -> { return new PlotDTO.Vertice((String) v); })
+				.filter(v -> !((String)v).isEmpty())
+				.map(v -> new PlotDTO.Vertice((String) v))
 				.collect(Collectors.toList()));
 		
 		model.setAddress1(jpa.getAddress1());
@@ -55,12 +55,12 @@ public class PlotServiceImpl implements PlotService {
 		model.setSewer(jpa.isSewer());
 		model.setWater(jpa.isWater());
 		
-		model.setVertices(extractVertices(jpa.getPolygon()));
+		//model.setVertices(extractVertices(jpa.getPolygon()));
 		
 		return model;
 	}
 	
-	private List<Vertice> extractVertices(String vertices){
+	/*private List<Vertice> extractVertices(String vertices){
 		List<Vertice> result = new ArrayList<Vertice>();
 		
 		for(String v : vertices.split("@")) {
@@ -70,7 +70,7 @@ public class PlotServiceImpl implements PlotService {
 		}
 		
 		return result;
-	}
+	}*/
 	
 	private PlotJPA setCoordinates(List<Vertice> vertices, PlotJPA jpa) {
 		String tmp="";
