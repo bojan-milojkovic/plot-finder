@@ -2,7 +2,9 @@ package com.plot.finder.user.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.security.entities.UserHasRolesJPA;
 
 @Entity
@@ -64,6 +67,9 @@ public class UserJPA {
 	
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UserHasRolesJPA> userHasRolesJpa = new ArrayList<UserHasRolesJPA>();
+	
+	@OneToMany(mappedBy="userJpa", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<PlotJPA> plots = new HashSet<PlotJPA>();
 
 	public Long getId() {
 		return id;
@@ -183,5 +189,21 @@ public class UserJPA {
 
 	public void setUserHasRolesJpa(List<UserHasRolesJPA> userHasRolesJpa) {
 		this.userHasRolesJpa = userHasRolesJpa;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public Boolean getNotLocked() {
+		return notLocked;
+	}
+
+	public Set<PlotJPA> getPlots() {
+		return plots;
+	}
+
+	public void setPlots(Set<PlotJPA> plots) {
+		this.plots = plots;
 	}
 }
