@@ -54,6 +54,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setPower(jpa.isPower());
 		model.setSewer(jpa.isSewer());
 		model.setWater(jpa.isWater());
+		model.setSize(jpa.getSize());
 		
 		return model;
 	}
@@ -139,6 +140,9 @@ public class PlotServiceImpl implements PlotService {
 		if(model.getPrice()!=null) {
 			jpa.setPrice(model.getPrice());
 		}
+		if(model.getSize()!=null) {
+			jpa.setSize(model.getSize());
+		}
 		
 		return jpa;
 	}
@@ -153,7 +157,7 @@ public class PlotServiceImpl implements PlotService {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
 				"some data are missing from the request");
 		
-		if(model.getVertices()!=null && (model.getVertices().isEmpty() || model.getVertices().size()<4)) {
+		if(model.getVertices()!=null && model.getVertices().size()<4) {
 			e.getErrors().add("plot vertices set must have at least 4 vertices");
 		}
 		if(!RestPreconditions.checkString(model.getTitle())) {
@@ -170,6 +174,15 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(!RestPreconditions.checkString(model.getCountry())) {
 			e.getErrors().add("country is mandatory");
+		}
+		if(model.getSize()==null) {
+			e.getErrors().add("plot size is mandatory");
+		}
+		if(model.getPrice()==null) {
+			e.getErrors().add("price is mandatory");
+		}
+		if(!RestPreconditions.checkString(model.getCurrency())) {
+			e.getErrors().add("price currency is mandatory");
 		}
 		
 		if(!e.getErrors().isEmpty()){
@@ -218,7 +231,8 @@ public class PlotServiceImpl implements PlotService {
 				model.isInternet()!=null ||
 				model.isPower()!=null ||
 				model.isWater()!=null ||
-				model.getPrice()!=null
+				model.getPrice()!=null ||
+				model.getSize()!=null
 				;
 	}
 	

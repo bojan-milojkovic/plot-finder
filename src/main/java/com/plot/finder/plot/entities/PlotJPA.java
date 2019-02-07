@@ -82,7 +82,10 @@ public class PlotJPA {
 	private boolean garage;
 	
 	@Column
-	private int price;
+	private Integer price;
+	
+	@Column
+	private Integer size;
 	
 	@Column
 	private String currency;
@@ -240,11 +243,11 @@ public class PlotJPA {
 		this.country = country;
 	}
 
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -254,5 +257,13 @@ public class PlotJPA {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
 	}
 }

@@ -44,6 +44,9 @@ public class PlotDTO {
 	
 	private Boolean garage;
 	
+	@Min(1)
+	private Integer size;
+	
 	public PlotDTO() {
 		vertices = new ArrayList<Vertice>();
 	}
@@ -226,5 +229,13 @@ public class PlotDTO {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public Integer getSize() {
+		return size;
+	}
+
+	public void setSize(Integer size) {
+		this.size = size;
 	}
 }
