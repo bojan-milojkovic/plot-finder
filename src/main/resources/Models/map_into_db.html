@@ -1,110 +1,364 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>From Info Windows to a Database: Saving User-Added Form Data</title>
-		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+  <head>
+	<title>Reading from database into Google Maps</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     
-		<style>
-		  #map {
-			height: 100%;
-		  }
-		  /* Optional: Makes the sample page fill the window. */
-		  html, body {
-			height: 100%;
-			margin: 0;
-			padding: 0;
-		  }
-		</style>
-		
-		<script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	</head>
-	<body>
-	<div id="map" height="460px" width="100%"></div>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+	  table {
+		font-family: arial, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	  }
+    </style>
 	
-	<div id="form">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+	
+	<form id="form1">
 		<table>
-			<tr><td>Name:</td> <td><input type='text' id='name'/> </td> </tr>
-			<tr><td>Address:</td> <td><input type='text' id='address'/> </td> </tr>
-			<tr><td>Type:</td> 
-				<td><select id='type'>
-					<option value='bar' SELECTED>bar</option>
-					<option value='restaurant'>restaurant</option>
+			<tr><th>Enter basic add information :</th></tr>
+			<tr><td>Title:</td> <td><input type="text" id="title"/> </td> </tr>
+			<tr><td>Description:</td> <td><input type="text" id="description"/> </td> </tr>
+			<tr><td>Address1:</td> <td><input type="text" id="address1"/> </td> </tr>
+			<tr><td>Address2:</td> <td><input type="text" id="address2"/> </td> </tr>
+			<tr><td>City:</td> <td><input type="text" id="city"/> </td> </tr>
+			<tr><td>Country:</td> <td><input type="text" id="country"/> </td> </tr>
+			<tr><td>Size:</td> <td><input type="text" id="size"/> </td> </tr>
+			<tr><td>Price:</td> <td><input type="text" id="price"/> </td> </tr>
+			<tr><td>Currency:</td> 
+				<td><select id="currency">
+					<option value="EUR" SELECTED>EUR</option>
+					<option value="USD">USD</option>
+					<option value="RSD">RSD</option>
 					</select> </td>
 			</tr>
-			<tr><td></td><td><input type='button' value='Save' onclick='saveData()'/></td></tr>
+			<tr><td></td><td><input type="button" value="Next" onclick="saveData1();openForm2();"/></td></tr>
 		</table>
-	</div>
+	</form>
 	
-	<div id = "message">Location saved</div>
+	<form id="form2">
+		<table>
+			<tr><th>Enter aditional plot information :</th></tr>
+			<tr><td><input type="checkbox" id="power"/>Power</td></tr>
+			<tr><td><input type="checkbox" id="water"/>Water</td></tr>
+			<tr><td><input type="checkbox" id="gas"/>Gas</td></tr>
+			<tr><td><input type="checkbox" id="sewer"/>Sewer</td></tr>
+			<tr><td><input type="checkbox" id="internet"/>Internet</td></tr>
+			<tr><td><input type="checkbox" id="garage"/>Garage</td></tr>
+			<tr><td><input type="button" value="Back" onclick="openForm1()"/></td>
+				<td><input type="button" value="Next" onclick="saveData2();openForm3();"/></td></tr>
+		</table>
+	</form>
 	
-		<script>
+	<form id="form3">
+		<table>
+			<tr><th>Upload up to 5 images :</th></tr>
+			<tr><td>(not implemented yet)</td></tr>
+			<tr><td><input type="file" id="pic1" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="pic2" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="pic3" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="pic4" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="pic5" accept="image/*"/></td></tr>
+			<tr><td><input type="button" value="Back" onclick="openForm2()"/></td>
+				<td><input type="button" value="Next" onclick="saveData3();openForm4();fillInVerify();"/></td></tr>
+		</table>
+	</form>
+	
+	<form id="form4">
+		<table>
+			<tr><th>Are you sure you want to create this add :</th></tr>
+			<tr><td><div><table id="verify"></table></div></td></tr>
+			<tr><td><input type="button" value="Back" onclick="openForm3()"/></td>
+				<td><input type="button" value="Submit" onclick="saveData4();saveData();"/></td></tr>
+		</table>
+	</form>
+	
+    <script>
 		var map;
+		var line;
+		var polygon;
+		
+		var infowindow1,infowindow2,infowindow3,infowindow4;
+		
 		var marker;
-		var infowindow;
-		var messagewindow;
+		var clicks = 0;
+		var index = 1;
+		
+		var formData;
+		var myJson, data1, data2, data3;
 		
 		function initMap(){
-			var california = {lat: 37.4419, lng: -122.1419};
-			map = new google.maps.Map(document.getElementById('map'),
+			map = new google.maps.Map(
+				document.getElementById('map'),
 				{
-					center: california,
-					mapTypeId: 'satellite',
-					zoom : 13
+					zoom: 7,
+					center: {lat: 41.879, lng: -87.624}
 				}
 			);
 			
-			infowindow = new google.maps.InfoWindow({
-				content : document.getElementById('form')
+			line = new google.maps.Polyline({
+				strokeColor: '#000000',
+				strokeOpacity: 1.0,
+				strokeWeight: 3
 			});
 			
-			messagewindow = new google.maps.InfoWindow({
-				content : document.getElementById('message')
-			});
+			line.setMap(map);
 			
-			google.maps.event.addListener(map, 'click', function(event){
-				marker = new google.maps.Marker({
-					position : event.latLng,
-					map : map
+			map.addListener('click', addLatLng);
+			map.addListener('rightclick', createPolygon);
+			
+			infowindow1 = new google.maps.InfoWindow({
+					content : document.getElementById('form1')
 				});
-				
-				google.maps.event.addListener(marker, 'click', function(){
-					infowindow.open(map, marker);
+			infowindow2 = new google.maps.InfoWindow({
+					content : document.getElementById('form2')
 				});
+			infowindow3 = new google.maps.InfoWindow({
+					content : document.getElementById('form3')
+				});
+			infowindow4 = new google.maps.InfoWindow({
+					content : document.getElementById('form4')
+				});
+		}
+		
+		function addLatLng(event){
+			if(!polygon){
+				clicks++;
+				var path = line.getPath();
+				path.push(event.latLng);
+			}
+		}
+		
+		function createPolygon(){
+			if(!polygon){
+				if(clicks>3){
+					polygon = new google.maps.Polygon({
+						paths: line.getPath(),
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.35,
+						editable: true
+					});
+					line.setMap(null);
+					polygon.setMap(map);
+					
+					marker = new google.maps.Marker({
+						position: polygon.getPath().getAt(0),
+						map: map
+					});
+					
+					marker.addListener('click', function(){
+						switch(index){
+							case 1:
+								infowindow1.open(map,marker);
+								break;
+							case 2:
+								infowindow2.open(map,marker);
+								break;
+							case 3:
+								infowindow3.open(map,marker);
+								break;
+							case 4:
+								infowindow4.open(map,marker);
+								break;
+						};
+					});
+					
+					index=1;
+					infowindow1.open(map, marker);
+				} else {
+					alert('You must click at least 4 locations');
+				}
+			}
+		}
+		
+		function openForm1(){
+			index=1;
+			polygon.setEditable(true);
+			
+			infowindow2.close();
+			infowindow1.open(map,marker);
+		}
+		
+		function saveData1(){
+			data1 = ( 
+				'{\"title\" : \"'+escape(document.getElementById('title').value)+'\",' +
+				'\"description\" : \"'+escape(document.getElementById('description').value)+'\",' +
+				'\"address1\" : \"'+escape(document.getElementById('address1').value)+'\",' +
+				'\"address2\" : \"'+escape(document.getElementById('address2').value)+'\",' +
+				'\"city\" : \"'+escape(document.getElementById('city').value)+'\",' +
+				'\"country\" : \"'+escape(document.getElementById('country').value)+'\",' +
+				'\"size\" : \"'+escape(document.getElementById('size').value)+'\",' +
+				'\"price\" : \"'+escape(document.getElementById('price').value)+'\",' +
+				'\"currency\" : \"'+document.getElementById('currency').value+'\",'
+			);
+		}
+		
+		function openForm2(){
+			index=2;
+			
+			polygon.setEditable(false);
+			
+			infowindow1.close();
+			infowindow3.close();
+			infowindow2.open(map,marker);
+		}
+		
+		function getChecked(checkbox){
+			if(checkbox){
+				return checkbox.checked;
+			} else {
+				return false;
+			}
+		}
+		
+		function saveData2(){
+			data2 = (
+				'\"power\" : \"'+getChecked(document.getElementById('power'))+'\",' +
+				'\"water\" : \"'+getChecked(document.getElementById('water'))+'\",' +
+				'\"gas\" : \"'+getChecked(document.getElementById('gas'))+'\",' +
+				'\"sewer\" : \"'+getChecked(document.getElementById('sewer'))+'\",' +
+				'\"internet\" : \"'+getChecked(document.getElementById('internet'))+'\",' +
+				'\"garage\" : \"'+getChecked(document.getElementById('garage'))+'\",'
+			);
+		}
+		
+		function openForm3(){
+			index=3;
+			polygon.setEditable(false);
+			
+			infowindow2.close();
+			infowindow4.close();
+			infowindow3.open(map,marker);
+		}
+		
+		function saveData3(){
+			if(document.getElementById('pic1').value || document.getElementById('pic2').value || document.getElementById('pic3').value
+				|| document.getElementById('pic4').value || document.getElementById('pic5').value){
+				formData = new FormData();
+				if(document.getElementById('pic1').value){
+					formData.append('pic1', document.getElementById('pic1').value);
+				}
+				if(document.getElementById('pic2').value){
+					formData.append('pic2', document.getElementById('pic2').value);
+				}
+				if(document.getElementById('pic3').value){
+					formData.append('pic3', document.getElementById('pic3').value);
+				}
+				if(document.getElementById('pic4').value){
+					formData.append('pic4', document.getElementById('pic4').value);
+				}
+				if(document.getElementById('pic5').value){
+					formData.append('pic5', document.getElementById('pic5').value);
+				}
+			} else{
+				formData=null;
+			}
+		}
+		
+		function saveData4(){
+			data3 = '\"vertices\" : [';
+			for(var i=0 ; i<polygon.getPath().length ; i++){
+				var v = polygon.getPath().getAt(i);
+				data3+= '{\"lat\":\"'+v.lat()+'\" , \"lng\":\"'+v.lng()+'\"}';
+				if(i<polygon.getPath().length-1){
+					data3 += ',';
+				}
+			}
+			data3+=']}'; // end array end json
+			myJson = data1 + data2 + data3;
+		}
+		
+		function openForm4(){
+			index=4;
+			polygon.setEditable(false);
+			
+			infowindow3.close();
+			infowindow4.open(map,marker);
+		}
+		
+		function fillInVerify(){
+			var table = document.getElementById('verify');
+			table.innerHTML="";
+			(data1+data2).split('{')[1].split(',').forEach(function(part, i, array){
+				if(part){
+					var row = document.createElement('tr');
+					
+					row.innerHTML = '<td>'+part.split(':')[0].split('\"')[1]+'</td>'+
+									'<td>'+part.split(':')[1].split('\"')[1]+'</td>';
+					table.appendChild(row);
+				}
 			});
 		}
 		
 		function saveData(){
-			$.ajax({
-				type: 'POST',
-				headers: {
-					'Content-type': 'application/json',
-					'"X-My-Security-Token': 'MySuperSecretSneakyKey'
-				},
-				url: 'http://localhost:8080/something',
-				data: '{'+
-						'name : '+escape(document.getElementById('name').value)+','+
-						'address : '+escape(document.getElementById('name').value)+','+
-						'type : '+document.getElementById('type').value+','+
-						'lat : '+marker.getPosition().lat()+','+
-						'lng : '+marker.getPosition().lng()+
-					  '}',
-				statusCode:{
-					200: function(){
-						infowindow.close();
+			if(formData){
+				formData.append('json', JSON.stringify(myJson));
+				
+				$.ajax({
+					url: 'http://localhost:8080/plot',
+					type: 'POST',
+					headers: {
+						'X-My-Security-Token': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU0OTY2MzkxMzk4OSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU0OTY2NTcxM30.txewPOeAZUKz5MgLxmqvPapr3CIpD_HViIIih2M4pbMoE1Y6mm6CV75kT-mjtTKsHzeWpDToWU-xWLR1hDNS-Q'			
+					},
+					data: formData,
+					processData: false,
+					success: function(data){
+						infowindow4.close();
+						polygon.setMap(null);
+						polygon = null;
+						clicks=0;
+						index=1;
 						alert('SUCCESS');
+					},
+					error: function(){
+						alert('FORM DATA FAILURE - request not sent');
 					}
-				},
-				error: function(){
-					infowindow.close();
-					marker.setMap(null);
-					alert('FAILURE');
-				}
-			});
+				});
+			} else {
+				$.ajax({
+					url: 'http://localhost:8080/plot',
+					type: 'POST',
+					headers: {
+						'X-My-Security-Token': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU0OTY2MzkxMzk4OSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU0OTY2NTcxM30.txewPOeAZUKz5MgLxmqvPapr3CIpD_HViIIih2M4pbMoE1Y6mm6CV75kT-mjtTKsHzeWpDToWU-xWLR1hDNS-Q'
+					},
+					data: myJson,
+					contentType: 'Application/json',
+					success: function(data){
+						infowindow4.close();
+						polygon.setMap(null);
+						polygon = null;
+						clicks=0;
+						index=1;
+						alert('SUCCESS');
+					},
+					error: function(){
+						alert('JSON FAILURE - request not sent');
+					}
+				});
+			}
 		}
-
-	</script>
+    </script>
 	
-	<script src="https://maps.googleapis.com/maps/api/js?v=quarterly&key=AIzaSyAnUcOUuCwexpeI5wIAZMkpK5LRYDAajgk&callback=initMap"
-	async defer></script>
-	</body>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnUcOUuCwexpeI5wIAZMkpK5LRYDAajgk&callback=initMap">
+		</script>
 </html>

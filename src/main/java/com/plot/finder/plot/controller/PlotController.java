@@ -17,7 +17,8 @@ import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.service.PlotService;
 
-@RestController("/plot")
+@RestController
+@RequestMapping(value="/plot")
 public class PlotController {
 
 	@Autowired
@@ -30,8 +31,7 @@ public class PlotController {
 		return plotServiceImpl.findOneById(id);
 	}
 	
-	@RequestMapping(value="", method = RequestMethod.POST, 
-			consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody PlotDTO addNew(@RequestBody @Valid PlotDTO model, Principal principal) throws MyRestPreconditionsException {

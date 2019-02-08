@@ -18,7 +18,7 @@ public class WebInitializer implements WebApplicationInitializer{
 	public void onStartup(ServletContext sc) throws ServletException {
 		
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.setConfigLocations(new String[]{"com.plot.finder.config"});
+		rootContext.setConfigLocations(new String[]{"com.plot.finder.config", "com.plot.finder.security.*"});
 		
 		ServletRegistration.Dynamic apiSR = sc.addServlet("api-dispatcher", new DispatcherServlet(rootContext));
 		apiSR.setLoadOnStartup(1);
