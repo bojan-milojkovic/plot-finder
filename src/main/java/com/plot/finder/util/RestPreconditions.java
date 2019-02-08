@@ -7,18 +7,6 @@ public class RestPreconditions {
 	public static void checkStringIsValid(final String s, final String message) throws MyRestPreconditionsException {
 		assertTrue(checkString(s), message, "Given string value is invalid");
 	}
-
-	public static void checkSuchEntityAlreadyExists(Object entity, String message) throws MyRestPreconditionsException{
-		if(entity!=null) {
-			throw new MyRestPreconditionsException("The value you have entered is already being used by another user.", message);
-		}
-	}
-	
-	public static void assertTrue(boolean condition, String message) throws MyRestPreconditionsException {
-		if(!condition) {
-			throw new MyRestPreconditionsException("Assertion failed for this operation.", message);
-		}
-	}
 	
 	public static void assertTrue(boolean condition, String title, String message) throws MyRestPreconditionsException{
 		if(!condition) {
@@ -39,14 +27,6 @@ public class RestPreconditions {
 		if(!checkStringMatches(s, format)) {
 			throw new MyRestPreconditionsException(message, details);
 		}
-	}
-	
-	
-	public static <T> T checkNotNull(T object, String description) throws MyRestPreconditionsException {
-		if(object!=null){
-			return object;
-		}
-		throw new MyRestPreconditionsException("Cannot find the object specified", description);
 	}
 	
 	public static <T> T checkNotNull(T object, String description, String details)throws MyRestPreconditionsException {

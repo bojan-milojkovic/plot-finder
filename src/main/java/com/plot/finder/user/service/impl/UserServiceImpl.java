@@ -192,7 +192,7 @@ public class UserServiceImpl implements UserService {
 		
 		//check that user exists
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
-				"Change password error : user you are changing the password for does not exist.");
+				"Change password error", "user you are changing the password for does not exist.");
 		// check that ids match
 		RestPreconditions.assertTrue(jpa.getId() == model.getId(), 
 				"Access violation !!!","You are trying to change someone elses's password");

@@ -30,7 +30,7 @@ public class PlotController {
 		return plotServiceImpl.findOneById(id);
 	}
 	
-	@RequestMapping(value="/{id}", method = RequestMethod.POST, 
+	@RequestMapping(value="", method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.CREATED)
