@@ -329,8 +329,26 @@
 						index=1;
 						alert('SUCCESS');
 					},
-					error: function(){
-						alert('FORM DATA FAILURE - request not sent');
+					error: function(jqXHR, textStatus, errorThrown){
+						if(jqxhr.status == 400) {
+							var responseBody = jQuery.parseJSON(jqXHR.responseText);
+							var response = response.cause + '\n' + response.message;
+							if(response.validationErrors){
+								response.validationErrors.forEach(function(part, i, array){
+									response += ('\n\t- '+part);
+								});
+							}
+							alert(response);
+				        }
+						else if(jqxhr.status == 404) {
+				            alert("page not found!");
+				        }
+						else if(jqxhr.status == 500) {
+				            alert("Server error");
+				        }
+						else {
+							alert('FAILURE - request not sent');
+						}
 					}
 				});
 			} else {
@@ -350,8 +368,26 @@
 						index=1;
 						alert('SUCCESS');
 					},
-					error: function(){
-						alert('JSON FAILURE - request not sent');
+					error: function(jqXHR, textStatus, errorThrown){
+						if(jqXHR.status == 400) {
+							var responseBody = jQuery.parseJSON(jqXHR.responseText);
+							var response = response.cause + '\n' + response.message;
+							if(response.validationErrors){
+								response.validationErrors.forEach(function(part, i, array){
+									response += ('\n\t- '+part);
+								});
+							}
+							alert(response);
+				        }
+						else if(jqxhr.status == 404) {
+				            alert("page not found!");
+				        }
+						else if(jqxhr.status == 500) {
+				            alert("Server error");
+				        }
+						else {
+							alert('FAILURE - request not sent');
+						}
 					}
 				});
 			}

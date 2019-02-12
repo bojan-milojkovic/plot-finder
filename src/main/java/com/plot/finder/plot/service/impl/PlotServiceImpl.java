@@ -157,7 +157,7 @@ public class PlotServiceImpl implements PlotService {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
 				"some data are missing from the request");
 		
-		if(model.getVertices()!=null && model.getVertices().size()<4) {
+		if(model.getVertices()!=null && model.getVertices().size()<4 && model.getVertices().size()>8) {
 			e.getErrors().add("plot vertices set must have at least 4 vertices");
 		}
 		if(!RestPreconditions.checkString(model.getTitle())) {
@@ -196,7 +196,9 @@ public class PlotServiceImpl implements PlotService {
 		
 		checkPostDataPresent(model);
 		
-		//TODO: Check plot is convex :
+		//Check plot is convex :
+		RestPreconditions.assertTrue(isConvex(model.getVertices()),
+					"Create new plot error", "The plot you are entering is not convex.");
 		
 		//TODO: check that it doesn't overlap with other plots in db :
 		
@@ -214,8 +216,30 @@ public class PlotServiceImpl implements PlotService {
 		}
 	}
 	
+	private boolean isConvex(List<Vertice> _vertices)
+	{
+	    boolean sign = false;
+	    int n = _vertices.size();
+
+	    for(int i = 0; i < n; i++)
+	    {
+	        double dx1 = _vertices.get((i + 2) % n).getLng() - _vertices.get((i + 1) % n).getLng();
+	        double dy1 = _vertices.get((i + 2) % n).getLat() - _vertices.get((i + 1) % n).getLat();
+	        double dx2 = _vertices.get(i).getLng() - _vertices.get((i + 1) % n).getLng();
+	        double dy2 = _vertices.get(i).getLat() - _vertices.get((i + 1) % n).getLat();
+	        double zcrossproduct = dx1 * dy2 - dy1 * dx2;
+
+	        if (i == 0)
+	            sign = zcrossproduct > 0;
+	        else if (sign != (zcrossproduct > 0))
+	            return false;
+	    }
+
+	    return true;
+	}
+	
 	private boolean checkPatchDataPresent(PlotDTO model) {
-		return (model.getVertices()!=null && !model.getVertices().isEmpty()) ||
+		return (model.getVertices()!=null && model.getVertices().size()>3 && model.getVertices().size()<9) ||
 				
 				RestPreconditions.checkString(model.getAddress1()) ||
 				RestPreconditions.checkString(model.getAddress2()) ||
@@ -249,7 +273,9 @@ public class PlotServiceImpl implements PlotService {
 			RestPreconditions.assertTrue(jpa.getUserJpa().getUsername().equals(username), 
 					"Edit plot error", "You are trying to edit someone else's plot");
 			
-			//TODO: Check plot is convex :
+			//Check plot is convex :
+			RestPreconditions.assertTrue(isConvex(model.getVertices()),
+					"Edit plot error", "The plot you are inputing is not convex.");
 			
 			//TODO: check that it doesn't overlap with other plots in db :
 			
