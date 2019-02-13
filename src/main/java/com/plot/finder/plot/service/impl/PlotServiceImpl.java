@@ -157,8 +157,12 @@ public class PlotServiceImpl implements PlotService {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
 				"some data are missing from the request");
 		
-		if(model.getVertices()!=null && model.getVertices().size()<4 && model.getVertices().size()>8) {
-			e.getErrors().add("plot vertices set must have at least 4 vertices");
+		if(model.getVertices()!=null) {
+			if(model.getVertices().size()<4 && model.getVertices().size()>8) {
+				e.getErrors().add("plot vertices set must have between 4 and 8 vertices");
+			} else if(!isConvex(model.getVertices())) {
+				e.getErrors().add("The plot you are entering is not a convex polygon.");
+			}
 		}
 		if(!RestPreconditions.checkString(model.getTitle())) {
 			e.getErrors().add("title is mandatory");
@@ -195,10 +199,6 @@ public class PlotServiceImpl implements PlotService {
 		model.setId(null); // just in case
 		
 		checkPostDataPresent(model);
-		
-		//Check plot is convex :
-		RestPreconditions.assertTrue(isConvex(model.getVertices()),
-					"Create new plot error", "The plot you are entering is not convex.");
 		
 		//TODO: check that it doesn't overlap with other plots in db :
 		
@@ -266,16 +266,18 @@ public class PlotServiceImpl implements PlotService {
 		
 		model.setId(id);
 		if(checkPatchDataPresent(model)) {
+			// check plot is convex :
+			if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
+				RestPreconditions.assertTrue(isConvex(model.getVertices()),
+					"Edit plot error", "The plot you are inputing is not convex.");
+			}
+			
 			// check plot exists
 			PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id), 
 					"Edit plot error", "You are trying to edit a plot that doesn't exist in our database");
 			// check user is editing his plot and not someone else's
 			RestPreconditions.assertTrue(jpa.getUserJpa().getUsername().equals(username), 
 					"Edit plot error", "You are trying to edit someone else's plot");
-			
-			//Check plot is convex :
-			RestPreconditions.assertTrue(isConvex(model.getVertices()),
-					"Edit plot error", "The plot you are inputing is not convex.");
 			
 			//TODO: check that it doesn't overlap with other plots in db :
 			
