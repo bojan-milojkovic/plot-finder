@@ -239,9 +239,7 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	private boolean checkPatchDataPresent(PlotDTO model) {
-		return (model.getVertices()!=null && model.getVertices().size()>3 && model.getVertices().size()<9) ||
-				
-				RestPreconditions.checkString(model.getAddress1()) ||
+		return RestPreconditions.checkString(model.getAddress1()) ||
 				RestPreconditions.checkString(model.getAddress2()) ||
 				RestPreconditions.checkString(model.getCity()) ||
 				RestPreconditions.checkString(model.getCountry()) ||
@@ -264,13 +262,17 @@ public class PlotServiceImpl implements PlotService {
 		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");
 		RestPreconditions.checkId(id);
 		
+		// check vertices are convex and the number of vertices
+		if(model.getVertices()!=null) {
+			if(model.getVertices().size()>3 && model.getVertices().size()<9) {
+				throw new MyRestPreconditionsException("Edit plot error","Number of vertices in plot must be between 4 and 8");
+			} else if(!isConvex(model.getVertices())) {
+				throw new MyRestPreconditionsException("Edit plot error","Plot polygon you are entering is not convex.");
+			}
+		}
+		
 		model.setId(id);
 		if(checkPatchDataPresent(model)) {
-			// check plot is convex :
-			if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
-				RestPreconditions.assertTrue(isConvex(model.getVertices()),
-					"Edit plot error", "The plot you are inputing is not convex.");
-			}
 			
 			// check plot exists
 			PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id), 
