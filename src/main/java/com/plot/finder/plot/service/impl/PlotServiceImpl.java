@@ -158,7 +158,7 @@ public class PlotServiceImpl implements PlotService {
 				"some data are missing from the request");
 		
 		if(model.getVertices()!=null) {
-			if(model.getVertices().size()<4 && model.getVertices().size()>8) {
+			if(model.getVertices().size()<4 || model.getVertices().size()>8) {
 				e.getErrors().add("plot vertices set must have between 4 and 8 vertices");
 			} else if(!isConvex(model.getVertices())) {
 				e.getErrors().add("The plot you are entering is not a convex polygon.");
