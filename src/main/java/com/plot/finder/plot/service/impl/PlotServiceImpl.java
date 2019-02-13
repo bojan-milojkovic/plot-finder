@@ -264,7 +264,7 @@ public class PlotServiceImpl implements PlotService {
 		
 		// check vertices are convex and the number of vertices
 		if(model.getVertices()!=null) {
-			if(model.getVertices().size()>3 && model.getVertices().size()<9) {
+			if(!(model.getVertices().size()>3 && model.getVertices().size()<9)) {
 				throw new MyRestPreconditionsException("Edit plot error","Number of vertices in plot must be between 4 and 8");
 			} else if(!isConvex(model.getVertices())) {
 				throw new MyRestPreconditionsException("Edit plot error","Plot polygon you are entering is not convex.");
