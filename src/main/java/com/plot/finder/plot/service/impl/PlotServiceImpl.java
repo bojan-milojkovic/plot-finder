@@ -283,7 +283,7 @@ public class PlotServiceImpl implements PlotService {
 			
 			return convertJpaToModel(plotRepo.save(convertModelToJpa(model)));
 		} else {
-			throw new MyRestPreconditionsException("Edit plot error","Array of new plot vertices is missing");
+			throw new MyRestPreconditionsException("Edit plot error","You must provide some editable data");
 		}
 	}
 	
