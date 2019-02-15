@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
+import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.PlotDTO.Vertice;
 import com.plot.finder.plot.entities.PlotJPA;
@@ -20,13 +21,15 @@ public class PlotServiceImpl implements PlotService {
 
 	private PlotRepository plotRepo;
 	private UserRepository userRepo;
+	private StorageService storageServiceImpl;
 	
 	private static final Integer MAX_NUM_PLOTS = 3;
 	
 	@Autowired
-	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo) {
+	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl) {
 		this.plotRepo = plotRepo;
 		this.userRepo = userRepo;
+		this.storageServiceImpl = storageServiceImpl;
 	}
 	
 	// convert model to jpa :

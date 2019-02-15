@@ -317,7 +317,7 @@
 					url: 'http://localhost:8080/plot',
 					type: 'POST',
 					headers: {
-						'X-My-Security-Token': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU0OTY2MzkxMzk4OSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU0OTY2NTcxM30.txewPOeAZUKz5MgLxmqvPapr3CIpD_HViIIih2M4pbMoE1Y6mm6CV75kT-mjtTKsHzeWpDToWU-xWLR1hDNS-Q'			
+						'X-My-Security-Token': ''			
 					},
 					data: formData,
 					processData: false,
@@ -330,7 +330,7 @@
 						alert('SUCCESS');
 					},
 					error: function(jqXHR, textStatus, errorThrown){
-						if(jqxhr.status == 400) {
+						if(jqXHR.status == 400) {
 							var responseBody = jQuery.parseJSON(jqXHR.responseText);
 							var response = response.cause + '\n' + response.message;
 							if(response.validationErrors){
@@ -340,10 +340,10 @@
 							}
 							alert(response);
 				        }
-						else if(jqxhr.status == 404) {
+						else if(jqXHR.status == 404) {
 				            alert("page not found!");
 				        }
-						else if(jqxhr.status == 500) {
+						else if(jqXHR.status == 500) {
 				            alert("Server error");
 				        }
 						else {
@@ -356,7 +356,7 @@
 					url: 'http://localhost:8080/plot',
 					type: 'POST',
 					headers: {
-						'X-My-Security-Token': 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU0OTY2MzkxMzk4OSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU0OTY2NTcxM30.txewPOeAZUKz5MgLxmqvPapr3CIpD_HViIIih2M4pbMoE1Y6mm6CV75kT-mjtTKsHzeWpDToWU-xWLR1hDNS-Q'
+						'X-My-Security-Token': ''
 					},
 					data: myJson,
 					contentType: 'Application/json',
@@ -379,10 +379,10 @@
 							}
 							alert(response);
 				        }
-						else if(jqxhr.status == 404) {
+						else if(jqXHR.status == 404) {
 				            alert("page not found!");
 				        }
-						else if(jqxhr.status == 500) {
+						else if(jqXHR.status == 500) {
 				            alert("Server error");
 				        }
 						else {
