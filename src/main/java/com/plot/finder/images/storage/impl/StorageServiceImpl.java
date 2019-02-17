@@ -241,16 +241,6 @@ public class StorageServiceImpl implements StorageService {
 			dir += (folders[i]+File.separator);
 		}
 		
-		if(!(new File(dir)).isDirectory()){
-			try {
-				Files.createDirectories(Paths.get(dir).toAbsolutePath().normalize());
-			} catch (IOException e) {
-				throw new MyRestPreconditionsException("Dir path assembly error","cannot create new directory "+dir);
-			}
-		}
-		RestPreconditions.assertTrue((new File(dir)).isDirectory(), 
-				"Dir path assembly error","The path "+dir+" is not a directory");
-		
 		return dir;
 	}
 }
