@@ -1,5 +1,7 @@
 package com.plot.finder.plot.service;
 
+import org.springframework.core.io.Resource;
+
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 
@@ -12,4 +14,6 @@ public interface PlotService {
 	PlotDTO edit(PlotDTO model, final Long id, final String username) throws MyRestPreconditionsException;
 	
 	void delete(final Long id, final String username) throws MyRestPreconditionsException;
+	
+	Resource getImage(Long id, String name, boolean isThumbnail) throws MyRestPreconditionsException;
 }

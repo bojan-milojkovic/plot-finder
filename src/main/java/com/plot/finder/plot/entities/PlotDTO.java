@@ -1,54 +1,86 @@
 package com.plot.finder.plot.entities;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Min;
+import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+//import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonInclude(Include.NON_NULL)
-public class PlotDTO {
-	
+public class PlotDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@JsonProperty(access = Access.READ_WRITE)
 	@Min(0)
 	private Long id;
 	
-	private List<Vertice> vertices;
+	@JsonProperty("vertices")
+	private List<Vertice> vertices = new ArrayList<Vertice>();
 	
+	private MultipartFile file1;
+	
+	private MultipartFile file2;
+	
+	private MultipartFile file3;
+	
+	private MultipartFile file4;
+	
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String title;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String description;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String address1;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String address2;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String city;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String country;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
 	private Integer price;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String currency;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean power;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean water;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean gas;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean sewer;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean internet;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean garage;
 	
+	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
 	private Integer size;
-	
+
 	public PlotDTO() {
-		vertices = new ArrayList<Vertice>();
+		super();
 	}
 
 	public Long getId() {
@@ -63,41 +95,10 @@ public class PlotDTO {
 		return vertices;
 	}
 
+	//@JsonDeserialize(using = VerticeListDeserializer.class)
 	public void setVertices(List<Vertice> vertices) {
 		this.vertices = vertices;
 	}
-	
-	public static class Vertice{
-		private Float lat;
-		private Float lng;
-		
-		public Vertice(){
-			
-		}
-		public Vertice(String v) {
-			String[] latLng = v.split("#");
-			
-			BigDecimal bd = new BigDecimal(latLng[0]);
-			lat = bd.setScale(6, BigDecimal.ROUND_HALF_EVEN).floatValue();
-			
-			bd = new BigDecimal(latLng[1]);
-			lng = bd.setScale(6, BigDecimal.ROUND_HALF_EVEN).floatValue();
-		}
-		
-		public Float getLat() {
-			return lat;
-		}
-		public void setLat(Float lat) {
-			this.lat = lat;
-		}
-		public Float getLng() {
-			return lng;
-		}
-		public void setLng(Float lng) {
-			this.lng = lng;
-		}
-	}
-
 	
 	public String getTitle() {
 		return title;
@@ -237,5 +238,37 @@ public class PlotDTO {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	public MultipartFile getFile1() {
+		return file1;
+	}
+
+	public void setFile1(MultipartFile file1) {
+		this.file1 = file1;
+	}
+
+	public MultipartFile getFile2() {
+		return file2;
+	}
+
+	public void setFile2(MultipartFile file2) {
+		this.file2 = file2;
+	}
+
+	public MultipartFile getFile3() {
+		return file3;
+	}
+
+	public void setFile3(MultipartFile file3) {
+		this.file3 = file3;
+	}
+
+	public MultipartFile getFile4() {
+		return file4;
+	}
+
+	public void setFile4(MultipartFile file4) {
+		this.file4 = file4;
 	}
 }

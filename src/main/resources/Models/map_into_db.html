@@ -70,11 +70,10 @@
 		<table>
 			<tr><th>Upload up to 5 images :</th></tr>
 			<tr><td>(not implemented yet)</td></tr>
-			<tr><td><input type="file" id="pic1" accept="image/*"/></td></tr>
-			<tr><td><input type="file" id="pic2" accept="image/*"/></td></tr>
-			<tr><td><input type="file" id="pic3" accept="image/*"/></td></tr>
-			<tr><td><input type="file" id="pic4" accept="image/*"/></td></tr>
-			<tr><td><input type="file" id="pic5" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="file1" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="file2" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="file3" accept="image/*"/></td></tr>
+			<tr><td><input type="file" id="file4" accept="image/*"/></td></tr>
 			<tr><td><input type="button" value="Back" onclick="openForm2()"/></td>
 				<td><input type="button" value="Next" onclick="saveData3();openForm4();fillInVerify();"/></td></tr>
 		</table>
@@ -102,6 +101,8 @@
 		
 		var formData;
 		var myJson, data1, data2, data3;
+		
+		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU1MDQxMDc5NjQ0NSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU1MDQxMjU5Nn0.ZWxMyMmxJEk3gxxgUAhh0o1iQJvR4LIDA2lIbkSam0WIoT1m6DXDfhEkKxR-Y-d1fXJvAdXglM5zASn9ZKVMKw';	
 		
 		function initMap(){
 			map = new google.maps.Map(
@@ -251,24 +252,18 @@
 		}
 		
 		function saveData3(){
-			if(document.getElementById('pic1').value || document.getElementById('pic2').value || document.getElementById('pic3').value
-				|| document.getElementById('pic4').value || document.getElementById('pic5').value){
+			if(document.getElementById('file1').value || document.getElementById('file2').value || document.getElementById('file3').value
+				|| document.getElementById('file4').value){
+				
 				formData = new FormData();
-				if(document.getElementById('pic1').value){
-					formData.append('pic1', document.getElementById('pic1').value);
-				}
-				if(document.getElementById('pic2').value){
-					formData.append('pic2', document.getElementById('pic2').value);
-				}
-				if(document.getElementById('pic3').value){
-					formData.append('pic3', document.getElementById('pic3').value);
-				}
-				if(document.getElementById('pic4').value){
-					formData.append('pic4', document.getElementById('pic4').value);
-				}
-				if(document.getElementById('pic5').value){
-					formData.append('pic5', document.getElementById('pic5').value);
-				}
+				
+				var index=1;
+				$.each( $("input[id^='file']"), function(i, part, array){
+					if(part.value){
+						formData.append('file'+index, part.files[0]);
+						index++;
+					}
+				});
 			} else{
 				formData=null;
 			}
@@ -278,12 +273,12 @@
 			data3 = '\"vertices\" : [';
 			for(var i=0 ; i<polygon.getPath().length ; i++){
 				var v = polygon.getPath().getAt(i);
-				data3+= '{\"lat\":\"'+v.lat()+'\" , \"lng\":\"'+v.lng()+'\"}';
+				data3+= '{\"lat\":\"'+v.lat()+'\",\"lng\":\"'+v.lng()+'\"}';
 				if(i<polygon.getPath().length-1){
 					data3 += ',';
 				}
 			}
-			data3+=']}'; // end array end json
+			data3 += ']}';// end array end json
 			myJson = data1 + data2 + data3;
 		}
 		
@@ -311,15 +306,23 @@
 		
 		function saveData(){
 			if(formData){
-				formData.append('json', JSON.stringify(myJson));
+				formData.append('json', myJson);
+				
+				// Display the key/value pairs
+				for (var pair of formData.entries()) {
+					console.log(pair[0]+ ', ' + pair[1]); 
+				}
 				
 				$.ajax({
 					url: 'http://localhost:8080/plot',
 					type: 'POST',
+					method: 'POST',
 					headers: {
-						'X-My-Security-Token': ''			
+						'X-My-Security-Token': token			
 					},
 					data: formData,
+					cache: false,
+					contentType: false,
 					processData: false,
 					success: function(data){
 						infowindow4.close();
@@ -332,9 +335,9 @@
 					error: function(jqXHR, textStatus, errorThrown){
 						if(jqXHR.status == 400) {
 							var responseBody = jQuery.parseJSON(jqXHR.responseText);
-							var response = response.cause + '\n' + response.message;
-							if(response.validationErrors){
-								response.validationErrors.forEach(function(part, i, array){
+							var response = responseBody.cause + '\n' + responseBody.message;
+							if(responseBody.validationErrors){
+								responseBody.validationErrors.forEach(function(part, i, array){
 									response += ('\n\t- '+part);
 								});
 							}
@@ -356,7 +359,7 @@
 					url: 'http://localhost:8080/plot',
 					type: 'POST',
 					headers: {
-						'X-My-Security-Token': ''
+						'X-My-Security-Token': token
 					},
 					data: myJson,
 					contentType: 'Application/json',
@@ -371,9 +374,9 @@
 					error: function(jqXHR, textStatus, errorThrown){
 						if(jqXHR.status == 400) {
 							var responseBody = jQuery.parseJSON(jqXHR.responseText);
-							var response = response.cause + '\n' + response.message;
-							if(response.validationErrors){
-								response.validationErrors.forEach(function(part, i, array){
+							var response = responseBody.cause + '\n' + responseBody.message;
+							if(responseBody.validationErrors){
+								responseBody.validationErrors.forEach(function(part, i, array){
 									response += ('\n\t- '+part);
 								});
 							}

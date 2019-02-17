@@ -62,18 +62,7 @@ public class StorageServiceImpl implements StorageService {
 	            .body(resource);
 	}
 	
-	public void saveImage(final MultipartFile mpf, Long id, boolean isUser) throws MyRestPreconditionsException {	
-		RestPreconditions.assertTrue(null != mpf, "Image save error", 
-				"You are attempting to upload a non-existing file.");
-		RestPreconditions.assertTrue(!mpf.isEmpty(), "Image save error", 
-				"You are attempting to upload an empty file.");
-		RestPreconditions.assertTrue(!mpf.getOriginalFilename().contains(".."), "Image save error", 
-				"Upload filename contains invalid path sequence");
-		RestPreconditions.assertTrue(mpf.getSize() < (5 * 1024 * 1024), "Image save error", 
-				"Max upload file size is 3MB");
-		RestPreconditions.assertTrue(checkMpFileExtension(mpf.getOriginalFilename()), "Image save error", 
-				"You are only allowed to upload files with extensions jpg, jpeg, png and bmp");
-		
+	public void saveImage(final MultipartFile mpf, String name, Long id) throws MyRestPreconditionsException {
 		// compose dir structure :
 		String path = buildDirPath(id);
 		File dir = new File(path);
@@ -92,7 +81,7 @@ public class StorageServiceImpl implements StorageService {
 				"Directory creation error", "File location is not writable");
 		
 		// put files in dir :
-		saveFileInDir(path, mpf);
+		saveFileInDir(path, name, mpf);
 	}
 	
 	public Resource readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
@@ -173,20 +162,33 @@ public class StorageServiceImpl implements StorageService {
 		}
 	}
 	
+	public void checkFile(MultipartFile mpf) throws MyRestPreconditionsException{
+		if(mpf!=null){
+			RestPreconditions.assertTrue(!mpf.isEmpty(), "Image save error", 
+					"You are attempting to upload an empty file - "+mpf.getOriginalFilename());
+			RestPreconditions.assertTrue(!mpf.getOriginalFilename().contains(".."), "Image save error", 
+					"Upload filename contains invalid path sequence"+mpf.getOriginalFilename());
+			RestPreconditions.assertTrue(mpf.getSize() < (5 * 1024 * 1024), "Image save error", 
+					"Max upload file size is 3MB"+mpf.getOriginalFilename());
+			RestPreconditions.assertTrue(checkMpFileExtension(mpf.getOriginalFilename()), "Image save error", 
+					"You are only allowed to upload files with extensions jpg, jpeg, png and bmp"+mpf.getOriginalFilename());
+		}
+	}
+	
 	// save file :
-	private void saveFileInDir(String dir, MultipartFile mpf) throws MyRestPreconditionsException{
+	private void saveFileInDir(String dir, String name, MultipartFile mpf) throws MyRestPreconditionsException{
 		
-		String[] parts = mpf.getOriginalFilename().split("[\\/]");
-		String fileName = parts[parts.length-1];
+		String[] parts = mpf.getOriginalFilename().split("[.]");
+		String ext = parts[parts.length-1];
 		
 		try {
 			// save original :
-			Path targetLocation = Paths.get(dir + fileName).toAbsolutePath().normalize();
+			Path targetLocation = Paths.get(dir + name + "."+ext).toAbsolutePath().normalize();
 			Files.copy(mpf.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 			// save thumbnail :
-			targetLocation = Paths.get(dir + thumbnailName(fileName)).toAbsolutePath().normalize();
-			Files.copy(scaleImageInputstream(mpf, fileName.split("[.]")[1], 80, 100), 
+			targetLocation = Paths.get(dir + name +"_THUMBNAIL." + ext).toAbsolutePath().normalize();
+			Files.copy(scaleImageInputstream(mpf, ext, 80, 100), 
 					targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 		}catch (IllegalStateException | IOException e) {
@@ -239,8 +241,15 @@ public class StorageServiceImpl implements StorageService {
 			dir += (folders[i]+File.separator);
 		}
 		
+		if(!(new File(dir)).isDirectory()){
+			try {
+				Files.createDirectories(Paths.get(dir).toAbsolutePath().normalize());
+			} catch (IOException e) {
+				throw new MyRestPreconditionsException("Dir path assembly error","cannot create new directory "+dir);
+			}
+		}
 		RestPreconditions.assertTrue((new File(dir)).isDirectory(), 
-				"Image delete error","File path "+dir+" is not a directory");
+				"Dir path assembly error","The path "+dir+" is not a directory");
 		
 		return dir;
 	}

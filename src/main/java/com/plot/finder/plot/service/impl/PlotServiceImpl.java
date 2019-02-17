@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
-import com.plot.finder.plot.entities.PlotDTO.Vertice;
+import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
@@ -41,7 +42,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setVertices(Arrays.asList(jpa.getPolygon().split("@"))
 				.stream()
 				.filter(v -> !((String)v).isEmpty())
-				.map(v -> new PlotDTO.Vertice((String) v))
+				.map(v -> Vertice.createFromString((String) v))
 				.collect(Collectors.toList()));
 		
 		model.setAddress1(jpa.getAddress1());
@@ -85,6 +86,10 @@ public class PlotServiceImpl implements PlotService {
 		jpa.setPolygon(tmp);
 		
 		return jpa;
+	}
+	
+	public Resource getImage(Long id, String name, boolean isThumbnail) throws MyRestPreconditionsException{
+		return storageServiceImpl.readImage(id, name, isThumbnail);
 	}
 	
 	private PlotJPA convertModelToJpa(final PlotDTO model) {
@@ -197,11 +202,19 @@ public class PlotServiceImpl implements PlotService {
 		}
 	}
 	
+	private void checkFiles(PlotDTO model) throws MyRestPreconditionsException {
+		storageServiceImpl.checkFile(model.getFile1());
+		storageServiceImpl.checkFile(model.getFile2());
+		storageServiceImpl.checkFile(model.getFile3());
+		storageServiceImpl.checkFile(model.getFile4());
+	}
+	
 	public PlotDTO addNew(PlotDTO model, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkNotNull(model, "Create new plot error", "You cannot create new plot with an empty object in request.");
 		model.setId(null); // just in case
 		
 		checkPostDataPresent(model);
+		checkFiles(model);
 		
 		//TODO: check that it doesn't overlap with other plots in db :
 		
@@ -213,7 +226,22 @@ public class PlotServiceImpl implements PlotService {
 			jpa.setUserJpa(ujpa);
 			ujpa.getPlots().add(jpa);
 			
-			return convertJpaToModel(plotRepo.save(jpa));
+			jpa = plotRepo.save(jpa);
+			// save images :
+			if(model.getFile1()!=null){
+				storageServiceImpl.saveImage(model.getFile1(), "File1", jpa.getId());
+				if(model.getFile2()!=null){
+					storageServiceImpl.saveImage(model.getFile2(), "File2", jpa.getId());
+				}
+				if(model.getFile3()!=null){
+					storageServiceImpl.saveImage(model.getFile3(), "File3", jpa.getId());
+				}
+				if(model.getFile4()!=null){
+					storageServiceImpl.saveImage(model.getFile4(), "File4", jpa.getId());
+				}
+			}
+			
+			return convertJpaToModel(jpa);
 		} else {
 			throw new MyRestPreconditionsException("Create new plot error","You have reached the maximum number of plots you can create.");
 		}

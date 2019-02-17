@@ -1,5 +1,6 @@
 com\plot\finder\exception\MyRestPreconditionsException.class
 com\plot\finder\user\entity\UserJPA.class
+com\plot\finder\plot\entities\VerticeListDeserializer.class
 com\plot\finder\security\dto\CredentialsDTO.class
 com\plot\finder\security\service\SecurityService.class
 com\plot\finder\util\MyControllerAdvice.class
@@ -37,7 +38,7 @@ com\plot\finder\security\service\impl\SecurityServiceImpl.class
 com\plot\finder\security\repository\RoleRepository.class
 com\plot\finder\security\entities\RoleJPA_.class
 com\plot\finder\PlotFinderApplication.class
-com\plot\finder\plot\entities\PlotDTO$Vertice.class
+com\plot\finder\plot\entities\Vertice.class
 com\plot\finder\images\storage\StorageService.class
 com\plot\finder\config\PersistenceConfig.class
 com\plot\finder\user\entity\UserDTO.class
