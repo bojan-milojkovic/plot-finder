@@ -220,10 +220,12 @@ public class PlotServiceImpl implements PlotService {
 		
 		//check how many plots the user is currently selling :
 		UserJPA ujpa = userRepo.findOneByUsername(username);
-		RestPreconditions.checkNotNull(ujpa, "Create new plot error",
-				"User with username "+username+" doesn't exist.");
-		RestPreconditions.assertTrue(ujpa.getPlots().size()<=MAX_NUM_PLOTS, 
-				"Create new plot error","You have reached the maximum number of plots you can create.");
+		RestPreconditions.assertTrue(
+				(RestPreconditions.checkNotNull(ujpa, 
+												"Create new plot error",
+												"User with username "+username+" doesn't exist.")) // this returns UserJPA
+									.getPlots().size()<=MAX_NUM_PLOTS, 
+									"Create new plot error","You have reached the maximum number of plots you can create.");
 		
 		PlotJPA jpa = convertModelToJpa(model);
 		jpa.setUserJpa(ujpa);
@@ -311,11 +313,12 @@ public class PlotServiceImpl implements PlotService {
 		if(checkPatchDataPresent(model)) {
 			
 			// check plot exists
-			PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id), 
-					"Edit plot error", "You are trying to edit a plot that doesn't exist in our database");
-			// check user is editing his plot and not someone else's
-			RestPreconditions.assertTrue(jpa.getUserJpa().getUsername().equals(username), 
-					"Edit plot error", "You are trying to edit someone else's plot");
+			RestPreconditions.assertTrue(
+					(RestPreconditions.checkNotNull(plotRepo.getOne(id), "Edit plot error", 
+													"You are trying to edit a plot that doesn't exist in our database")) // returns PlotJPA
+										// check user is editing his plot and not someone else's
+										.getUserJpa().getUsername().equals(username), 
+										"Edit plot error", "You are trying to edit someone else's plot");
 			
 			//TODO: check that it doesn't overlap with other plots in db :
 			
@@ -331,13 +334,14 @@ public class PlotServiceImpl implements PlotService {
 	public void delete(final Long id, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		
-		PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id), 
-				"Delete plot error", "Plot with id = "+id+" doesn't exist");
+		RestPreconditions.assertTrue(
+				// check plot exists :
+				(RestPreconditions.checkNotNull(plotRepo.getOne(id), 
+												"Delete plot error", "Plot with id = "+id+" doesn't exist")) // returns PlotJPA
+									// check user is editing his plot and not someone else's
+									.getUserJpa().getUsername().equals(username), 
+									"Delete plot error", "You are trying to delete someone else's plot");
 		
-		// check user is editing his plot and not someone else's
-		RestPreconditions.assertTrue(jpa.getUserJpa().getUsername().equals(username), 
-				"Delete plot error", "You are trying to delete someone else's plot");
-		
-		plotRepo.delete(jpa);
+		plotRepo.deleteById(id);
 	}
 }
