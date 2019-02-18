@@ -51,9 +51,11 @@ public class UserServiceImpl implements UserService {
 	public void delete(Long id, String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		
-		UserJPA tmp = userRepo.getOne(id);
-		RestPreconditions.checkNotNull(tmp, "Delete user failed","No user found for id = "+id);
-		RestPreconditions.assertTrue(tmp.getUsername().equals(username), "Delete user failed", 
+		RestPreconditions.assertTrue(
+				// check user exists
+				(RestPreconditions.checkNotNull(userRepo.getOne(id), "Delete user failed","No user found for id = "+id)) // Returns UserJPA
+				// check user is not deleting himself and not someone else
+				.getUsername().equals(username), "Delete user failed", 
 				"You are trying to delete someone else's user");
 		
 		userRepo.deleteById(id);
