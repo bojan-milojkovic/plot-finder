@@ -89,10 +89,10 @@ public class PlotController {
 	}
 	
 	// save with image(s)
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void addPlot (@RequestParam(value="json", required=true) final String json,
+	public @ResponseBody PlotDTO addPlotWithPictures(@RequestParam(value="json", required=true) final String json,
 			@RequestParam(value="file1", required=true) final MultipartFile file1,
 			@RequestParam(value="file2", required=false) final MultipartFile file2,
 			@RequestParam(value="file3", required=false) final MultipartFile file3,
@@ -107,7 +107,35 @@ public class PlotController {
 			model.setFile3(file3);
 			model.setFile4(file4);
 			
-			plotServiceImpl.addNew(model, principal.getName());
+			return plotServiceImpl.addNew(model, principal.getName());
+		} catch (IOException e) {
+			MyRestPreconditionsException ex = new MyRestPreconditionsException("Add Plot error","error transforming a json string into an object");
+			ex.getErrors().add(e.getMessage());
+			ex.getErrors().add(e.getLocalizedMessage());
+			e.printStackTrace();
+			throw ex;
+		}
+	}
+	
+	// edit with images :
+	@RequestMapping(value="/{id}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE/*, headers="Content-Type=multipart/form-data"*/)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public @ResponseBody PlotDTO editPlotWithPictures(@RequestParam(value="json", required=true) final String json,
+													  @RequestParam(value="file1", required=true) final MultipartFile file1,
+													  @RequestParam(value="file2", required=false) final MultipartFile file2,
+													  @RequestParam(value="file3", required=false) final MultipartFile file3,
+													  @RequestParam(value="file4", required=false) final MultipartFile file4, 
+													  @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		try{
+			PlotDTO model = objectMapper.readValue(json, PlotDTO.class);
+
+			model.setFile1(file1);
+			model.setFile2(file2);
+			model.setFile3(file3);
+			model.setFile4(file4);
+			
+			return plotServiceImpl.edit(model, id, principal.getName());
 		} catch (IOException e) {
 			MyRestPreconditionsException ex = new MyRestPreconditionsException("Add Plot error","error transforming a json string into an object");
 			ex.getErrors().add(e.getMessage());

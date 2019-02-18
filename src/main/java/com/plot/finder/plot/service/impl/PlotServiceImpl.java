@@ -220,35 +220,23 @@ public class PlotServiceImpl implements PlotService {
 		
 		//check how many plots the user is currently selling :
 		UserJPA ujpa = userRepo.findOneByUsername(username);
-		if(RestPreconditions.checkNotNull(ujpa, "Create new plot error",
-				"User with username "+username+" doesn't exist.").getPlots().size()<=MAX_NUM_PLOTS) {
-			PlotJPA jpa = convertModelToJpa(model);
-			jpa.setUserJpa(ujpa);
-			ujpa.getPlots().add(jpa);
-			
-			jpa = plotRepo.save(jpa);
-			// save images :
-			if(model.getFile1()!=null){
-				storageServiceImpl.saveImage(model.getFile1(), "File1", jpa.getId());
-				if(model.getFile2()!=null){
-					storageServiceImpl.saveImage(model.getFile2(), "File2", jpa.getId());
-				}
-				if(model.getFile3()!=null){
-					storageServiceImpl.saveImage(model.getFile3(), "File3", jpa.getId());
-				}
-				if(model.getFile4()!=null){
-					storageServiceImpl.saveImage(model.getFile4(), "File4", jpa.getId());
-				}
-			}
-			
-			return convertJpaToModel(jpa);
-		} else {
-			throw new MyRestPreconditionsException("Create new plot error","You have reached the maximum number of plots you can create.");
-		}
+		RestPreconditions.checkNotNull(ujpa, "Create new plot error",
+				"User with username "+username+" doesn't exist.");
+		RestPreconditions.assertTrue(ujpa.getPlots().size()<=MAX_NUM_PLOTS, 
+				"Create new plot error","You have reached the maximum number of plots you can create.");
+		
+		PlotJPA jpa = convertModelToJpa(model);
+		jpa.setUserJpa(ujpa);
+		ujpa.getPlots().add(jpa);
+		
+		jpa = plotRepo.save(jpa);
+		// save images :
+		saveModelFiles(model, jpa.getId());
+		
+		return convertJpaToModel(jpa);
 	}
 	
-	private boolean isConvex(List<Vertice> _vertices)
-	{
+	private boolean isConvex(List<Vertice> _vertices) {
 	    boolean sign = false;
 	    int n = _vertices.size();
 
@@ -289,6 +277,21 @@ public class PlotServiceImpl implements PlotService {
 				;
 	}
 	
+	private void saveModelFiles(final PlotDTO model, final Long id) throws MyRestPreconditionsException {
+		if(model.getFile1()!=null) {
+			storageServiceImpl.saveImage(model.getFile1(), "File1", id);
+			if(model.getFile2()!=null){
+				storageServiceImpl.saveImage(model.getFile2(), "File2", id);
+			}
+			if(model.getFile3()!=null){
+				storageServiceImpl.saveImage(model.getFile3(), "File3", id);
+			}
+			if(model.getFile4()!=null){
+				storageServiceImpl.saveImage(model.getFile4(), "File4", id);
+			}
+		}
+	}
+	
 	public PlotDTO edit(PlotDTO model, final Long id, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");
 		RestPreconditions.checkId(id);
@@ -301,6 +304,8 @@ public class PlotServiceImpl implements PlotService {
 				throw new MyRestPreconditionsException("Edit plot error","Plot polygon you are entering is not convex.");
 			}
 		}
+		// check images :
+		checkFiles(model);
 		
 		model.setId(id);
 		if(checkPatchDataPresent(model)) {
@@ -313,6 +318,9 @@ public class PlotServiceImpl implements PlotService {
 					"Edit plot error", "You are trying to edit someone else's plot");
 			
 			//TODO: check that it doesn't overlap with other plots in db :
+			
+			// save images :
+			saveModelFiles(model, id);
 			
 			return convertJpaToModel(plotRepo.save(convertModelToJpa(model)));
 		} else {
