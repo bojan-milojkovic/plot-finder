@@ -235,6 +235,8 @@ public class StorageServiceImpl implements StorageService {
 
 	// create dir path in classpath: from userId / herbId
 	private String buildDirPath(Long id) throws MyRestPreconditionsException{
+		RestPreconditions.checkId(id); // got getImage
+		
 		char[] folders = (""+id).toCharArray();
 		
 		String dir = fileStorageLocation;
