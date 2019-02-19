@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public UserDTO create(final UserDTO model) throws MyRestPreconditionsException {
-		RestPreconditions.assertTrue(model!=null, "User crete error", "Add new user cannot be done without the user object");
+		RestPreconditions.checkNotNull(model, "User crete error", "Add new user cannot be done without the user object");
 		model.setId(null);
 		if(checkPostDataPresent(model)) {
 			// check username unique :
@@ -134,14 +134,14 @@ public class UserServiceImpl implements UserService {
 		model.setId(id);
 		
 		if(checkPatchDataPresent(model)) {
-			// check username (model.getUsername() is set in controller)
-			{
-				UserJPA tmp = RestPreconditions.checkNotNull(userRepo.findOneByUsername(model.getUsername()), "User edit error", 
-						"User with username "+model.getUsername()+" does not exist in our database.");
-				RestPreconditions.assertTrue(tmp.getId()==id, "User edit error", 
+			RestPreconditions.assertTrue(
+					// check username exists :
+					(RestPreconditions.checkNotNull(userRepo.findOneByUsername(model.getUsername()), "User edit error", 
+					"User with username "+model.getUsername()+" does not exist in our database.")) // returns UserJPA
+						// check id matches
+						.getId()==id, "User edit error", 
 						"You are trying to edit someone else's user.");
-				// tmp ceases to exist  here
-			}
+
 			// check email :
 			checkProperty(model.getEmail(),
 						  "email",

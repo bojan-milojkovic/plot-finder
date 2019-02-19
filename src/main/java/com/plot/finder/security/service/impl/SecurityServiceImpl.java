@@ -41,9 +41,6 @@ public class SecurityServiceImpl implements SecurityService {
 					RoleJPA role = userRoles.getRoleJpa();
 					
 					authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-					/*for(AuthorityJPA authority : role.getAuthoritiesJpa()){
-						authorities.add(new SimpleGrantedAuthority(authority.getAuthName()));
-					}*/
 				}
 				
 				String token = jwtTokenUtil.generateToken(new User(
