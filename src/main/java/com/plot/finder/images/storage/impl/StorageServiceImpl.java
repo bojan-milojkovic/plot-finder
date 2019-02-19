@@ -48,7 +48,9 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	
-	public ResponseEntity<Resource> getImage(Resource resource, HttpServletRequest request){
+	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) 
+			throws MyRestPreconditionsException{
+		Resource resource = readImage(id, name, isThumbnail);
 		String contentType = null;
 	    try {
 	        contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
@@ -84,7 +86,7 @@ public class StorageServiceImpl implements StorageService {
 		saveFileInDir(path, name, mpf);
 	}
 	
-	public Resource readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
+	private Resource readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
 		
 		// build dir path :
 		String imgDir = buildDirPath(id);

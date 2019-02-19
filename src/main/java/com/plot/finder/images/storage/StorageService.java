@@ -10,11 +10,11 @@ public interface StorageService {
 
 	void saveImage(final MultipartFile multipartfile, String name, Long id) throws MyRestPreconditionsException;
 	
-	Resource readImage(final Long Id, String name, final boolean thumbnail) throws MyRestPreconditionsException;
+	//Resource readImage(final Long Id, String name, final boolean thumbnail) throws MyRestPreconditionsException;
 	
 	void deleteImage(final Long id, final String name) throws MyRestPreconditionsException;
 	
-	ResponseEntity<Resource> getImage(Resource resource, HttpServletRequest request);
+	ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException;
 	
 	void checkFile(MultipartFile mpf) throws MyRestPreconditionsException;
 }

@@ -1,7 +1,9 @@
 package com.plot.finder.plot.service;
 
-import org.springframework.core.io.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 
@@ -15,5 +17,5 @@ public interface PlotService {
 	
 	void delete(final Long id, final String username) throws MyRestPreconditionsException;
 	
-	Resource getImage(Long id, String name, boolean isThumbnail) throws MyRestPreconditionsException;
+	ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException;
 }

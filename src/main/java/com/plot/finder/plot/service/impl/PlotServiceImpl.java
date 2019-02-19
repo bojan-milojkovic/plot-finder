@@ -3,8 +3,12 @@ package com.plot.finder.plot.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
@@ -88,8 +92,8 @@ public class PlotServiceImpl implements PlotService {
 		return jpa;
 	}
 	
-	public Resource getImage(Long id, String name, boolean isThumbnail) throws MyRestPreconditionsException{
-		return storageServiceImpl.readImage(id, name, isThumbnail);
+	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException{
+		return storageServiceImpl.getImage(id, name, isThumbnail, request);
 	}
 	
 	private PlotJPA convertModelToJpa(final PlotDTO model) {

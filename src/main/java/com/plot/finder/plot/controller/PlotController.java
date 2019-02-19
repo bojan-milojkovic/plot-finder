@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plot.finder.exception.MyRestPreconditionsException;
-import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.service.PlotService;
 
@@ -30,13 +29,11 @@ import com.plot.finder.plot.service.PlotService;
 public class PlotController {
 
 	private PlotService plotServiceImpl;
-	private StorageService storageServiceImpl;
 	private ObjectMapper objectMapper;
 	
 	@Autowired
-	public PlotController(PlotService plotServiceImpl, StorageService storageServiceImpl, ObjectMapper objectMapper) {
+	public PlotController(PlotService plotServiceImpl, ObjectMapper objectMapper) {
 		this.plotServiceImpl = plotServiceImpl;
-		this.storageServiceImpl = storageServiceImpl;
 		this.objectMapper = objectMapper;
 	}
 
@@ -76,7 +73,7 @@ public class PlotController {
 	public @ResponseBody ResponseEntity<Resource> getImageLarge(@PathVariable("id") final Long id,
 																@RequestParam(value="name", required=true) String name,
 																HttpServletRequest request) throws MyRestPreconditionsException{
-		return storageServiceImpl.getImage(plotServiceImpl.getImage(id, name, false), request);
+		return plotServiceImpl.getImage(id, name, false, request);
 	}
 	
 	@RequestMapping(value="/thumb/{id}", method = RequestMethod.GET)
@@ -85,7 +82,7 @@ public class PlotController {
 	public @ResponseBody ResponseEntity<Resource> getImageThumb(@PathVariable("id") final Long id,
 																@RequestParam(value="name", required=true) String name,
 																HttpServletRequest request) throws MyRestPreconditionsException{
-		return storageServiceImpl.getImage(plotServiceImpl.getImage(id, name, true), request);
+		return plotServiceImpl.getImage(id, name, true, request);
 	}
 	
 	// save with image(s)
