@@ -279,7 +279,8 @@ public class PlotServiceImpl implements PlotService {
 				model.isPower()!=null ||
 				model.isWater()!=null ||
 				model.getPrice()!=null ||
-				model.getSize()!=null
+				model.getSize()!=null ||
+				model.getFile1()!=null
 				;
 	}
 	
@@ -299,11 +300,11 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	public PlotDTO edit(PlotDTO model, final Long id, final String username) throws MyRestPreconditionsException {
-		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");
+		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");// can happen
 		RestPreconditions.checkId(id);
 		
 		// check vertices are convex and the number of vertices
-		if(model.getVertices()!=null) {
+		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
 			if(!(model.getVertices().size()>3 && model.getVertices().size()<9)) {
 				throw new MyRestPreconditionsException("Edit plot error","Number of vertices in plot must be between 4 and 8");
 			} else if(!isConvex(model.getVertices())) {

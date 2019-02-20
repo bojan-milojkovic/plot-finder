@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.service.PlotService;
+import com.plot.finder.util.RestPreconditions;
 
 @RestController
 @RequestMapping(value="/plot")
@@ -118,15 +119,19 @@ public class PlotController {
 	@RequestMapping(value="/{id}", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE/*, headers="Content-Type=multipart/form-data"*/)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public @ResponseBody PlotDTO editPlotWithPictures(@RequestParam(value="json", required=true) final String json,
+	public @ResponseBody PlotDTO editPlotWithPictures(@RequestParam(value="json", required=false) final String json,
 													  @RequestParam(value="file1", required=true) final MultipartFile file1,
 													  @RequestParam(value="file2", required=false) final MultipartFile file2,
 													  @RequestParam(value="file3", required=false) final MultipartFile file3,
 													  @RequestParam(value="file4", required=false) final MultipartFile file4, 
 													  @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
 		try{
-			PlotDTO model = objectMapper.readValue(json, PlotDTO.class);
-
+			PlotDTO model;
+			if(RestPreconditions.checkString(json)){
+				model = objectMapper.readValue(json, PlotDTO.class);
+			} else {
+				model = new PlotDTO();
+			}
 			model.setFile1(file1);
 			model.setFile2(file2);
 			model.setFile3(file3);
