@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,10 +53,7 @@ public class PlotDTO implements Serializable {
 	private String country;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	@Min(1)
-	private Integer price;
-	
-	@JsonProperty(access = Access.READ_WRITE)
+	@Pattern(regexp="[A-Z]{3}")
 	private String currency;
 	
 	@JsonProperty(access = Access.READ_WRITE)
@@ -77,7 +76,27 @@ public class PlotDTO implements Serializable {
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
+	private Integer price;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	@Min(1)
 	private Integer size;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer minSize;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer maxSize;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer minPrice;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer maxPrice;
 
 	public PlotDTO() {
 		super();
@@ -270,5 +289,54 @@ public class PlotDTO implements Serializable {
 
 	public void setFile4(MultipartFile file4) {
 		this.file4 = file4;
+	}
+
+	public Integer getMinSize() {
+		return minSize;
+	}
+
+	public void setMinSize(Integer minSize) {
+		this.minSize = minSize;
+	}
+
+	public Integer getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(Integer maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	public Integer getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(Integer minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public Integer getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(Integer maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+	
+	@Override
+	public boolean equals( Object o ) {
+		if( o != null && o instanceof PlotJPA) {
+			if(o==this) {
+        		return true;
+        	}
+			return this.id == ((PlotJPA)o).getId();
+		}
+		
+		return false;
+	}
+	
+	@Override
+    public int hashCode() {
+		return id.hashCode();
 	}
 }

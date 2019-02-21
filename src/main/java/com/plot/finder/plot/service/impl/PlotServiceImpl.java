@@ -2,10 +2,10 @@ package com.plot.finder.plot.service.impl;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.repository.CriteriaPlotRepository;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
@@ -27,14 +28,16 @@ public class PlotServiceImpl implements PlotService {
 	private PlotRepository plotRepo;
 	private UserRepository userRepo;
 	private StorageService storageServiceImpl;
+	private CriteriaPlotRepository criteriaPlotRepository;
 	
 	private static final Integer MAX_NUM_PLOTS = 3;
 	
 	@Autowired
-	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl) {
+	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, CriteriaPlotRepository criteriaPlotRepository) {
 		this.plotRepo = plotRepo;
 		this.userRepo = userRepo;
 		this.storageServiceImpl = storageServiceImpl;
+		this.criteriaPlotRepository = criteriaPlotRepository;
 	}
 	
 	// convert model to jpa :
@@ -90,6 +93,100 @@ public class PlotServiceImpl implements PlotService {
 		jpa.setPolygon(tmp);
 		
 		return jpa;
+	}
+	
+	public List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException{
+		String title = "Find plots by coordinates error";
+		RestPreconditions.assertTrue(Math.abs(ll.getLat()) < 90, 
+				title, "(LL) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ur.getLat()) < 90, 
+				title, "(UR) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ll.getLng()) < 180, 
+				title, "(LL) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(Math.abs(ur.getLng()) < 180, 
+				title, "(UR) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(ll.getLat()!=ur.getLat() && ll.getLng()!=ur.getLng(), 
+				title, "You did not enter a valid set of coordinates.");
+		
+		return convertJpaListToModelList(criteriaPlotRepository.getPlotByCoordinates(
+											ll.getLng()<ur.getLng() ? ll.getLng() : ur.getLng(), 
+											ll.getLat()<ur.getLat() ? ll.getLat() : ur.getLat(),
+													
+											ll.getLng()>ur.getLng() ? ll.getLng() : ur.getLng(), 
+											ll.getLat()>ur.getLat() ? ll.getLat() : ur.getLat()   ));
+	}
+	
+	public List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException{
+		return convertJpaListToModelList(criteriaPlotRepository.getPlotByProperties(model));
+	}
+	
+	public Set<PlotDTO> filterPlotsByProperties(final Set<PlotDTO> list, final PlotDTO model) throws MyRestPreconditionsException {
+		Set<PlotDTO> result = list;
+		
+		result = result.stream()
+					   .filter(i -> i.getGarage()==(model.getGarage()==null?false:model.getGarage()))
+					   .collect(Collectors.toSet());
+		result = result.stream()
+				   .filter(i -> i.getPower()==(model.getPower()==null?false:model.getPower()))
+				   .collect(Collectors.toSet());
+		result = result.stream()
+				   .filter(i -> i.getWater()==(model.getWater()==null?false:model.getWater()))
+				   .collect(Collectors.toSet());
+		result = result.stream()
+				   .filter(i -> i.getGas()==(model.getGas()==null?false:model.getGas()))
+				   .collect(Collectors.toSet());
+		result = result.stream()
+				   .filter(i -> i.getSewer()==(model.getSewer()==null?false:model.getSewer()))
+				   .collect(Collectors.toSet());
+		result = result.stream()
+				   .filter(i -> i.getInternet()==(model.getInternet()==null?false:model.getInternet()))
+				   .collect(Collectors.toSet());
+		
+		// with each 'if' result shrinks
+		if(RestPreconditions.checkString(model.getCountry())) {
+			result = result.stream()
+				.filter(i -> i.getCountry().equals(model.getCountry()))
+				.collect(Collectors.toSet());
+		}
+		if(RestPreconditions.checkString(model.getCity())) {
+			result = result.stream()
+				.filter(i -> i.getCity().equals(model.getCity()))
+				.collect(Collectors.toSet());
+		}
+		if(model.getMaxPrice()!=null) {
+			result = result.stream()
+				.filter(i -> i.getPrice()<model.getMaxPrice())
+				.collect(Collectors.toSet());
+		}
+		if(model.getMinPrice()!=null) {
+			result = result.stream()
+				.filter(i -> i.getPrice()>model.getMinPrice())
+				.collect(Collectors.toSet());
+		}
+		if(model.getMaxSize()!=null) {
+			result = result.stream()
+				.filter(i -> i.getCity().equals(model.getCity()))
+				.collect(Collectors.toSet());
+		}
+		if(model.getMinSize()!=null) {
+			result = result.stream()
+				.filter(i -> i.getCity().equals(model.getCity()))
+				.collect(Collectors.toSet());
+		}
+		return result;
+	}
+	
+	private List<PlotDTO> convertJpaListToModelList(List<PlotJPA> input){
+		return input.stream()
+				.map(j -> {
+					try {
+						return convertJpaToModel(j);
+					} catch (MyRestPreconditionsException e) {
+						return null;
+					}
+				})
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 	}
 	
 	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException{
