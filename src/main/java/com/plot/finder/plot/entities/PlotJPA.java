@@ -95,7 +95,7 @@ public class PlotJPA {
 	@Column
 	private String currency;
 	
-	@Column
+	@Column(name="_type")
 	private Boolean type;
 
 	@Column

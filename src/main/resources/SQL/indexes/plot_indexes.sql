@@ -1,4 +1,4 @@
-CREATE BITMAP INDEX MyBitmapIndex ON plot(`power`,`water`,`gas`,`sewer`,`internet`,`garage`,`house`,`farming`,`grazing`,`orchard`);
+CREATE BITMAP INDEX MyBitmapIndex ON plot(`power`,`water`,`gas`,`sewer`,`internet`,`garage`,`house`,`farming`,`grazing`,`orchard`, `_type`);
 
 CREATE INDEX CountryIndex ON plot(`country`);
 
