@@ -15,7 +15,7 @@ import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.plot.entities.PlotJPA;
-import com.plot.finder.plot.repository.CriteriaPlotRepository;
+import com.plot.finder.plot.repository.PlotCriteriaRepository;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
@@ -28,16 +28,16 @@ public class PlotServiceImpl implements PlotService {
 	private PlotRepository plotRepo;
 	private UserRepository userRepo;
 	private StorageService storageServiceImpl;
-	private CriteriaPlotRepository criteriaPlotRepository;
+	private PlotCriteriaRepository plotCriteriaRepo;
 	
 	private static final Integer MAX_NUM_PLOTS = 3;
 	
 	@Autowired
-	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, CriteriaPlotRepository criteriaPlotRepository) {
+	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, PlotCriteriaRepository plotCriteriaRepo) {
 		this.plotRepo = plotRepo;
 		this.userRepo = userRepo;
 		this.storageServiceImpl = storageServiceImpl;
-		this.criteriaPlotRepository = criteriaPlotRepository;
+		this.plotCriteriaRepo = plotCriteriaRepo;
 	}
 	
 	// convert model to jpa :
@@ -59,22 +59,25 @@ public class PlotServiceImpl implements PlotService {
 		model.setCountry(jpa.getCountry());
 		model.setDescription(jpa.getDescription());
 		model.setTitle(jpa.getTitle());
-		
-		model.setGarage(jpa.isGarage());
-		model.setGas(jpa.isGas());
-		model.setInternet(jpa.isInternet());
-		model.setPower(jpa.isPower());
-		model.setSewer(jpa.isSewer());
-		model.setWater(jpa.isWater());
 		model.setSize(jpa.getSize());
-		
-		model.setHouse(jpa.getHouse());
-		model.setFarming(jpa.getFarming());
-		model.setGrazing(jpa.getGrazing());
-		model.setOrchard(jpa.getOrchard());
 		model.setAdded(jpa.getAdded());
 		
-		model.setType( jpa.getType() ? "SALE" : "RENT");
+		model.setGarage(jpa.containsFlag("garage"));
+		model.setGas(jpa.containsFlag("gas"));
+		model.setInternet(jpa.containsFlag("internet"));
+		model.setPower(jpa.containsFlag("power"));
+		model.setSewer(jpa.containsFlag("sewer"));
+		model.setWater(jpa.containsFlag("water"));
+		model.setHouse(jpa.containsFlag("house"));
+		model.setFarming(jpa.containsFlag("farming"));
+		model.setGrazing(jpa.containsFlag("grazing"));
+		model.setOrchard(jpa.containsFlag("orchard"));
+		
+		if(jpa.containsFlag("sale")){
+			model.setType("SALE");
+		} else if(jpa.containsFlag("rent")){
+			model.setType("RENT");
+		}
 		
 		return model;
 	}
@@ -117,7 +120,7 @@ public class PlotServiceImpl implements PlotService {
 		RestPreconditions.assertTrue(ll.getLat()!=ur.getLat() && ll.getLng()!=ur.getLng(), 
 				title, "You did not enter a valid set of coordinates.");
 		
-		return convertJpaListToModelList(criteriaPlotRepository.getPlotByCoordinates(
+		return convertJpaListToModelList(plotCriteriaRepo.getPlotByCoordinates(
 											ll.getLng()<ur.getLng() ? ll.getLng() : ur.getLng(), 
 											ll.getLat()<ur.getLat() ? ll.getLat() : ur.getLat(),
 													
@@ -130,7 +133,7 @@ public class PlotServiceImpl implements PlotService {
 		RestPreconditions.assertTrue(checkPatchDataPresent(model) 
 				|| model.getMaxPrice()!=null || model.getMaxSize()!=null 
 				|| model.getMinPrice()!=null || model.getMinSize()!=null, "Find plots by properties error", "You must provide some search parameters");
-		return convertJpaListToModelList(criteriaPlotRepository.getPlotByProperties(model));
+		return convertJpaListToModelList(plotCriteriaRepo.getPlotByProperties(model));
 	}
 	
 	private List<PlotDTO> convertJpaListToModelList(List<PlotJPA> input){
@@ -163,41 +166,6 @@ public class PlotServiceImpl implements PlotService {
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
 			jpa = setCoordinates(model.getVertices(), jpa);
 		}
-		
-		if(model.isGarage()!=null) { // must be if, for edit
-			jpa.setGarage(model.getGarage());
-		}
-		if(model.isGas()!=null) { // must be if, for edit
-			jpa.setGarage(model.getGas());
-		}
-		if(model.isInternet()!=null) { // must be if, for edit
-			jpa.setInternet(model.isInternet());
-		}
-		if(model.isPower()!=null) { // must be if, for edit
-			jpa.setPower(model.isPower());
-		}
-		if(model.isWater()!=null) { // must be if, for edit
-			jpa.setWater(model.isWater());
-		}
-		if(model.getSewer()!=null) { // must be if, for edit
-			jpa.setSewer(model.getSewer());
-		}
-		if(model.getHouse()!=null) {
-			jpa.setHouse(model.getHouse());
-		}
-		if(model.getFarming()!=null) {
-			jpa.setFarming(model.getFarming());
-		}
-		if(model.getGrazing()!=null) {
-			jpa.setGrazing(model.getGrazing());
-		}
-		if(model.getOrchard()!=null) {
-			jpa.setOrchard(model.getOrchard());
-		}
-		
-		if(RestPreconditions.checkString(model.getType())) {
-			jpa.setType("SALE".equals(model.getType()));
-		}
 		if(RestPreconditions.checkString(model.getDistrict())) {
 			jpa.setDistrict(model.getDistrict());
 		}
@@ -227,6 +195,27 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(model.getSize()!=null) {
 			jpa.setSize(model.getSize());
+		}
+		
+		
+		jpa.addRemoveFlag("garage", model.isGarage());
+		jpa.addRemoveFlag("gas", model.isGas());
+		jpa.addRemoveFlag("internet", model.isInternet());
+		jpa.addRemoveFlag("power", model.isPower());
+		jpa.addRemoveFlag("water", model.isWater());
+		jpa.addRemoveFlag("sewer", model.getSewer());
+		jpa.addRemoveFlag("house", model.getHouse());
+		jpa.addRemoveFlag("farming", model.getFarming());
+		jpa.addRemoveFlag("grazing", model.getGrazing());
+		jpa.addRemoveFlag("orchard", model.getOrchard());
+		
+		if(RestPreconditions.checkString(model.getType())) {
+			if("SALE".equals(model.getType())){
+				jpa.addRemoveFlag("rent", false);
+			} else {
+				jpa.addRemoveFlag("sale", false);
+			}
+			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
 		}
 		
 		return jpa;
