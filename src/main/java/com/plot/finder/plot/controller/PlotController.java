@@ -162,7 +162,6 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody List<PlotDTO> findPlotsByProperties(@RequestBody final PlotDTO model) throws MyRestPreconditionsException{
-		RestPreconditions.checkNotNull(model, "Find plots by properties error", "You must specify some search criteria.");
 		return plotServiceImpl.findPlotsByProperties(model);
 	}
 }

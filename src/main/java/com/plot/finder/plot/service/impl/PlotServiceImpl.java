@@ -116,6 +116,10 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	public List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException{
+		RestPreconditions.checkNotNull(model, "Find plots by properties error", "You must specify the request body.");
+		RestPreconditions.assertTrue(checkPatchDataPresent(model) 
+				|| model.getMaxPrice()!=null || model.getMaxSize()!=null 
+				|| model.getMinPrice()!=null || model.getMinSize()!=null, "Find plots by properties error", "You must provide some search parameters");
 		return convertJpaListToModelList(criteriaPlotRepository.getPlotByProperties(model));
 	}
 	
