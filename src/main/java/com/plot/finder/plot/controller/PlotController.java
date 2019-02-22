@@ -2,6 +2,8 @@ package com.plot.finder.plot.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
+import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.util.RestPreconditions;
 
@@ -145,5 +148,21 @@ public class PlotController {
 			e.printStackTrace();
 			throw ex;
 		}
+	}
+	
+	@RequestMapping(value="/fbv", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody List<PlotDTO> findPlotsByCoordinates(@RequestBody final List<Vertice> list) throws MyRestPreconditionsException{
+		RestPreconditions.assertTrue(list.size()==2, "Find plots by coordinates error", "You must input exactly 2 vertices");
+		return plotServiceImpl.findPlotsByCoordinates(list.get(0), list.get(1));
+	}
+	
+	@RequestMapping(value="/fbp", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody List<PlotDTO> findPlotsByProperties(@RequestBody final PlotDTO model) throws MyRestPreconditionsException{
+		RestPreconditions.checkNotNull(model, "Find plots by properties error", "You must specify some search criteria.");
+		return plotServiceImpl.findPlotsByProperties(model);
 	}
 }
