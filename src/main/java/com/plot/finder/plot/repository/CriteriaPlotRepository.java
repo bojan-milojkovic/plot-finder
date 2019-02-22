@@ -29,22 +29,22 @@ public class CriteriaPlotRepository {
 		
 		Predicate dPred = builder.disjunction();
 		
-		// plot's ll_x is between ll_x and ur_x :
+		// plot's ll_x is between ll_x and ur_x arguments :
 		dPred = builder.or(dPred, builder.and(
 										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ll_x), ll_x), 
 						   				builder.lessThanOrEqualTo(croot.get(PlotJPA_.ll_x), ur_x)));
 		
-		// plot's ur_x is between ll_x and ur_x :
+		// plot's ur_x is between ll_x and ur_x arguments :
 		dPred = builder.or(dPred, builder.and(
 										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ur_x), ll_x),
 										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ur_x), ur_x)));
 		
-		// plot's ll_y is between ll_y and ur_y :
+		// plot's ll_y is between ll_y and ur_y arguments :
 		dPred = builder.or(dPred, builder.and(
 										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ll_y), ll_y),
 										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ll_y), ur_y)));
 		
-		// plot's ur_y is between ll_y and ur_y :
+		// plot's ur_y is between ll_y and ur_y arguments :
 		dPred = builder.or(dPred, builder.and(
 										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ur_y), ll_y),
 										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ur_y), ur_y)));
@@ -82,12 +82,24 @@ public class CriteriaPlotRepository {
 			pred = builder.and(pred, builder.greaterThanOrEqualTo(croot.get(PlotJPA_.size), model.getMinSize()));
 		}
 		
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.power), model.getPower()==null ? true : model.getPower()));
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.water), model.getWater()==null ? true : model.getWater()));
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.gas), model.getGas()==null ? true : model.getGas()));
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.sewer), model.getSewer()==null ? true : model.getSewer()));
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.internet), model.getInternet()==null ? true : model.getInternet()));
-		pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.garage), model.getGarage()==null ? true : model.getGarage()));
+		if(model.getPower()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.power), model.getPower()));
+		}
+		if(model.getWater()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.water), model.getWater()));
+		}
+		if(model.getGas()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.gas), model.getGas()));
+		}
+		if(model.getSewer()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.sewer), model.getSewer()));
+		}
+		if(model.getInternet()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.internet), model.getInternet()));
+		}
+		if(model.getGarage()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.garage), model.getGarage()));
+		}
 		
 		return entityManagerFactory.createEntityManager().createQuery(cquerry.where(pred)).getResultList();
 	}

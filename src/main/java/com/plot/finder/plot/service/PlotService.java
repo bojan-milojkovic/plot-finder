@@ -1,7 +1,6 @@
 package com.plot.finder.plot.service;
 
 import java.util.List;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +24,4 @@ public interface PlotService {
 	List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException;
 	
 	List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException;
-	
-	Set<PlotDTO> filterPlotsByProperties(final Set<PlotDTO> list, final PlotDTO model) throws MyRestPreconditionsException;
 }

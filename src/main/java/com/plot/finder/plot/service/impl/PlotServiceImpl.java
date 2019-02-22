@@ -3,7 +3,6 @@ package com.plot.finder.plot.service.impl;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,62 +117,6 @@ public class PlotServiceImpl implements PlotService {
 	
 	public List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException{
 		return convertJpaListToModelList(criteriaPlotRepository.getPlotByProperties(model));
-	}
-	
-	public Set<PlotDTO> filterPlotsByProperties(final Set<PlotDTO> list, final PlotDTO model) throws MyRestPreconditionsException {
-		Set<PlotDTO> result = list;
-		
-		result = result.stream()
-					   .filter(i -> i.getGarage()==(model.getGarage()==null?false:model.getGarage()))
-					   .collect(Collectors.toSet());
-		result = result.stream()
-				   .filter(i -> i.getPower()==(model.getPower()==null?false:model.getPower()))
-				   .collect(Collectors.toSet());
-		result = result.stream()
-				   .filter(i -> i.getWater()==(model.getWater()==null?false:model.getWater()))
-				   .collect(Collectors.toSet());
-		result = result.stream()
-				   .filter(i -> i.getGas()==(model.getGas()==null?false:model.getGas()))
-				   .collect(Collectors.toSet());
-		result = result.stream()
-				   .filter(i -> i.getSewer()==(model.getSewer()==null?false:model.getSewer()))
-				   .collect(Collectors.toSet());
-		result = result.stream()
-				   .filter(i -> i.getInternet()==(model.getInternet()==null?false:model.getInternet()))
-				   .collect(Collectors.toSet());
-		
-		// with each 'if' result shrinks
-		if(RestPreconditions.checkString(model.getCountry())) {
-			result = result.stream()
-				.filter(i -> i.getCountry().equals(model.getCountry()))
-				.collect(Collectors.toSet());
-		}
-		if(RestPreconditions.checkString(model.getCity())) {
-			result = result.stream()
-				.filter(i -> i.getCity().equals(model.getCity()))
-				.collect(Collectors.toSet());
-		}
-		if(model.getMaxPrice()!=null) {
-			result = result.stream()
-				.filter(i -> i.getPrice()<model.getMaxPrice())
-				.collect(Collectors.toSet());
-		}
-		if(model.getMinPrice()!=null) {
-			result = result.stream()
-				.filter(i -> i.getPrice()>model.getMinPrice())
-				.collect(Collectors.toSet());
-		}
-		if(model.getMaxSize()!=null) {
-			result = result.stream()
-				.filter(i -> i.getCity().equals(model.getCity()))
-				.collect(Collectors.toSet());
-		}
-		if(model.getMinSize()!=null) {
-			result = result.stream()
-				.filter(i -> i.getCity().equals(model.getCity()))
-				.collect(Collectors.toSet());
-		}
-		return result;
 	}
 	
 	private List<PlotDTO> convertJpaListToModelList(List<PlotJPA> input){
