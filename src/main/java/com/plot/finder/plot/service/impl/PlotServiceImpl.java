@@ -1,5 +1,6 @@
 package com.plot.finder.plot.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -53,6 +54,7 @@ public class PlotServiceImpl implements PlotService {
 		
 		model.setAddress1(jpa.getAddress1());
 		model.setAddress2(jpa.getAddress2());
+		model.setDistrict(jpa.getDistrict());
 		model.setCity(jpa.getCity());
 		model.setCountry(jpa.getCountry());
 		model.setDescription(jpa.getDescription());
@@ -65,6 +67,14 @@ public class PlotServiceImpl implements PlotService {
 		model.setSewer(jpa.isSewer());
 		model.setWater(jpa.isWater());
 		model.setSize(jpa.getSize());
+		
+		model.setHouse(jpa.getHouse());
+		model.setFarming(jpa.getFarming());
+		model.setGrazing(jpa.getGrazing());
+		model.setOrchard(jpa.getOrchard());
+		model.setAdded(jpa.getAdded());
+		
+		model.setType( jpa.getType() ? "SALE" : "RENT");
 		
 		return model;
 	}
@@ -145,6 +155,7 @@ public class PlotServiceImpl implements PlotService {
 		
 		if(model.getId()==null) {
 			jpa = new PlotJPA();
+			jpa.setAdded(LocalDateTime.now());
 		} else {
 			jpa = plotRepo.getOne(model.getId());
 		}
@@ -153,25 +164,43 @@ public class PlotServiceImpl implements PlotService {
 			jpa = setCoordinates(model.getVertices(), jpa);
 		}
 		
-		if(model.isGarage()!=null) {
+		if(model.isGarage()!=null) { // must be if, for edit
 			jpa.setGarage(model.getGarage());
 		}
-		if(model.isGas()!=null) {
+		if(model.isGas()!=null) { // must be if, for edit
 			jpa.setGarage(model.getGas());
 		}
-		if(model.isInternet()!=null) {
+		if(model.isInternet()!=null) { // must be if, for edit
 			jpa.setInternet(model.isInternet());
 		}
-		if(model.isPower()!=null) {
+		if(model.isPower()!=null) { // must be if, for edit
 			jpa.setPower(model.isPower());
 		}
-		if(model.isWater()!=null) {
+		if(model.isWater()!=null) { // must be if, for edit
 			jpa.setWater(model.isWater());
 		}
-		if(model.getSewer()!=null) {
+		if(model.getSewer()!=null) { // must be if, for edit
 			jpa.setSewer(model.getSewer());
 		}
+		if(model.getHouse()!=null) {
+			jpa.setHouse(model.getHouse());
+		}
+		if(model.getFarming()!=null) {
+			jpa.setFarming(model.getFarming());
+		}
+		if(model.getGrazing()!=null) {
+			jpa.setGrazing(model.getGrazing());
+		}
+		if(model.getOrchard()!=null) {
+			jpa.setOrchard(model.getOrchard());
+		}
 		
+		if(RestPreconditions.checkString(model.getType())) {
+			jpa.setType("SALE".equals(model.getType()));
+		}
+		if(RestPreconditions.checkString(model.getDistrict())) {
+			jpa.setDistrict(model.getDistrict());
+		}
 		if(RestPreconditions.checkString(model.getAddress1())) {
 			jpa.setAddress1(model.getAddress1());
 		}
@@ -228,6 +257,12 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(!RestPreconditions.checkString(model.getAddress1())) {
 			e.getErrors().add("Address1 is mandatory");
+		}
+		if(!RestPreconditions.checkString(model.getDistrict())) {
+			e.getErrors().add("District is mandatory");
+		}
+		if(!RestPreconditions.checkString(model.getType())) {
+			e.getErrors().add("Type is mandatory (sale or rent)");
 		}
 		if(!RestPreconditions.checkString(model.getCity())) {
 			e.getErrors().add("city is mandatory");
@@ -315,6 +350,8 @@ public class PlotServiceImpl implements PlotService {
 				RestPreconditions.checkString(model.getCurrency()) ||
 				RestPreconditions.checkString(model.getDescription()) ||
 				RestPreconditions.checkString(model.getTitle()) ||
+				RestPreconditions.checkString(model.getDistrict()) ||
+				RestPreconditions.checkString(model.getType()) ||
 				
 				model.getSewer()!=null ||
 				model.isGarage()!=null ||
@@ -324,6 +361,12 @@ public class PlotServiceImpl implements PlotService {
 				model.isWater()!=null ||
 				model.getPrice()!=null ||
 				model.getSize()!=null ||
+				
+				model.getHouse()!=null ||
+				model.getFarming()!=null ||
+				model.getGrazing()!=null ||
+				model.getOrchard()!=null ||
+				
 				model.getFile1()!=null
 				;
 	}
@@ -392,5 +435,10 @@ public class PlotServiceImpl implements PlotService {
 									"Delete plot error", "You are trying to delete someone else's plot");
 		
 		plotRepo.deleteById(id);
+		
+		storageServiceImpl.deleteImage(id, "File1");
+		storageServiceImpl.deleteImage(id, "File2");
+		storageServiceImpl.deleteImage(id, "File3");
+		storageServiceImpl.deleteImage(id, "File4");
 	}
 }

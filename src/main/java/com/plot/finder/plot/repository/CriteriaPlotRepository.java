@@ -67,6 +67,16 @@ public class CriteriaPlotRepository {
 		if(RestPreconditions.checkString(model.getCountry())) {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.country), model.getCountry()));
 		}
+		if(RestPreconditions.checkString(model.getDistrict())) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.district), model.getDistrict()));
+		}
+		if(RestPreconditions.checkString(model.getAddress1())) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.address1), model.getAddress1()));
+		}
+		if(RestPreconditions.checkString(model.getAddress2())) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.address2), model.getAddress2()));
+		}
+		
 		
 		if(model.getMaxPrice()!=null) {
 			pred = builder.and(pred, builder.lessThanOrEqualTo(croot.get(PlotJPA_.price), model.getMaxPrice()));
@@ -100,7 +110,21 @@ public class CriteriaPlotRepository {
 		if(model.getGarage()!=null) {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.garage), model.getGarage()));
 		}
-		
+		if(model.getHouse()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.house), model.getHouse()));
+		}
+		if(model.getType()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.type), model.getType()));
+		}
+		if(model.getFarming()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.farming), model.getFarming()));
+		}
+		if(model.getGrazing()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.grazing), model.getGrazing()));
+		}
+		if(model.getOrchard()!=null) {
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.orchard), model.getOrchard()));
+		}
 		return entityManagerFactory.createEntityManager().createQuery(cquerry.where(pred)).getResultList();
 	}
 }

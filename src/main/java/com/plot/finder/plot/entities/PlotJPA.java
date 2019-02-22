@@ -1,5 +1,7 @@
 package com.plot.finder.plot.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,6 +60,9 @@ public class PlotJPA {
 	private String address2;
 	
 	@Column
+	private String district;
+	
+	@Column
 	private String city;
 	
 	@Column
@@ -89,7 +94,25 @@ public class PlotJPA {
 	
 	@Column
 	private String currency;
+	
+	@Column
+	private Boolean type;
 
+	@Column
+	private Boolean house;
+	
+	@Column
+	private Boolean farming;
+	
+	@Column
+	private Boolean orchard;
+	
+	@Column
+	private Boolean grazing;
+	
+	@Column
+	private LocalDateTime added;
+	
 
 	public Long getId() {
 		return id;
@@ -265,5 +288,61 @@ public class PlotJPA {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	public Boolean getType() {
+		return type;
+	}
+
+	public void setType(Boolean type) {
+		this.type = type;
+	}
+
+	public Boolean getHouse() {
+		return house;
+	}
+
+	public void setHouse(Boolean house) {
+		this.house = house;
+	}
+
+	public Boolean getFarming() {
+		return farming;
+	}
+
+	public void setFarming(Boolean farming) {
+		this.farming = farming;
+	}
+
+	public Boolean getOrchard() {
+		return orchard;
+	}
+
+	public void setOrchard(Boolean orchard) {
+		this.orchard = orchard;
+	}
+
+	public Boolean getGrazing() {
+		return grazing;
+	}
+
+	public void setGrazing(Boolean grazing) {
+		this.grazing = grazing;
+	}
+
+	public LocalDateTime getAdded() {
+		return added;
+	}
+
+	public void setAdded(LocalDateTime added) {
+		this.added = added;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 }

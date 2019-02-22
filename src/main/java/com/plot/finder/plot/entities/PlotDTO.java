@@ -1,6 +1,7 @@
 package com.plot.finder.plot.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Min;
@@ -47,6 +48,9 @@ public class PlotDTO implements Serializable {
 	private String address2;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private String district;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String city;
 	
 	@JsonProperty(access = Access.READ_WRITE)
@@ -55,6 +59,13 @@ public class PlotDTO implements Serializable {
 	@JsonProperty(access = Access.READ_WRITE)
 	@Pattern(regexp="[A-Z]{3}")
 	private String currency;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	@Pattern(regexp="^(SALE)|(RENT)$")
+	private String type;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean house;
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean power;
@@ -73,6 +84,15 @@ public class PlotDTO implements Serializable {
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean garage;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean farming;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean grazing;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean orchard;
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
@@ -97,6 +117,9 @@ public class PlotDTO implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@Min(1)
 	private Integer maxPrice;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime added;
 
 	public PlotDTO() {
 		super();
@@ -323,20 +346,59 @@ public class PlotDTO implements Serializable {
 		this.maxPrice = maxPrice;
 	}
 	
-	@Override
-	public boolean equals( Object o ) {
-		if( o != null && o instanceof PlotJPA) {
-			if(o==this) {
-        		return true;
-        	}
-			return this.id == ((PlotJPA)o).getId();
-		}
-		
-		return false;
+	public String getType() {
+		return type;
 	}
-	
-	@Override
-    public int hashCode() {
-		return id.hashCode();
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Boolean getHouse() {
+		return house;
+	}
+
+	public void setHouse(Boolean house) {
+		this.house = house;
+	}
+
+	public Boolean getFarming() {
+		return farming;
+	}
+
+	public void setFarming(Boolean farming) {
+		this.farming = farming;
+	}
+
+	public Boolean getGrazing() {
+		return grazing;
+	}
+
+	public void setGrazing(Boolean grazing) {
+		this.grazing = grazing;
+	}
+
+	public Boolean getOrchard() {
+		return orchard;
+	}
+
+	public void setOrchard(Boolean orchard) {
+		this.orchard = orchard;
+	}
+
+	public LocalDateTime getAdded() {
+		return added;
+	}
+
+	public void setAdded(LocalDateTime added) {
+		this.added = added;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 }

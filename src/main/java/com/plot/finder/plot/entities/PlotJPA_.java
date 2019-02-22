@@ -1,6 +1,9 @@
 package com.plot.finder.plot.entities;
 
 import com.plot.finder.user.entity.UserJPA;
+
+import java.time.LocalDateTime;
+
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -31,6 +34,12 @@ public abstract class PlotJPA_ {
 	public static volatile SingularAttribute<PlotJPA, Long> id;
 	public static volatile SingularAttribute<PlotJPA, Boolean> power;
 	public static volatile SingularAttribute<PlotJPA, Boolean> internet;
-
+	public static volatile SingularAttribute<PlotJPA, Boolean> house;
+	public static volatile SingularAttribute<PlotJPA, Boolean> farming;
+	public static volatile SingularAttribute<PlotJPA, Boolean> grazing;
+	public static volatile SingularAttribute<PlotJPA, Boolean> orchard;
+	public static volatile SingularAttribute<PlotJPA, Boolean> type;
+	public static volatile SingularAttribute<PlotJPA, LocalDateTime> added;
+	public static volatile SingularAttribute<PlotJPA, String> district;
 }
 
