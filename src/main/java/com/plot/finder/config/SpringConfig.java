@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Configuration
 @ComponentScan(basePackages={"com.plot.finder.*"})
+@EnableTransactionManagement
 public class SpringConfig {
 
 	@Bean

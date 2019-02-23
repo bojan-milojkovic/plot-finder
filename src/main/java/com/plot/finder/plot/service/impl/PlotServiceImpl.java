@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
@@ -298,19 +300,14 @@ public class PlotServiceImpl implements PlotService {
 				(RestPreconditions.checkNotNull(ujpa, 
 												"Create new plot error",
 												"User with username "+username+" doesn't exist.")) // this returns UserJPA
-									.getPlots().size()<=MAX_NUM_PLOTS, 
+									.getPlots().size()<MAX_NUM_PLOTS, 
 									"Create new plot error","You have reached the maximum number of plots you can create.");
 		
 		PlotJPA jpa = convertModelToJpa(model);
 		jpa.setUserJpa(ujpa);
 		ujpa.getPlots().add(jpa);
 		
-		jpa = plotRepo.save(jpa);
-		// save flags :
-		plotRepo.save(saveFlags(jpa,model));
-		
-		// save images :
-		saveModelFiles(model, jpa.getId());
+		saveAll(jpa, model);
 		
 		return convertJpaToModel(jpa);
 	}
@@ -365,6 +362,13 @@ public class PlotServiceImpl implements PlotService {
 				;
 	}
 	
+	@Transactional
+	private PlotJPA saveAll(PlotJPA jpa, PlotDTO model) throws MyRestPreconditionsException{
+		saveModelFiles(model, (plotRepo.save(saveFlags(plotRepo.save(jpa), model))).getId());
+		
+		return jpa;
+	}
+	
 	private void saveModelFiles(final PlotDTO model, final Long id) throws MyRestPreconditionsException {
 		if(model.getFile1()!=null) {
 			storageServiceImpl.saveImage(model.getFile1(), "File1", id);
@@ -411,12 +415,13 @@ public class PlotServiceImpl implements PlotService {
 			// save images :
 			saveModelFiles(model, id);
 			
-			return convertJpaToModel(plotRepo.save(convertModelToJpa(model)));
+			return convertJpaToModel(saveAll(convertModelToJpa(model), model));
 		} else {
 			throw new MyRestPreconditionsException("Edit plot error","You must provide some editable data");
 		}
 	}
 	
+	@Transactional
 	public void delete(final Long id, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		

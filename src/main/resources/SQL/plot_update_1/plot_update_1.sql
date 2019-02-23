@@ -9,7 +9,6 @@ ADD COLUMN `orchard` TINYINT(1) NOT NULL DEFAULT 0 AFTER `grazing`,
 CHANGE COLUMN `description` `description` TEXT NOT NULL ;
 
 ALTER TABLE plotfinder.plot
-DROP COLUMN `country`,
 DROP COLUMN `power`,
 DROP COLUMN `water`,
 DROP COLUMN `gas`,
