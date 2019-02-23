@@ -13,9 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.security.entities.UserHasRolesJPA;
+import com.plot.finder.watched.entity.WatchedJPA;
 
 @Entity
 @Table(name = "user")
@@ -71,6 +73,9 @@ public class UserJPA {
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PlotJPA> plots = new HashSet<PlotJPA>();
 
+	@OneToOne(mappedBy="userJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private WatchedJPA watched;
+	
 	public Long getId() {
 		return id;
 	}
@@ -205,5 +210,13 @@ public class UserJPA {
 
 	public void setPlots(Set<PlotJPA> plots) {
 		this.plots = plots;
+	}
+
+	public WatchedJPA getWatched() {
+		return watched;
+	}
+
+	public void setWatched(WatchedJPA watched) {
+		this.watched = watched;
 	}
 }
