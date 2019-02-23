@@ -22,7 +22,7 @@ public class Flags {
 	private String flag;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="plot_id")
 	private PlotJPA plotJpa;
 
 	public Flags() {

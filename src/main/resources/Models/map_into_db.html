@@ -38,6 +38,7 @@
 			<tr><td>Address1:</td> <td><input type="text" id="address1"/> </td> </tr>
 			<tr><td>Address2:</td> <td><input type="text" id="address2"/> </td> </tr>
 			<tr><td>City:</td> <td><input type="text" id="city"/> </td> </tr>
+			<tr><td>District:</td> <td><input type="text" id="district"/> </td> </tr>
 			<tr><td>Country:</td> <td><input type="text" id="country"/> </td> </tr>
 			<tr><td>Size:</td> <td><input type="text" id="size"/> </td> </tr>
 			<tr><td>Price:</td> <td><input type="text" id="price"/> </td> </tr>
@@ -55,12 +56,15 @@
 	<form id="form2">
 		<table>
 			<tr><th>Enter aditional plot information :</th></tr>
-			<tr><td><input type="checkbox" id="power"/>Power</td></tr>
-			<tr><td><input type="checkbox" id="water"/>Water</td></tr>
-			<tr><td><input type="checkbox" id="gas"/>Gas</td></tr>
-			<tr><td><input type="checkbox" id="sewer"/>Sewer</td></tr>
-			<tr><td><input type="checkbox" id="internet"/>Internet</td></tr>
-			<tr><td><input type="checkbox" id="garage"/>Garage</td></tr>
+			<tr><td><select id="type">
+						<option value="SALE" SELECTED>SELE</option>
+						<option value="RENT">RENT</option>
+					</select></td></tr>
+			<tr><td><input type="checkbox" id="water"/>Water</td><td><input type="checkbox" id="house"/>plot has a house</td></tr>
+			<tr><td><input type="checkbox" id="gas"/>Gas</td><td><input type="checkbox" id="farming"/>Land is for farming</td></tr>
+			<tr><td><input type="checkbox" id="sewer"/>Sewer</td><td><input type="checkbox" id="grazing"/>Land is for grazing</td></tr>
+			<tr><td><input type="checkbox" id="internet"/>Internet</td><td><input type="checkbox" id="Orchard"/>Land is an orchard</td></tr>
+			<tr><td><input type="checkbox" id="garage"/>Garage</td><td><input type="checkbox" id="power"/>Power</td></tr>
 			<tr><td><input type="button" value="Back" onclick="openForm1()"/></td>
 				<td><input type="button" value="Next" onclick="saveData2();openForm3();"/></td></tr>
 		</table>
@@ -68,8 +72,7 @@
 	
 	<form id="form3">
 		<table>
-			<tr><th>Upload up to 5 images :</th></tr>
-			<tr><td>(not implemented yet)</td></tr>
+			<tr><th>Upload up to 4 images :</th></tr>
 			<tr><td><input type="file" id="file1" accept="image/*"/></td></tr>
 			<tr><td><input type="file" id="file2" accept="image/*"/></td></tr>
 			<tr><td><input type="file" id="file3" accept="image/*"/></td></tr>
@@ -102,7 +105,7 @@
 		var formData;
 		var myJson, data1, data2, data3;
 		
-		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU1MDQxMDc5NjQ0NSwicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU1MDQxMjU5Nn0.ZWxMyMmxJEk3gxxgUAhh0o1iQJvR4LIDA2lIbkSam0WIoT1m6DXDfhEkKxR-Y-d1fXJvAdXglM5zASn9ZKVMKw';	
+		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU1MDkxNDkzOTQ5MywicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU1MDkxNjczOX0.ud4eMVXjSf4-ukOu5SvIeEvvVVfh-jCtR-6JPG0z_fF4xJ6VITZ3uGemnliJ2vVnnpFThxo5wVisfQPRYuynfQ';	
 		
 		function initMap(){
 			map = new google.maps.Map(
@@ -206,6 +209,7 @@
 				'\"address1\" : \"'+escape(document.getElementById('address1').value)+'\",' +
 				'\"address2\" : \"'+escape(document.getElementById('address2').value)+'\",' +
 				'\"city\" : \"'+escape(document.getElementById('city').value)+'\",' +
+				'\"district\" : \"'+escape(document.getElementById('district').value)+'\",' +
 				'\"country\" : \"'+escape(document.getElementById('country').value)+'\",' +
 				'\"size\" : \"'+escape(document.getElementById('size').value)+'\",' +
 				'\"price\" : \"'+escape(document.getElementById('price').value)+'\",' +
@@ -238,7 +242,12 @@
 				'\"gas\" : \"'+getChecked(document.getElementById('gas'))+'\",' +
 				'\"sewer\" : \"'+getChecked(document.getElementById('sewer'))+'\",' +
 				'\"internet\" : \"'+getChecked(document.getElementById('internet'))+'\",' +
-				'\"garage\" : \"'+getChecked(document.getElementById('garage'))+'\",'
+				'\"garage\" : \"'+getChecked(document.getElementById('garage'))+'\",' +
+				'\"house\" : \"'+getChecked(document.getElementById('house'))+'\",' +
+				'\"farming\" : \"'+getChecked(document.getElementById('farming'))+'\",' +
+				'\"grazing\" : \"'+getChecked(document.getElementById('grazing'))+'\",' +
+				'\"orchard\" : \"'+getChecked(document.getElementById('orchard'))+'\",' +
+				'\"type\" : \"'+document.getElementById('type').value+'\",'
 			);
 		}
 		

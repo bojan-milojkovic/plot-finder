@@ -159,8 +159,10 @@ public class PlotServiceImpl implements PlotService {
 		if(model.getId()==null) {
 			jpa = new PlotJPA();
 			jpa.setAdded(LocalDateTime.now());
+			// for add, we save flags later
 		} else {
 			jpa = plotRepo.getOne(model.getId());
+			jpa = saveFlags(jpa, model);
 		}
 		
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
@@ -197,27 +199,6 @@ public class PlotServiceImpl implements PlotService {
 			jpa.setSize(model.getSize());
 		}
 		
-		
-		jpa.addRemoveFlag("garage", model.isGarage());
-		jpa.addRemoveFlag("gas", model.isGas());
-		jpa.addRemoveFlag("internet", model.isInternet());
-		jpa.addRemoveFlag("power", model.isPower());
-		jpa.addRemoveFlag("water", model.isWater());
-		jpa.addRemoveFlag("sewer", model.getSewer());
-		jpa.addRemoveFlag("house", model.getHouse());
-		jpa.addRemoveFlag("farming", model.getFarming());
-		jpa.addRemoveFlag("grazing", model.getGrazing());
-		jpa.addRemoveFlag("orchard", model.getOrchard());
-		
-		if(RestPreconditions.checkString(model.getType())) {
-			if("SALE".equals(model.getType())){
-				jpa.addRemoveFlag("rent", false);
-			} else {
-				jpa.addRemoveFlag("sale", false);
-			}
-			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
-		}
-		
 		return jpa;
 	}
 	
@@ -247,14 +228,11 @@ public class PlotServiceImpl implements PlotService {
 		if(!RestPreconditions.checkString(model.getAddress1())) {
 			e.getErrors().add("Address1 is mandatory");
 		}
-		if(!RestPreconditions.checkString(model.getDistrict())) {
-			e.getErrors().add("District is mandatory");
-		}
 		if(!RestPreconditions.checkString(model.getType())) {
 			e.getErrors().add("Type is mandatory (sale or rent)");
 		}
-		if(!RestPreconditions.checkString(model.getCity())) {
-			e.getErrors().add("city is mandatory");
+		if(!(RestPreconditions.checkString(model.getCity()) || RestPreconditions.checkString(model.getDistrict()))) {
+			e.getErrors().add("you must enter ether city or district");
 		}
 		if(!RestPreconditions.checkString(model.getCountry())) {
 			e.getErrors().add("country is mandatory");
@@ -272,6 +250,30 @@ public class PlotServiceImpl implements PlotService {
 		if(!e.getErrors().isEmpty()){
 			throw e;
 		}
+	}
+	
+	private PlotJPA saveFlags(PlotJPA jpa, PlotDTO model){
+		jpa.addRemoveFlag("garage", model.isGarage());
+		jpa.addRemoveFlag("gas", model.isGas());
+		jpa.addRemoveFlag("internet", model.isInternet());
+		jpa.addRemoveFlag("power", model.isPower());
+		jpa.addRemoveFlag("water", model.isWater());
+		jpa.addRemoveFlag("sewer", model.getSewer());
+		jpa.addRemoveFlag("house", model.getHouse());
+		jpa.addRemoveFlag("farming", model.getFarming());
+		jpa.addRemoveFlag("grazing", model.getGrazing());
+		jpa.addRemoveFlag("orchard", model.getOrchard());
+		
+		if(RestPreconditions.checkString(model.getType())) {
+			if("SALE".equals(model.getType())){
+				jpa.addRemoveFlag("rent", false);
+			} else {
+				jpa.addRemoveFlag("sale", false);
+			}
+			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
+		}
+		
+		return jpa;
 	}
 	
 	private void checkFiles(PlotDTO model) throws MyRestPreconditionsException {
@@ -304,6 +306,9 @@ public class PlotServiceImpl implements PlotService {
 		ujpa.getPlots().add(jpa);
 		
 		jpa = plotRepo.save(jpa);
+		// save flags :
+		plotRepo.save(saveFlags(jpa,model));
+		
 		// save images :
 		saveModelFiles(model, jpa.getId());
 		
