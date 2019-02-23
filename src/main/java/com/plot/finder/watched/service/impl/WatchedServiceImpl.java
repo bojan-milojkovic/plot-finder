@@ -3,6 +3,7 @@ package com.plot.finder.watched.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
+import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
@@ -84,5 +85,14 @@ public class WatchedServiceImpl implements WatchedService {
 	public void deleteArea(final String username) throws MyRestPreconditionsException {
 		watchedRepo.delete(RestPreconditions.checkNotNull(userRepo.findOneByUsername(username).getWatched(),
 				   "Delete watched area error","User "+ username +" doesn't have a watched area."));
+	}
+	
+	public void checkNewPlotIsInsideAnArea(final PlotJPA entity){
+		
+		watchedRepo.findAreasWatchingPlot(entity.getLl_x(), entity.getLl_y(), entity.getUr_x(), entity.getUr_y())
+			.stream()
+			.forEach(j->{
+				//TODO: Send an email to the user about the new plot in his watched area
+			});
 	}
 }

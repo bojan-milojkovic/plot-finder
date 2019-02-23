@@ -23,6 +23,7 @@ import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
+import com.plot.finder.watched.service.WatchedService;
 
 @Service
 public class PlotServiceImpl implements PlotService {
@@ -31,15 +32,17 @@ public class PlotServiceImpl implements PlotService {
 	private UserRepository userRepo;
 	private StorageService storageServiceImpl;
 	private PlotCriteriaRepository plotCriteriaRepo;
+	private WatchedService watchedServiceImpl;
 	
 	private static final Integer MAX_NUM_PLOTS = 3;
 	
 	@Autowired
-	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, PlotCriteriaRepository plotCriteriaRepo) {
+	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, PlotCriteriaRepository plotCriteriaRepo, WatchedService watchedServiceImpl) {
 		this.plotRepo = plotRepo;
 		this.userRepo = userRepo;
 		this.storageServiceImpl = storageServiceImpl;
 		this.plotCriteriaRepo = plotCriteriaRepo;
+		this.watchedServiceImpl = watchedServiceImpl;
 	}
 	
 	// convert model to jpa :
@@ -308,6 +311,8 @@ public class PlotServiceImpl implements PlotService {
 		ujpa.getPlots().add(jpa);
 		
 		saveAll(jpa, model);
+		
+		watchedServiceImpl.checkNewPlotIsInsideAnArea(jpa);
 		
 		return convertJpaToModel(jpa);
 	}

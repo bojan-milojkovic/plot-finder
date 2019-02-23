@@ -11,3 +11,8 @@ CREATE INDEX CityIndex ON plotfinder.plot(city);
 CREATE INDEX DistrictIndex ON plotfinder.plot(district);
 
 CREATE INDEX FlagsIndex ON plotfinder.flags(plot_id,flag);
+
+CREATE INDEX ll_x_index ON plotfinder.watched_area(ll_x);
+CREATE INDEX ll_y_index ON plotfinder.watched_area(ll_y);
+CREATE INDEX ur_x_index ON plotfinder.watched_area(ur_x);
+CREATE INDEX ur_y_index ON plotfinder.watched_area(ur_y);
