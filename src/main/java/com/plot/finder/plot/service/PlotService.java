@@ -1,11 +1,12 @@
 package com.plot.finder.plot.service;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
+import com.plot.finder.plot.entities.Vertice;
 
 public interface PlotService {
 	
@@ -18,4 +19,9 @@ public interface PlotService {
 	void delete(final Long id, final String username) throws MyRestPreconditionsException;
 	
 	ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException;
+
+	
+	List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException;
+	
+	List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException;
 }

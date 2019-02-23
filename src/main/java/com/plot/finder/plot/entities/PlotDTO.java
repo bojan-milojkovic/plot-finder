@@ -1,9 +1,12 @@
 package com.plot.finder.plot.entities;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,17 +48,24 @@ public class PlotDTO implements Serializable {
 	private String address2;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private String district;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String city;
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	private String country;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	@Min(1)
-	private Integer price;
+	@Pattern(regexp="[A-Z]{3}")
+	private String currency;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	private String currency;
+	@Pattern(regexp="^(SALE)|(RENT)$")
+	private String type;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean house;
 	
 	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean power;
@@ -76,8 +86,40 @@ public class PlotDTO implements Serializable {
 	private Boolean garage;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean farming;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean grazing;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean orchard;
+	
+	@JsonProperty(access = Access.READ_WRITE)
+	@Min(1)
+	private Integer price;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
 	private Integer size;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer minSize;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer maxSize;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer minPrice;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Min(1)
+	private Integer maxPrice;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private LocalDateTime added;
 
 	public PlotDTO() {
 		super();
@@ -270,5 +312,93 @@ public class PlotDTO implements Serializable {
 
 	public void setFile4(MultipartFile file4) {
 		this.file4 = file4;
+	}
+
+	public Integer getMinSize() {
+		return minSize;
+	}
+
+	public void setMinSize(Integer minSize) {
+		this.minSize = minSize;
+	}
+
+	public Integer getMaxSize() {
+		return maxSize;
+	}
+
+	public void setMaxSize(Integer maxSize) {
+		this.maxSize = maxSize;
+	}
+
+	public Integer getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(Integer minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public Integer getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(Integer maxPrice) {
+		this.maxPrice = maxPrice;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Boolean getHouse() {
+		return house;
+	}
+
+	public void setHouse(Boolean house) {
+		this.house = house;
+	}
+
+	public Boolean getFarming() {
+		return farming;
+	}
+
+	public void setFarming(Boolean farming) {
+		this.farming = farming;
+	}
+
+	public Boolean getGrazing() {
+		return grazing;
+	}
+
+	public void setGrazing(Boolean grazing) {
+		this.grazing = grazing;
+	}
+
+	public Boolean getOrchard() {
+		return orchard;
+	}
+
+	public void setOrchard(Boolean orchard) {
+		this.orchard = orchard;
+	}
+
+	public LocalDateTime getAdded() {
+		return added;
+	}
+
+	public void setAdded(LocalDateTime added) {
+		this.added = added;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 }

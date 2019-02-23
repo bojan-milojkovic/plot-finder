@@ -1,11 +1,11 @@
 package com.plot.finder.plot.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.repository.PlotCriteriaRepository;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
@@ -27,14 +28,16 @@ public class PlotServiceImpl implements PlotService {
 	private PlotRepository plotRepo;
 	private UserRepository userRepo;
 	private StorageService storageServiceImpl;
+	private PlotCriteriaRepository plotCriteriaRepo;
 	
 	private static final Integer MAX_NUM_PLOTS = 3;
 	
 	@Autowired
-	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl) {
+	public PlotServiceImpl(PlotRepository plotRepo, UserRepository userRepo, StorageService storageServiceImpl, PlotCriteriaRepository plotCriteriaRepo) {
 		this.plotRepo = plotRepo;
 		this.userRepo = userRepo;
 		this.storageServiceImpl = storageServiceImpl;
+		this.plotCriteriaRepo = plotCriteriaRepo;
 	}
 	
 	// convert model to jpa :
@@ -51,18 +54,30 @@ public class PlotServiceImpl implements PlotService {
 		
 		model.setAddress1(jpa.getAddress1());
 		model.setAddress2(jpa.getAddress2());
+		model.setDistrict(jpa.getDistrict());
 		model.setCity(jpa.getCity());
 		model.setCountry(jpa.getCountry());
 		model.setDescription(jpa.getDescription());
 		model.setTitle(jpa.getTitle());
-		
-		model.setGarage(jpa.isGarage());
-		model.setGas(jpa.isGas());
-		model.setInternet(jpa.isInternet());
-		model.setPower(jpa.isPower());
-		model.setSewer(jpa.isSewer());
-		model.setWater(jpa.isWater());
 		model.setSize(jpa.getSize());
+		model.setAdded(jpa.getAdded());
+		
+		model.setGarage(jpa.containsFlag("garage"));
+		model.setGas(jpa.containsFlag("gas"));
+		model.setInternet(jpa.containsFlag("internet"));
+		model.setPower(jpa.containsFlag("power"));
+		model.setSewer(jpa.containsFlag("sewer"));
+		model.setWater(jpa.containsFlag("water"));
+		model.setHouse(jpa.containsFlag("house"));
+		model.setFarming(jpa.containsFlag("farming"));
+		model.setGrazing(jpa.containsFlag("grazing"));
+		model.setOrchard(jpa.containsFlag("orchard"));
+		
+		if(jpa.containsFlag("sale")){
+			model.setType("SALE");
+		} else if(jpa.containsFlag("rent")){
+			model.setType("RENT");
+		}
 		
 		return model;
 	}
@@ -92,6 +107,48 @@ public class PlotServiceImpl implements PlotService {
 		return jpa;
 	}
 	
+	public List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException{
+		String title = "Find plots by coordinates error";
+		RestPreconditions.assertTrue(Math.abs(ll.getLat()) < 90, 
+				title, "(LL) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ur.getLat()) < 90, 
+				title, "(UR) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ll.getLng()) < 180, 
+				title, "(LL) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(Math.abs(ur.getLng()) < 180, 
+				title, "(UR) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(ll.getLat()!=ur.getLat() && ll.getLng()!=ur.getLng(), 
+				title, "You did not enter a valid set of coordinates.");
+		
+		return convertJpaListToModelList(plotCriteriaRepo.getPlotByCoordinates(
+											ll.getLng()<ur.getLng() ? ll.getLng() : ur.getLng(), 
+											ll.getLat()<ur.getLat() ? ll.getLat() : ur.getLat(),
+													
+											ll.getLng()>ur.getLng() ? ll.getLng() : ur.getLng(), 
+											ll.getLat()>ur.getLat() ? ll.getLat() : ur.getLat()   ));
+	}
+	
+	public List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException{
+		RestPreconditions.checkNotNull(model, "Find plots by properties error", "You must specify the request body.");
+		RestPreconditions.assertTrue(checkPatchDataPresent(model) 
+				|| model.getMaxPrice()!=null || model.getMaxSize()!=null 
+				|| model.getMinPrice()!=null || model.getMinSize()!=null, "Find plots by properties error", "You must provide some search parameters");
+		return convertJpaListToModelList(plotCriteriaRepo.getPlotByProperties(model));
+	}
+	
+	private List<PlotDTO> convertJpaListToModelList(List<PlotJPA> input){
+		return input.stream()
+				.map(j -> {
+					try {
+						return convertJpaToModel(j);
+					} catch (MyRestPreconditionsException e) {
+						return null;
+					}
+				})
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+	}
+	
 	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException{
 		return storageServiceImpl.getImage(id, name, isThumbnail, request);
 	}
@@ -101,33 +158,19 @@ public class PlotServiceImpl implements PlotService {
 		
 		if(model.getId()==null) {
 			jpa = new PlotJPA();
+			jpa.setAdded(LocalDateTime.now());
+			// for add, we save flags later
 		} else {
 			jpa = plotRepo.getOne(model.getId());
+			jpa = saveFlags(jpa, model);
 		}
 		
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
 			jpa = setCoordinates(model.getVertices(), jpa);
 		}
-		
-		if(model.isGarage()!=null) {
-			jpa.setGarage(model.getGarage());
+		if(RestPreconditions.checkString(model.getDistrict())) {
+			jpa.setDistrict(model.getDistrict());
 		}
-		if(model.isGas()!=null) {
-			jpa.setGarage(model.getGas());
-		}
-		if(model.isInternet()!=null) {
-			jpa.setInternet(model.isInternet());
-		}
-		if(model.isPower()!=null) {
-			jpa.setPower(model.isPower());
-		}
-		if(model.isWater()!=null) {
-			jpa.setWater(model.isWater());
-		}
-		if(model.getSewer()!=null) {
-			jpa.setSewer(model.getSewer());
-		}
-		
 		if(RestPreconditions.checkString(model.getAddress1())) {
 			jpa.setAddress1(model.getAddress1());
 		}
@@ -185,8 +228,11 @@ public class PlotServiceImpl implements PlotService {
 		if(!RestPreconditions.checkString(model.getAddress1())) {
 			e.getErrors().add("Address1 is mandatory");
 		}
-		if(!RestPreconditions.checkString(model.getCity())) {
-			e.getErrors().add("city is mandatory");
+		if(!RestPreconditions.checkString(model.getType())) {
+			e.getErrors().add("Type is mandatory (sale or rent)");
+		}
+		if(!(RestPreconditions.checkString(model.getCity()) || RestPreconditions.checkString(model.getDistrict()))) {
+			e.getErrors().add("you must enter ether city or district");
 		}
 		if(!RestPreconditions.checkString(model.getCountry())) {
 			e.getErrors().add("country is mandatory");
@@ -204,6 +250,30 @@ public class PlotServiceImpl implements PlotService {
 		if(!e.getErrors().isEmpty()){
 			throw e;
 		}
+	}
+	
+	private PlotJPA saveFlags(PlotJPA jpa, PlotDTO model){
+		jpa.addRemoveFlag("garage", model.isGarage());
+		jpa.addRemoveFlag("gas", model.isGas());
+		jpa.addRemoveFlag("internet", model.isInternet());
+		jpa.addRemoveFlag("power", model.isPower());
+		jpa.addRemoveFlag("water", model.isWater());
+		jpa.addRemoveFlag("sewer", model.getSewer());
+		jpa.addRemoveFlag("house", model.getHouse());
+		jpa.addRemoveFlag("farming", model.getFarming());
+		jpa.addRemoveFlag("grazing", model.getGrazing());
+		jpa.addRemoveFlag("orchard", model.getOrchard());
+		
+		if(RestPreconditions.checkString(model.getType())) {
+			if("SALE".equals(model.getType())){
+				jpa.addRemoveFlag("rent", false);
+			} else {
+				jpa.addRemoveFlag("sale", false);
+			}
+			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
+		}
+		
+		return jpa;
 	}
 	
 	private void checkFiles(PlotDTO model) throws MyRestPreconditionsException {
@@ -236,6 +306,9 @@ public class PlotServiceImpl implements PlotService {
 		ujpa.getPlots().add(jpa);
 		
 		jpa = plotRepo.save(jpa);
+		// save flags :
+		plotRepo.save(saveFlags(jpa,model));
+		
 		// save images :
 		saveModelFiles(model, jpa.getId());
 		
@@ -271,6 +344,8 @@ public class PlotServiceImpl implements PlotService {
 				RestPreconditions.checkString(model.getCurrency()) ||
 				RestPreconditions.checkString(model.getDescription()) ||
 				RestPreconditions.checkString(model.getTitle()) ||
+				RestPreconditions.checkString(model.getDistrict()) ||
+				RestPreconditions.checkString(model.getType()) ||
 				
 				model.getSewer()!=null ||
 				model.isGarage()!=null ||
@@ -280,6 +355,12 @@ public class PlotServiceImpl implements PlotService {
 				model.isWater()!=null ||
 				model.getPrice()!=null ||
 				model.getSize()!=null ||
+				
+				model.getHouse()!=null ||
+				model.getFarming()!=null ||
+				model.getGrazing()!=null ||
+				model.getOrchard()!=null ||
+				
 				model.getFile1()!=null
 				;
 	}
@@ -348,5 +429,10 @@ public class PlotServiceImpl implements PlotService {
 									"Delete plot error", "You are trying to delete someone else's plot");
 		
 		plotRepo.deleteById(id);
+		
+		storageServiceImpl.deleteImage(id, "File1");
+		storageServiceImpl.deleteImage(id, "File2");
+		storageServiceImpl.deleteImage(id, "File3");
+		storageServiceImpl.deleteImage(id, "File4");
 	}
 }

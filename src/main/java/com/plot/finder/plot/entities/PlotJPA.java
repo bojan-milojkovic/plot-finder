@@ -1,12 +1,18 @@
 package com.plot.finder.plot.entities;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.plot.finder.user.entity.UserJPA;
 
@@ -58,28 +64,13 @@ public class PlotJPA {
 	private String address2;
 	
 	@Column
+	private String district;
+	
+	@Column
 	private String city;
 	
 	@Column
 	private String country;
-	
-	@Column
-	private boolean power;
-	
-	@Column
-	private boolean water;
-	
-	@Column
-	private boolean gas;
-	
-	@Column
-	private boolean sewer;
-	
-	@Column
-	private boolean internet;
-	
-	@Column
-	private boolean garage;
 	
 	@Column
 	private Integer price;
@@ -89,7 +80,28 @@ public class PlotJPA {
 	
 	@Column
 	private String currency;
-
+	
+	@Column
+	private LocalDateTime added;
+	
+	@OneToMany(mappedBy="plotJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private Set<Flags> flags = new HashSet<Flags>();	
+	
+	
+	public boolean containsFlag(final String flag){
+		return flags.contains(new Flags(flag, this));
+	}
+	
+	public void addRemoveFlag(final String flag, final Boolean add){
+		if(add != null){
+			if(add){
+				flags.add(new Flags(flag, this));
+			} else {
+				flags.remove(new Flags(flag, this));
+			}
+		}
+	}
+	
 
 	public Long getId() {
 		return id;
@@ -179,54 +191,6 @@ public class PlotJPA {
 		this.address2 = address2;
 	}
 
-	public boolean isPower() {
-		return power;
-	}
-
-	public void setPower(boolean power) {
-		this.power = power;
-	}
-
-	public boolean isWater() {
-		return water;
-	}
-
-	public void setWater(boolean water) {
-		this.water = water;
-	}
-
-	public boolean isGas() {
-		return gas;
-	}
-
-	public void setGas(boolean gas) {
-		this.gas = gas;
-	}
-
-	public boolean isSewer() {
-		return sewer;
-	}
-
-	public void setSewer(boolean sewer) {
-		this.sewer = sewer;
-	}
-
-	public boolean isInternet() {
-		return internet;
-	}
-
-	public void setInternet(boolean internet) {
-		this.internet = internet;
-	}
-
-	public boolean isGarage() {
-		return garage;
-	}
-
-	public void setGarage(boolean garage) {
-		this.garage = garage;
-	}
-
 	public String getCity() {
 		return city;
 	}
@@ -265,5 +229,29 @@ public class PlotJPA {
 
 	public void setSize(Integer size) {
 		this.size = size;
+	}
+
+	public LocalDateTime getAdded() {
+		return added;
+	}
+
+	public void setAdded(LocalDateTime added) {
+		this.added = added;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public Set<Flags> getFlags() {
+		return flags;
+	}
+
+	public void setFlags(Set<Flags> flags) {
+		this.flags = flags;
 	}
 }

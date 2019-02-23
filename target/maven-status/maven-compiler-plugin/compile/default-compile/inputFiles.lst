@@ -13,6 +13,7 @@ C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\Pl
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\user\service\impl\UserServiceImpl.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\service\PlotService.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\PlotFinderApplication.java
+C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\Flags.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\entities\RoleJPA.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\user\entity\UserDTO.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\util\MyBadInputResponse.java
@@ -20,18 +21,20 @@ C:\Users\Lazaruss\git\plot-finder\target\generated-sources\apt\com\plot\finder\s
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\dto\CredentialsDTO.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\config\WebMvcRegistrationsAdapter.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\JwtTokenUtil.java
+C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\metamodels\Flags_.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\service\BokiAuthenticationProvider.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\Vertice.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\config\PersistenceConfig.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\user\entity\UserJPA.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\config\SpringConfig.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\util\MyControllerAdvice.java
+C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\repository\PlotCriteriaRepository.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\user\service\UserService.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\repository\UserHasRolesRepository.java
+C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\metamodels\PlotJPA_.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\MyWebSecurityConfigurarAdapter.java
 C:\Users\Lazaruss\git\plot-finder\target\generated-sources\apt\com\plot\finder\security\entities\RoleJPA_.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\config\WebInitializer.java
-C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\VerticeListDeserializer.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\CredentialsFilter.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\util\RestPreconditions.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\entities\PlotJPA.java
@@ -41,4 +44,5 @@ C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\plot\controller\
 C:\Users\Lazaruss\git\plot-finder\target\generated-sources\apt\com\plot\finder\plot\entities\PlotJPA_.java
 C:\Users\Lazaruss\git\plot-finder\target\generated-sources\apt\com\plot\finder\user\entity\UserJPA_.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\security\service\SecurityService.java
+C:\Users\Lazaruss\git\plot-finder\target\generated-sources\apt\com\plot\finder\plot\entities\Flags_.java
 C:\Users\Lazaruss\git\plot-finder\src\main\java\com\plot\finder\user\controller\UserController.java
