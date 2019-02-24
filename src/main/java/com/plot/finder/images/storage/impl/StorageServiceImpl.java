@@ -158,9 +158,11 @@ public class StorageServiceImpl implements StorageService {
 			// delete empty dir and check :
 			RestPreconditions.assertTrue(dir.delete(),"Image Storage Service error", "Failed to delete empty directory leaf "+dirPath);
 			// make new dir path :
-			String newDirPath = dirPath.split("[^0-9][0-9]+$")[0];
+			String newDirPath = dirPath.substring(0, dirPath.length() - 2);
 			// recursive call - check if parent dir is empty too and delete it accordingly
-			deleteEmptyDirectoryTreeLeaf(newDirPath);
+			if(!newDirPath.endsWith("images\\")){
+				deleteEmptyDirectoryTreeLeaf(newDirPath);
+			}
 		}
 	}
 	
