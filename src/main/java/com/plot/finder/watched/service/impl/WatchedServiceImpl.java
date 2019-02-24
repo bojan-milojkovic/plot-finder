@@ -2,6 +2,8 @@ package com.plot.finder.watched.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.user.entity.UserJPA;
@@ -18,11 +20,13 @@ public class WatchedServiceImpl implements WatchedService {
 	
 	private WatchedRepository watchedRepo;
 	private UserRepository userRepo;
+	private EmailUtil emailUtil;
 	
 	@Autowired
-	public WatchedServiceImpl(WatchedRepository watchedRepo, UserRepository userRepo) {
+	public WatchedServiceImpl(WatchedRepository watchedRepo, UserRepository userRepo, EmailUtil emailUtil) {
 		this.watchedRepo = watchedRepo;
 		this.userRepo = userRepo;
+		this.emailUtil = emailUtil;
 	}
 	
 	public WatchedDTO getWatched(final String username) throws MyRestPreconditionsException {
@@ -89,8 +93,11 @@ public class WatchedServiceImpl implements WatchedService {
 		
 		watchedRepo.findAreasWatchingPlot(entity.getLl_x(), entity.getLl_y(), entity.getUr_x(), entity.getUr_y())
 			.stream()
+			.filter(j -> j.getUserJpa().getId() != entity.getUserJpa().getId())
 			.forEach(j->{
-				//TODO: Send an email to the user about the new plot in his watched area
+				String subject = "Plotfinder notification";
+				String body = "A new plot has been add in the area you are watching.\n\rLogin to your account to view it.\n\r";
+				emailUtil.sendEmail(j.getUserJpa().getEmail(), subject, body);
 			});
 	}
 }

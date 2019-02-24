@@ -135,18 +135,17 @@ public class StorageServiceImpl implements StorageService {
 	public void deleteImage(final Long id, String name) throws MyRestPreconditionsException {
 		String dirPath = buildDirPath(id);
 		
-		{
-			File tmp = new File(dirPath);
-			RestPreconditions.assertTrue(tmp.exists(), 
-					"Image delete error","File path "+dirPath+" does not exist");
+		File tmp = new File(dirPath);
+		
+		if(tmp.exists()){
 			RestPreconditions.assertTrue(java.nio.file.Files.isWritable(tmp.toPath()), 
 					"Image delete error", "File path "+dirPath+" is not writable");
-		} // tmp ceases to exist here.
 		
-		deletePreviousImage(dirPath, name);
-		deletePreviousImage(dirPath, thumbnailName(name));
-		
-		deleteEmptyDirectoryTreeLeaf(dirPath);
+			deletePreviousImage(dirPath, name);
+			deletePreviousImage(dirPath, thumbnailName(name));
+			
+			deleteEmptyDirectoryTreeLeaf(dirPath);
+		}
 	}
 	
 	private void deleteEmptyDirectoryTreeLeaf(String dirPath) throws MyRestPreconditionsException {
