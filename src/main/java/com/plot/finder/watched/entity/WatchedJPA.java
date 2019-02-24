@@ -13,7 +13,7 @@ import com.plot.finder.user.entity.UserJPA;
 
 @Entity
 @Table(name = "watched_area")
-public class WatchedJPA {
+public class WatchedJPA implements WatchedParent {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

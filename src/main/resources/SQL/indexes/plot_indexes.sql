@@ -10,7 +10,7 @@ CREATE INDEX CountryIndex ON plotfinder.plot(country);
 CREATE INDEX CityIndex ON plotfinder.plot(city);
 CREATE INDEX DistrictIndex ON plotfinder.plot(district);
 
-CREATE INDEX FlagsIndex ON plotfinder.flags(plot_id,flag);
+CREATE INDEX FlagsIndex ON plotfinder.flags(plot_id);
 
 CREATE INDEX ll_x_index ON plotfinder.watched_area(ll_x);
 CREATE INDEX ll_y_index ON plotfinder.watched_area(ll_y);

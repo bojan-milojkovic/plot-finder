@@ -9,6 +9,7 @@ import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
 import com.plot.finder.watched.entity.WatchedDTO;
 import com.plot.finder.watched.entity.WatchedJPA;
+import com.plot.finder.watched.entity.WatchedParent;
 import com.plot.finder.watched.repository.WatchedRepository;
 import com.plot.finder.watched.service.WatchedService;
 
@@ -30,14 +31,7 @@ public class WatchedServiceImpl implements WatchedService {
 	}
 	
 	private WatchedDTO convertJpaToModel(WatchedJPA entity){
-		WatchedDTO model = new WatchedDTO();
-		
-		model.setLl_x(entity.getLl_x());
-		model.setLl_y(entity.getLl_y());
-		model.setUr_x(entity.getUr_x());
-		model.setUr_y(entity.getUr_y());
-		
-		return model;
+		return (WatchedDTO) setCoordinates(new WatchedDTO(), entity);
 	}
 	
 	public WatchedDTO addEdit(WatchedDTO model, final String username) throws MyRestPreconditionsException{
@@ -74,6 +68,10 @@ public class WatchedServiceImpl implements WatchedService {
 			model.setUr_y(tmp);
 		}
 		
+		return (WatchedJPA) setCoordinates(entity, model);
+	}
+	
+	private WatchedParent setCoordinates(WatchedParent entity, WatchedParent model){
 		entity.setLl_x(model.getLl_x());
 		entity.setLl_y(model.getLl_y());
 		entity.setUr_x(model.getUr_x());

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @JsonInclude(Include.NON_NULL)
-public class WatchedDTO {
+public class WatchedDTO implements WatchedParent {
 	@JsonProperty(access = Access.READ_WRITE)
 	@Min(0)
 	private Long id;
