@@ -1,42 +1,36 @@
 package com.plot.finder.email;
 
-import java.util.Date;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSendException;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmailUtil {
 	
 	@Autowired
-	private Session session;
+	public JavaMailSender javaMailSender;
 
-	public void sendEmail(String toEmail, String subject, String body){
-		try
-	    {
-	      MimeMessage msg = new MimeMessage(session);
-	      //set message headers
-	      msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-	      msg.addHeader("format", "flowed");
-	      msg.addHeader("Content-Transfer-Encoding", "8bit");
-
-	      msg.setFrom(new InternetAddress("lord.lazaruss@gmail.com"));
-	      msg.setSubject(subject, "UTF-8");
-	      msg.setText(body, "UTF-8");
-	      msg.setSentDate(new Date());
-
-	      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
-	      System.out.println("Message is ready");
-    	  Transport.send(msg);  
-
-	      System.out.println("EMail Sent Successfully!!");
-	    }
-	    catch (Exception e) {
-	      e.printStackTrace();
-	    }
+	public void sendEmail(String to, String subject, String text) {
+		try {
+			javaMailSender.send(new MimeMessagePreparator() {
+                public void prepare(MimeMessage mimeMessage)
+                        throws Exception {
+                    MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
+                            false, "UTF-8");
+                    message.setFrom("noreply@plotfinder.com");
+                    message.addTo(to);
+                    message.setSubject(subject);
+                    message.setText(text, true);
+                }
+            });
+			System.out.println("Message sent successfully!!");
+        } catch (MailSendException e) {
+            e.printStackTrace();
+        }
 	}
 }

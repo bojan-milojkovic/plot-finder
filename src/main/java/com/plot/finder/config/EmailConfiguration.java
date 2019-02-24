@@ -4,30 +4,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import java.security.GeneralSecurityException;
 import java.util.Properties;
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
 
 @Configuration
 @PropertySource("classpath:application.properties")
 public class EmailConfiguration {
 	
 	@Bean
-	Session session(Environment env){
-		Properties props = System.getProperties();
-	    props.put("mail.smtp.host", env.getProperty("email.smtpHostServer"));
-	    props.put("mail.smtp.port", "587"); //TLS Port
-		props.put("mail.smtp.auth", "true"); //enable authentication
-		props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
-
-	    return Session.getInstance(props, new Authenticator() {
-			//override the getPasswordAuthentication method
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(env.getProperty("email.fromEmail").split("@")[0], 
-						env.getProperty("email.password"));
-			}
-		});
+	public JavaMailSender javaMailSender(Environment env) throws GeneralSecurityException {
+	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+	    mailSender.setHost(env.getProperty("mail.host"));
+	    mailSender.setPort(Integer.parseInt((env.getProperty("mail.port"))));
+	     
+	    mailSender.setUsername("bojan.milojkovic.83");
+	    mailSender.setPassword("bmeugpnkrsqvzfbp");
+	     
+	    Properties props = mailSender.getJavaMailProperties();
+	    props.put("mail.transport.protocol", env.getProperty("mail.protocol"));
+	    props.put("mail.smtp.auth", "true");
+	    props.put("mail.smtp.starttls.enable", "true");
+	    props.put("mail.smtp.starttls.required", "true");
+	    props.put("mail.debug", "true");
+	    props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+	     
+	    return mailSender;
 	}
 
 }
