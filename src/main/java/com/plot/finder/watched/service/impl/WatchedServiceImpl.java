@@ -2,7 +2,6 @@ package com.plot.finder.watched.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotJPA;
@@ -93,7 +92,7 @@ public class WatchedServiceImpl implements WatchedService {
 		
 		watchedRepo.findAreasWatchingPlot(entity.getLl_x(), entity.getLl_y(), entity.getUr_x(), entity.getUr_y())
 			.stream()
-			//.filter(j -> j.getUserJpa().getId() != entity.getUserJpa().getId())
+			.filter(j -> j.getUserJpa().getId() != entity.getUserJpa().getId())
 			.forEach(j->{
 				String subject = "Plotfinder notification";
 				String body = "A new plot has been added in the area you are watching.\n\rLogin to your account to view it.\n\r";
