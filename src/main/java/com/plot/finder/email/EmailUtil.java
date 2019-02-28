@@ -33,12 +33,12 @@ public class EmailUtil {
                         throws Exception {
                     MimeMessageHelper message = new MimeMessageHelper(mimeMessage, false, "UTF-8");
                     message.setFrom("noreply@plotfinder.com");
-                    message.addTo(entity.getUserJpa().getEmail());
                     message.setSubject("New Plot Notification");
+                    message.addTo(entity.getUserJpa().getEmail());
                     
                     Context ctx = new Context();
                     ctx.setVariable("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
-                    ctx.setVariable("plot_url", InetAddress.getLocalHost().getHostName()+"/"+entity.getId());
+                    ctx.setVariable("plot_url", InetAddress.getLocalHost().getHostName()+"/plot/"+entity.getId());
                     
                     message.setText(templateEngine.process("new_plot_notice", ctx), true);
                 }
