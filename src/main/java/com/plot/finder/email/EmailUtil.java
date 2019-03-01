@@ -10,7 +10,6 @@ import javax.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -31,31 +30,12 @@ public class EmailUtil {
 
 	public void sendNewPlotEmail(final PlotJPA entity) {
 		try {
-			MimeMessage message = javaMailSender.createMimeMessage();
-			
-			MimeMessageHelper helper = new MimeMessageHelper(message,
-	                MimeMessageHelper.MULTIPART_MODE_NO,
-	                StandardCharsets.UTF_8.name());
-			helper.setTo(entity.getUserJpa().getEmail());
-			helper.setFrom("donotreply@plotfinder.com");
-			helper.setSubject("New plot notice");
-			
-			Context context = new Context();
 			Map<String,Object> model = new HashMap<String,Object>();
 			model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
 			model.put("plot_url", "http://"+InetAddress.getLocalHost().getHostName()+"/plot/"+entity.getId());
-			context.setVariables(model);
-			
-	        helper.setText(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, "templates/new_plot_notice.vm", model), true);
-
-	        javaMailSender.send(message);
-	        
-			System.out.println("Message sent successfully!!");
-        } catch (MailSendException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
+		
+			sendEmail("New plot notice", entity.getUserJpa().getEmail(), "new_plot_notice.vm", model);
+        } catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -100,7 +80,6 @@ public class EmailUtil {
 			javaMailSender.send(message);
 			System.out.println("Message sent successfully!!");
 		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
