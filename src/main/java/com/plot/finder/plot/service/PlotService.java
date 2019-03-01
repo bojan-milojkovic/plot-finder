@@ -20,6 +20,7 @@ public interface PlotService {
 	
 	ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException;
 
+	void renewPlotAdd(final Long id, final String username) throws MyRestPreconditionsException;
 	
 	List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException;
 	

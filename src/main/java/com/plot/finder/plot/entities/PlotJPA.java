@@ -1,6 +1,6 @@
 package com.plot.finder.plot.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -82,7 +82,10 @@ public class PlotJPA {
 	private String currency;
 	
 	@Column
-	private LocalDateTime added;
+	private LocalDate added;
+	
+	@Column
+	private LocalDate expires;
 	
 	@OneToMany(mappedBy="plotJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private Set<Flags> flags = new HashSet<Flags>();	
@@ -231,12 +234,20 @@ public class PlotJPA {
 		this.size = size;
 	}
 
-	public LocalDateTime getAdded() {
+	public LocalDate getAdded() {
 		return added;
 	}
 
-	public void setAdded(LocalDateTime added) {
+	public void setAdded(LocalDate added) {
 		this.added = added;
+	}
+	
+	public LocalDate getExpires() {
+		return expires;
+	}
+
+	public void setExpires(LocalDate expires) {
+		this.expires = expires;
 	}
 
 	public String getDistrict() {

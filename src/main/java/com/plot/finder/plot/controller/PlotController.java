@@ -71,6 +71,13 @@ public class PlotController {
 		plotServiceImpl.delete(id, principal.getName());
 	}
 	
+	@RequestMapping(value="/ren/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void renew(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		plotServiceImpl.renewPlotAdd(id, principal.getName());
+	}
+	
 	@RequestMapping(value="/img/{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
@@ -164,4 +171,6 @@ public class PlotController {
 	public @ResponseBody List<PlotDTO> findPlotsByProperties(@RequestBody final PlotDTO model) throws MyRestPreconditionsException{
 		return plotServiceImpl.findPlotsByProperties(model);
 	}
+	
+	
 }

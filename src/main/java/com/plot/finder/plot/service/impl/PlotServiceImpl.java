@@ -1,6 +1,6 @@
 package com.plot.finder.plot.service.impl;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +11,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
@@ -66,6 +65,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setTitle(jpa.getTitle());
 		model.setSize(jpa.getSize());
 		model.setAdded(jpa.getAdded());
+		model.setExpires(jpa.getExpires());
 		
 		model.setGarage(jpa.containsFlag("garage"));
 		model.setGas(jpa.containsFlag("gas"));
@@ -158,12 +158,30 @@ public class PlotServiceImpl implements PlotService {
 		return storageServiceImpl.getImage(id, name, isThumbnail, request);
 	}
 	
+	public void renewPlotAdd(final Long id, final String username) throws MyRestPreconditionsException {
+		RestPreconditions.checkId(id);
+		
+		PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id), "Renew plot error", "The plot you are renewing does not exist");
+		
+		RestPreconditions.assertTrue(jpa.getUserJpa().getUsername().equals(username), "Renew plot error", "You are trying to renew the add for someone else's plot");
+		
+		if(!jpa.getExpires().isBefore(LocalDate.now())) {
+			jpa.setExpires(jpa.getExpires().plusDays(30));
+			
+			plotRepo.save(jpa);
+		} else {
+			this.delete(id, username);
+			throw new MyRestPreconditionsException("Your plot has just expired","Please post the plot again");
+		}
+	}
+	
 	private PlotJPA convertModelToJpa(final PlotDTO model) {
 		PlotJPA jpa = null;
 		
 		if(model.getId()==null) {
 			jpa = new PlotJPA();
-			jpa.setAdded(LocalDateTime.now());
+			jpa.setAdded(LocalDate.now());
+			jpa.setExpires(LocalDate.now().plusDays(30));
 			// for add, we save flags later
 		} else {
 			jpa = plotRepo.getOne(model.getId());
