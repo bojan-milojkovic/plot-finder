@@ -3,6 +3,9 @@ package com.plot.finder.email;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
@@ -35,8 +38,11 @@ public class EmailUtil {
 	                StandardCharsets.UTF_8.name());
 			
 			Context context = new Context();
-			context.setVariable("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+			//context.setVariable("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
 			context.setVariable("plot_url", "http://"+InetAddress.getLocalHost().getHostName()+"/plot/"+entity.getId());
+			Map<String,Object> model = new HashMap<String,Object>();
+			model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+			context.setVariables(model);
 			String html = emailTemplateEngine.process("new_plot_notice", context);
 			
 			helper.setTo(entity.getUserJpa().getEmail());
