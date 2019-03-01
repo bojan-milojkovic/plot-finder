@@ -1,15 +1,15 @@
 package com.plot.finder.config;
 
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.VelocityException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import java.nio.charset.StandardCharsets;
+import org.springframework.ui.velocity.VelocityEngineFactoryBean;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
@@ -37,21 +37,15 @@ public class EmailConfiguration {
 	     
 	    return mailSender;
 	}
-
-	@Bean
-    public TemplateEngine emailTemplateEngine() {
-		final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.addTemplateResolver(htmlTemplateResolver());
-        return templateEngine;
-	}
 	
 	@Bean
-    public SpringResourceTemplateResolver htmlTemplateResolver(){
-        SpringResourceTemplateResolver emailTemplateResolver = new SpringResourceTemplateResolver();
-        emailTemplateResolver.setPrefix("classpath:/templates/");
-        emailTemplateResolver.setSuffix(".html");
-        emailTemplateResolver.setTemplateMode("HTML5");
-        emailTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        return emailTemplateResolver;
-    }
+	public VelocityEngine velocityEngine() throws VelocityException, IOException {
+	    VelocityEngineFactoryBean factory = new VelocityEngineFactoryBean();
+	    Properties props = new Properties();
+	    props.put("resource.loader", "class");
+	    props.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+	    factory.setVelocityProperties(props);
+
+	    return factory.createVelocityEngine();
+	}
 }

@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<style>
+		.padded {padding: 10;}
+	</style>
+</head>
+<body style="margin: 0; padding: 30;">
+	<div id="div1">
+		<p>Hello ${name}</p>
+	</div>
+	<div id="div2">
+		<p class="padded">Your plot add is about to expire</p>
+		<p class="padded">${plot_url}</p>
+		<p class="padded">If you wish to renew it, please login to Your account</p>
+	</div>
+	<div id="div3">
+		<p>Faithfully Yours</p>
+		<p>The Plot Market team</p>
+	</div>
+</body>
+</html>
