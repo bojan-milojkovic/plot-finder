@@ -16,7 +16,7 @@ public interface PlotService {
 
 	PlotDTO edit(PlotDTO model, final Long id, final String username) throws MyRestPreconditionsException;
 	
-	void delete(final Long id, final String username) throws MyRestPreconditionsException;
+	void delete(final Long id, final String username, final boolean checks) throws MyRestPreconditionsException;
 	
 	ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException;
 

@@ -170,7 +170,7 @@ public class PlotServiceImpl implements PlotService {
 			
 			plotRepo.save(jpa);
 		} else {
-			this.delete(id, username);
+			this.delete(id, username, false);
 			throw new MyRestPreconditionsException("Your plot has just expired","Please post the plot again");
 		}
 	}
@@ -445,16 +445,19 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	@Transactional
-	public void delete(final Long id, final String username) throws MyRestPreconditionsException {
-		RestPreconditions.checkId(id);
+	public void delete(final Long id, final String username, final boolean checks) throws MyRestPreconditionsException {
 		
-		RestPreconditions.assertTrue(
-				// check plot exists :
-				(RestPreconditions.checkNotNull(plotRepo.getOne(id), 
-												"Delete plot error", "Plot with id = "+id+" doesn't exist")) // returns PlotJPA
-									// check user is editing his plot and not someone else's
-									.getUserJpa().getUsername().equals(username), 
-									"Delete plot error", "You are trying to delete someone else's plot");
+		if(checks){
+			RestPreconditions.checkId(id);
+			
+			RestPreconditions.assertTrue(
+					// check plot exists :
+					(RestPreconditions.checkNotNull(plotRepo.getOne(id), 
+													"Delete plot error", "Plot with id = "+id+" doesn't exist")) // returns PlotJPA
+										// check user is editing his plot and not someone else's
+										.getUserJpa().getUsername().equals(username), 
+										"Delete plot error", "You are trying to delete someone else's plot");
+		}
 		
 		plotRepo.deleteById(id);
 		

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+
+import com.plot.finder.plot.entities.Flags;
 import com.plot.finder.plot.entities.PlotJPA;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
@@ -32,6 +34,12 @@ public class EmailUtil {
 		try {
 			Map<String,Object> model = new HashMap<String,Object>();
 			model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+			for(Flags f : entity.getFlags() ){
+				if("SALE".equals(f.getFlag()) || "RENT".equals(f.getFlag())){
+					model.put("type", f.getFlag());
+					break;
+				}
+			}
 			model.put("plot_url", "http://"+InetAddress.getLocalHost().getHostName()+"/plot/"+entity.getId());
 		
 			sendEmail("New plot notice", entity.getUserJpa().getEmail(), "new_plot_notice.vm", model);

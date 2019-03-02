@@ -68,7 +68,7 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void delete(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
-		plotServiceImpl.delete(id, principal.getName());
+		plotServiceImpl.delete(id, principal.getName(), true);
 	}
 	
 	@RequestMapping(value="/ren/{id}", method = RequestMethod.GET)

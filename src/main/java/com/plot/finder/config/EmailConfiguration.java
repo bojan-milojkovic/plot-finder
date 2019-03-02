@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -15,6 +16,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:application.properties")
+@EnableScheduling
 public class EmailConfiguration {
 	
 	@Bean
