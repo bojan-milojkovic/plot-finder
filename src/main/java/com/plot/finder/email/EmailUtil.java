@@ -69,6 +69,22 @@ public class EmailUtil {
 		sendEmail("Your plot has been deleted", entity.getUserJpa().getEmail(), "plot_deleted.vm", model);
 	}
 	
+	public void confirmRegistration(final String key, final String name, final String email) {
+		try {
+			Map<String,Object> model = new HashMap<String,Object>();
+			model.put("name", name);
+			model.put("url", "http://"+InetAddress.getLocalHost().getHostName()+"/users/act/"+key);
+			
+			sendEmail("User activation", email, "user_activation.vm", model);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void changePasswordEmail(final String key, final String name) {
+		
+	}
+	
 	private void sendEmail(final String subject, final String to, final String templateName, final Map<String, Object> model) {
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();
@@ -90,13 +106,5 @@ public class EmailUtil {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void confirmRegistration(final String key, final String name) {
-		
-	}
-	
-	public void changePasswordEmail(final String key, final String name) {
-		
 	}
 }

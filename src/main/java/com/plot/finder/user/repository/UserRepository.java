@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<UserJPA, Long>{
 	
 	@Query("select u from UserJPA u where u.phone1 = :param or u.phone2 = :param")
 	public UserJPA findOneByPhone(@Param("param") final String phone);
+	
+	@Query("select u from UserJPA u where u.identifier = :param")
+	public UserJPA findByIdentifier(@Param("param") final String phone);
 }

@@ -35,7 +35,8 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/users").hasRole("USER")
 			.antMatchers(HttpMethod.GET, "/users/*").hasRole("USER")
-			.antMatchers(HttpMethod.POST, "/users").permitAll()  // everyone should access register-api
+			.antMatchers(HttpMethod.POST, "/users").permitAll()  // everyone should access register-api /act/
+			.antMatchers(HttpMethod.POST, "/users/act/*").permitAll()
 			.antMatchers(HttpMethod.PATCH, "/users/*").hasRole("USER")
 			.antMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")
 			

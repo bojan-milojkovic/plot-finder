@@ -55,6 +55,9 @@ public class UserJPA {
 	@Column(name="not_locked")
 	private Boolean notLocked;
 	
+	@Column
+	private String identifier;
+	
 	@Column(name="reg_date")
 	private LocalDateTime registration;
 	
@@ -218,5 +221,13 @@ public class UserJPA {
 
 	public void setWatched(WatchedJPA watched) {
 		this.watched = watched;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 }

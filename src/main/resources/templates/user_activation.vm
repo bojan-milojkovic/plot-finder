@@ -11,9 +11,8 @@
 		<p>Hello ${name}</p>
 	</div>
 	<div id="div2">
-		<p class="padded">Your plot add is about to expire</p>
-		<p class="padded">${plot_url}</p>
-		<p class="padded">If you wish to renew it, please login to Your account</p>
+		<p class="padded">To activate your user account, please click the link below :</p>
+		<p class="padded">${url}</p>
 	</div>
 	<div id="div3">
 		<p>Faithfully Yours</p>

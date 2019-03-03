@@ -36,10 +36,16 @@ public class UserController {
 		return userServiceImpl.getAll();
 	}
 	
+	@RequestMapping(value = "/act/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
+	public void activateUser(@PathVariable("key") final String key) throws MyRestPreconditionsException{
+		userServiceImpl.activateUser(key);
+	}
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserById(@PathVariable("id") Long id) throws MyRestPreconditionsException{
+	public @ResponseBody UserDTO getUserById(@PathVariable("id") final Long id) throws MyRestPreconditionsException{
 		return userServiceImpl.getOneById(id);
 	}
 	

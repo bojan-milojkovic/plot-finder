@@ -2,10 +2,12 @@ package com.plot.finder.user.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserDTO;
 import com.plot.finder.user.entity.UserJPA;
@@ -16,9 +18,15 @@ import com.plot.finder.util.RestPreconditions;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
 	private UserRepository userRepo;
+	private EmailUtil emailUtil;
 	
+	@Autowired
+	public UserServiceImpl(UserRepository userRepo, EmailUtil emailUtil) {
+		this.userRepo = userRepo;
+		this.emailUtil = emailUtil;
+	}
+
 	public List<UserDTO> getAll(){
 		return userRepo.findAll().stream().map(j -> convertJpaToModel(j)).collect(Collectors.toList());
 	}
@@ -89,7 +97,7 @@ public class UserServiceImpl implements UserService {
 				RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone2())==null, "User create error", 
 						"User with that mobile phone number already exists");
 			}
-		
+			
 			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
 		}
 		
@@ -227,14 +235,18 @@ public class UserServiceImpl implements UserService {
 		if(model.getId()==null) {
 			jpa = new UserJPA();
 			
-			//TODO : email user activation link
-			jpa.setActive(true);
+			jpa.setActive(false);
 			jpa.setNotLocked(true);
 			jpa.setLastLogin(LocalDateTime.now());
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			jpa.setUsername(model.getUsername());
 			jpa.setPassword(BCrypt.hashpw(model.getPassword(), BCrypt.gensalt()));
 			jpa.setRegistration(LocalDateTime.now());
+			
+			String identifier = UUID.randomUUID().toString();
+			jpa.setIdentifier(identifier);
+			
+			emailUtil.confirmRegistration(identifier, model.getFirstName()+" "+model.getLastName(), model.getEmail());
 		} else {
 			jpa = userRepo.getOne(model.getId());
 		}
@@ -274,5 +286,13 @@ public class UserServiceImpl implements UserService {
 				RestPreconditions.checkString(model.getEmail()) ||
 				RestPreconditions.checkString(model.getPhone1()) ||
 				RestPreconditions.checkString(model.getPhone2());
+	}
+
+	public void activateUser(String key) throws MyRestPreconditionsException {
+		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findByIdentifier(key), "User activation error", "Cannot find user with that activation key");
+		
+		jpa.setIdentifier(null);
+		jpa.setActive(true);
+		userRepo.save(jpa);
 	}
 }
