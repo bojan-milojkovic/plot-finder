@@ -13,7 +13,9 @@ CREATE TABLE `user` (
   `last_login` datetime NOT NULL,
   `last_password_change` datetime NOT NULL,
   `last_update` datetime NOT NULL,
+  `identifier` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `identifier` (`identifier`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1
