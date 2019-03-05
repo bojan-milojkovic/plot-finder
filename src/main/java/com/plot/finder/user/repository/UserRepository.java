@@ -19,5 +19,5 @@ public interface UserRepository extends JpaRepository<UserJPA, Long>{
 	public UserJPA findOneByPhone(@Param("param") final String phone);
 	
 	@Query("select u from UserJPA u where u.identifier = :param")
-	public UserJPA findByIdentifier(@Param("param") final String phone);
+	public UserJPA findByIdentifier(@Param("param") final String key);
 }

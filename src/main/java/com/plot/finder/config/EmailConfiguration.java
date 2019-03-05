@@ -11,6 +11,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.GeneralSecurityException;
 import java.util.Properties;
 
@@ -49,5 +51,15 @@ public class EmailConfiguration {
 	    factory.setVelocityProperties(props);
 
 	    return factory.createVelocityEngine();
+	}
+	
+	@Bean
+	public String hostName(Environment env){
+		try{
+			String host = InetAddress.getLocalHost().getHostName();
+			return host.contains("HAL") ? env.getProperty("server.host") : host;
+		} catch (UnknownHostException e) {
+			return env.getProperty("server.host");
+		}
 	}
 }
