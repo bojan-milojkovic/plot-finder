@@ -1,6 +1,7 @@
 package com.plot.finder.plot.service.impl;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -11,6 +12,7 @@ import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
+import com.plot.finder.user.repository.UserRepository;
 
 @Component
 public class MyScheduler {
@@ -18,12 +20,14 @@ public class MyScheduler {
 	private EmailUtil emailUtil;
 	private PlotService plotServiceImpl;
 	private PlotRepository plotRepo;
+	private UserRepository userRepo;
 	
 	@Autowired
-	public MyScheduler(EmailUtil emailUtil, PlotService plotServiceImpl, PlotRepository plotRepo) {
+	public MyScheduler(EmailUtil emailUtil, PlotService plotServiceImpl, PlotRepository plotRepo, UserRepository userRepo) {
 		this.emailUtil = emailUtil;
 		this.plotServiceImpl = plotServiceImpl;
 		this.plotRepo = plotRepo;
+		this.userRepo = userRepo;
 	}
 	
 	@Scheduled(cron = "0 0 12 * * ?")
@@ -69,6 +73,27 @@ public class MyScheduler {
 						} finally {
 				            lock.unlock();
 				        }
+					});
+			}
+		};
+		task.setPriority(1);
+		task.start();
+	}
+	
+	@Scheduled(cron = "0 0 14 * * ?")
+	public void deleteLockedUsers(){
+		Thread task = new Thread(){
+		    Lock lock = new ReentrantReadWriteLock().writeLock();
+		    
+			@Override
+			public void run(){
+				userRepo.findLockedExpired(LocalDateTime.now().minusDays(30))
+					.stream()
+					.forEach(u -> {
+			            lock.lock();
+			            emailUtil.userAccountDeleted(u);
+			        	userRepo.delete(u);
+			            lock.unlock();
 					});
 			}
 		};
