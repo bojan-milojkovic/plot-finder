@@ -92,6 +92,13 @@
 	</form>
 	
     <script>
+		$("document").ready(function(){
+			$("#form1").hide();
+			$("#form2").hide();
+			$("#form3").hide();
+			$("#form4").hide();
+		});
+	
 		var map;
 		var line;
 		var polygon;
@@ -101,6 +108,8 @@
 		var marker;
 		var clicks = 0;
 		var index = 1;
+		
+		
 		
 		var formData;
 		var myJson, data1, data2, data3;
@@ -128,24 +137,28 @@
 			map.addListener('rightclick', createPolygon);
 			
 			infowindow1 = new google.maps.InfoWindow({
-					content : document.getElementById('form1')
+					content : $('#form1').html()
 				});
 			infowindow2 = new google.maps.InfoWindow({
-					content : document.getElementById('form2')
+					content : $('#form2').html()
 				});
 			infowindow3 = new google.maps.InfoWindow({
-					content : document.getElementById('form3')
+					content : $('#form3').html()
 				});
 			infowindow4 = new google.maps.InfoWindow({
-					content : document.getElementById('form4')
+					content : $('#form4').html()
 				});
 		}
 		
 		function addLatLng(event){
 			if(!polygon){
-				clicks++;
-				var path = line.getPath();
-				path.push(event.latLng);
+				if(clicks==8){
+					alert('You cannot enter more than 8 points.\nTry this :\n - right-click to close poligon\n - re-order the polygon by dragging the vertices.');
+				} else {
+					clicks++;
+					var path = line.getPath();
+					path.push(event.latLng);
+				}
 			}
 		}
 		
@@ -333,16 +346,16 @@
 					cache: false,
 					contentType: false,
 					processData: false,
-					success: function(data){
-						infowindow4.close();
-						polygon.setMap(null);
-						polygon = null;
-						clicks=0;
-						index=1;
-						alert('SUCCESS');
-					},
-					error: function(jqXHR, textStatus, errorThrown){
-						if(jqXHR.status == 400) {
+					statusCode:{
+						201: function(){
+							infowindow4.close();
+							polygon.setMap(null);
+							polygon = null;
+							clicks=0;
+							index=1;
+							alert('SUCCESS\nYour plot add is now available to other users.\nIt will expire within 30 days unless you renew it before then.');
+						},
+						400: function(jqXHR){
 							var responseBody = jQuery.parseJSON(jqXHR.responseText);
 							var response = responseBody.cause + '\n' + responseBody.message;
 							if(responseBody.validationErrors){
@@ -351,15 +364,16 @@
 								});
 							}
 							alert(response);
-				        }
-						else if(jqXHR.status == 404) {
-				            alert("page not found!");
-				        }
-						else if(jqXHR.status == 500) {
-				            alert("Server error");
-				        }
-						else {
-							alert('FAILURE - request not sent');
+						},
+						403: function(jqXHR){
+							// login again
+							// execute request again
+						},
+						404: function(){
+							alert("page not found!");
+						},
+						500: function(){
+							alert("Server error");
 						}
 					}
 				});
@@ -372,16 +386,16 @@
 					},
 					data: myJson,
 					contentType: 'Application/json',
-					success: function(data){
-						infowindow4.close();
-						polygon.setMap(null);
-						polygon = null;
-						clicks=0;
-						index=1;
-						alert('SUCCESS');
-					},
-					error: function(jqXHR, textStatus, errorThrown){
-						if(jqXHR.status == 400) {
+					statusCode:{
+						201: function(){
+							infowindow4.close();
+							polygon.setMap(null);
+							polygon = null;
+							clicks=0;
+							index=1;
+							alert('SUCCESS\nYour plot add is now available to other users.\nIt will expire within 30 days unless you renew it before then.');
+						},
+						400: function(jqXHR){
 							var responseBody = jQuery.parseJSON(jqXHR.responseText);
 							var response = responseBody.cause + '\n' + responseBody.message;
 							if(responseBody.validationErrors){
@@ -390,15 +404,16 @@
 								});
 							}
 							alert(response);
-				        }
-						else if(jqXHR.status == 404) {
-				            alert("page not found!");
-				        }
-						else if(jqXHR.status == 500) {
-				            alert("Server error");
-				        }
-						else {
-							alert('FAILURE - request not sent');
+						},
+						403: function(jqXHR){
+							// login again
+							// execute request again
+						},
+						404: function(){
+							alert("page not found!");
+						},
+						500: function(){
+							alert("Server error");
 						}
 					}
 				});
