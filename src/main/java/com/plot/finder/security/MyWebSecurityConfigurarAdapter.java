@@ -48,6 +48,7 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 			.antMatchers(HttpMethod.DELETE, "/plot/*").hasRole("USER")
 			
 			.antMatchers(HttpMethod.POST, "/roles").permitAll() // everyone should access login-api
+			.antMatchers(HttpMethod.POST, "/refresh").permitAll() // everyone should access re-login api
 			;
 		
 		// disable csrf

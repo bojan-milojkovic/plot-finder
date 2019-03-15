@@ -4,11 +4,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
+import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.security.JwtTokenUtil;
 import com.plot.finder.security.dto.CredentialsDTO;
 import com.plot.finder.security.entities.RoleJPA;
@@ -64,5 +65,10 @@ public class SecurityServiceImpl implements SecurityService {
 		}
 		
 		return "Error - no user with those credentials.";
+	}
+	
+	@Override
+	public String refreshToken(HttpHeaders httpHeaders) throws MyRestPreconditionsException {
+		return jwtTokenUtil.refreshToken(httpHeaders.toSingleValueMap().get("X-My-Security-Token"));
 	}
 }
