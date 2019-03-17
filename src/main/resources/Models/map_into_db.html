@@ -108,13 +108,13 @@
 		var marker;
 		var clicks = 0;
 		var index = 1;
-		
+		var relogin=false;
 		
 		
 		var formData;
 		var myJson, data1, data2, data3;
 		
-		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzF1cncjIiwiY3JlYXRlZCI6MTU1MDkxNDkzOTQ5MywicHdkIjoiV2VsY29tZTExIyIsImV4cCI6MTU1MDkxNjczOX0.ud4eMVXjSf4-ukOu5SvIeEvvVVfh-jCtR-6JPG0z_fF4xJ6VITZ3uGemnliJ2vVnnpFThxo5wVisfQPRYuynfQ';	
+		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzRzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NTI4NDgyMDU5NzAsInB3ZCI6IldlbGNvbWUxMSMiLCJleHAiOjE1NTI4NTAwMDV9.A8CBJbstgwKK4-JqkIp8Egtl-0MvNKZzHWLszlvz5AEjQ2CMVIfLhsYWcCFOqFPhUTSaTSNE4aTWe7GAdWixrw';	
 		
 		function initMap(){
 			map = new google.maps.Map(
@@ -345,14 +345,11 @@
 					'X-My-Security-Token': token			
 				},
 				statusCode:{
-					200: function(jqXHR){
-						token = jqXHR.responseText;
-						if(token.includes('=')){
-							token = token.split('=')[1];
-						}
+					200: function(text){
+						token = text;
 					},
-					400: function(jqXHR){
-						errorAlert(jqXHR.responseText);
+					400: function(err){
+						errorAlert(err);
 					}
 				}
 			});
@@ -363,6 +360,61 @@
 			clicks=0;
 			index=1;
 			alert('SUCCESS\nYour plot add is now available to other users.\nIt will expire within 30 days unless you renew it before then.');
+		}
+		
+		function repeatRequest(){
+			// login again :
+			refreshToken();
+			
+			if(formData){
+				$.ajax({
+					url: 'http://localhost:8080/plot',
+					type: 'POST',
+					method: 'POST',
+					headers: {
+						'X-My-Security-Token': token			
+					},
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+					statusCode:{
+						201: function(){
+							successFunction();
+						},
+						400: function(jqXHR){
+							errorAlert(jqXHR.responseText);
+						},
+						404: function(){
+							alert("page not found!");
+						},
+						500: function(){
+							alert("Server error");
+						}
+					}
+				});
+			} else {
+				$.ajax({
+					url: 'http://localhost:8080/plot',
+					type: 'POST',
+					headers: {
+						'X-My-Security-Token': token
+					},
+					data: myJson,
+					contentType: 'Application/json',
+					statusCode:{
+						201: function(){
+							successFunction();
+						},
+						400: function(jqXHR){
+							errorAlert(jqXHR.responseText);
+						},
+						500: function(){
+							alert("Server error");
+						}
+					}	
+				});
+			}
 		}
 		
 		function saveData(){
@@ -392,10 +444,8 @@
 						400: function(jqXHR){
 							errorAlert(jqXHR.responseText);
 						},
-						403: function(jqXHR){
-							// login again :
-							refreshToken();
-							// execute request again
+						403: function(){
+							relogin = true;
 						},
 						404: function(){
 							alert("page not found!");
@@ -422,9 +472,8 @@
 							errorAlert(jqXHR.responseText);
 						},
 						403: function(jqXHR){
-							// login again :
-							refreshToken();
 							// execute request again
+							relogin=true;
 						},
 						404: function(){
 							alert("page not found!");
@@ -434,6 +483,10 @@
 						}
 					}
 				});
+			}
+			
+			if(relogin==true){
+				repeatRequest();
 			}
 		}
     </script>
