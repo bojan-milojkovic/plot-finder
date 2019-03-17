@@ -1,6 +1,7 @@
 package com.plot.finder.admin.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,13 +89,15 @@ public class AdminServiceImpl implements AdminService {
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), 
 				"Admin user de-adminize", "You cannot remove your own admin privileges");
 		
-		UserHasRolesJPA uhrJpa = jpa.getUserHasRolesJpa()
+		Optional<UserHasRolesJPA> uhrJpa = jpa.getUserHasRolesJpa()
 									.stream()
 									.filter(j -> j.getRoleJpa().getRoleId()==2)
-									.findFirst().get();
+									.findFirst();
 		
-		jpa.getUserHasRolesJpa().remove(uhrJpa);
+		RestPreconditions.assertTrue(uhrJpa.isPresent(), "Admin user de-adminize", "User with id="+id+" has no admin privileges for you to remove");
 		
+		jpa.getUserHasRolesJpa().remove(uhrJpa.get());
+
 		userRepo.save(jpa);
 	}
 }
