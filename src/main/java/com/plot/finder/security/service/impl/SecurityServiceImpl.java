@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -68,7 +67,7 @@ public class SecurityServiceImpl implements SecurityService {
 	}
 	
 	@Override
-	public String refreshToken(HttpHeaders httpHeaders) throws MyRestPreconditionsException {
-		return jwtTokenUtil.refreshToken(httpHeaders.toSingleValueMap().get("X-My-Security-Token"));
+	public String refreshToken(final String token) throws MyRestPreconditionsException {
+		return jwtTokenUtil.refreshToken(token);
 	}
 }

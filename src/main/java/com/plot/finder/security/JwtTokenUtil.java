@@ -45,7 +45,7 @@ public class JwtTokenUtil implements Serializable {
     private Long expiration = 1800L; // token should last 30 minutes before it expires
     
     @Autowired
-	private UserRepository userSecurityRepository;
+	private UserRepository userRepository;
 
     //TODO: Use these functions at later stages for tighter security
     /*public String getAudienceFromToken(String token) {
@@ -117,7 +117,10 @@ public class JwtTokenUtil implements Serializable {
     public String refreshToken(String token) throws MyRestPreconditionsException {
         try {
             final Claims claims = getClaimsFromToken(token);
+            UserJPA jpa = userRepository.findOneByUsername(claims.getSubject());
             claims.put(CLAIM_KEY_CREATED, new Date());
+            jpa.setLastLogin(LocalDateTime.now());
+            userRepository.save(jpa);
             return generateTokenFromClaims(claims);
         } catch (Exception e) {
             throw new MyRestPreconditionsException("Refresh session error","Something went wrong during token refresh");
@@ -195,7 +198,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     private Boolean isTokenCreatedAfterLastPasswordReset(Date created, Date lastPasswordReset) {
-        return (lastPasswordReset != null && created.after(lastPasswordReset));
+        return (lastPasswordReset!=null && created.after(lastPasswordReset));
     }
     
     private boolean isTokenCreatedAtLastLogin(final Date created, final Date lastLogin){
@@ -260,12 +263,12 @@ public class JwtTokenUtil implements Serializable {
         final String username = getUsernameFromToken(token);
         final Date created = getCreatedDateFromToken(token);
         
-        UserJPA userSecurity = userSecurityRepository.findOneByUsername(username);
+        UserJPA userJpa = userRepository.findOneByUsername(username);
         try {
         	return ( // username is checked when getting user security
         			isTokenNotExpired(token)
-                	&& isTokenCreatedAtLastLogin(created, convertLocalToDate(userSecurity.getLastLogin()))
-                	&& isTokenCreatedAfterLastPasswordReset(created, convertLocalToDate(userSecurity.getLastPasswordChange()))
+                	&& isTokenCreatedAtLastLogin(created, convertLocalToDate(userJpa.getLastLogin()))
+                	&& isTokenCreatedAfterLastPasswordReset(created, convertLocalToDate(userJpa.getLastPasswordChange()))
                 	// you can also check device, and last login ip
                 	);
         
