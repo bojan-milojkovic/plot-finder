@@ -13,8 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -37,8 +35,8 @@ public class JwtTokenUtil implements Serializable {
     private static final String AUDIENCE_TABLET = "tablet"; */   
 
     private static final String ROLE_USER = "1urw";
-    private static final String ROLE_ADMIN = "2arw";
-    private static final String ROLE_SUPER_ADMIN = "3sarwa";
+    private static final String ROLE_ADMIN = "3arw";
+    private static final String ROLE_SUPERADMIN = "4sarwa";
 
     private String secret = "MySuperSecretSneakyKeyForEncriptingAndDecriptingAuthenticationToken";
     // token is valid time in seconds :
@@ -112,17 +110,17 @@ public class JwtTokenUtil implements Serializable {
 			return false; // one is null the other is not
 		}
 		return true; // both are null
-    }*/
+    }
     
-    public String refreshToken(String token) throws MyRestPreconditionsException {
+    public String refreshToken(String token) {
         try {
             final Claims claims = getClaimsFromToken(token);
             claims.put(CLAIM_KEY_CREATED, new Date());
             return generateTokenFromClaims(claims);
         } catch (Exception e) {
-            throw new MyRestPreconditionsException("Refresh login error", "Something went wrong.");
+            return null;
         }
-    }
+    }*/
     
     public String getUsernameFromToken(String token) {
         try {
@@ -211,7 +209,7 @@ public class JwtTokenUtil implements Serializable {
     	for(GrantedAuthority ga : userDetails.getAuthorities()){
 	    	//add role to token
 			if(ga.getAuthority().equals("ROLE_SUPERADMIN")){
-				authorities += (ROLE_SUPER_ADMIN+"#");
+				authorities += (ROLE_SUPERADMIN+"#");
 			}
 			else if(ga.getAuthority().equals("ROLE_ADMIN")){
 				authorities += (ROLE_ADMIN+"#");
@@ -232,7 +230,7 @@ public class JwtTokenUtil implements Serializable {
     	// extracting authorities
     	for(String role : ((String)claims.get(CLAIM_KEY_AUTHORITIES)).split("#")){
 			if(!role.isEmpty()){
-				if(role.equals(ROLE_SUPER_ADMIN)){
+				if(role.equals(ROLE_SUPERADMIN)){
 					authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
 				}
 				else if(role.equals(ROLE_ADMIN)){
