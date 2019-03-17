@@ -3,7 +3,6 @@ package com.plot.finder.email;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
 import org.apache.velocity.app.VelocityEngine;
@@ -113,7 +112,7 @@ public class EmailUtil {
 			
 			javaMailSender.send(message);
 			System.out.println("Message sent successfully!!");
-		} catch (MessagingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

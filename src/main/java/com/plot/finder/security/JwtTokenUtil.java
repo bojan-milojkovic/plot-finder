@@ -35,9 +35,8 @@ public class JwtTokenUtil implements Serializable {
     private static final String AUDIENCE_TABLET = "tablet"; */   
 
     private static final String ROLE_USER = "1urw";
-    private static final String ROLE_HERBALIST = "2hrw";
     private static final String ROLE_ADMIN = "3arw";
-    private static final String ROLE_SUPER_ADMIN = "4sarwa";
+    private static final String ROLE_SUPERADMIN = "4sarwa";
 
     private String secret = "MySuperSecretSneakyKeyForEncriptingAndDecriptingAuthenticationToken";
     // token is valid time in seconds :
@@ -210,13 +209,10 @@ public class JwtTokenUtil implements Serializable {
     	for(GrantedAuthority ga : userDetails.getAuthorities()){
 	    	//add role to token
 			if(ga.getAuthority().equals("ROLE_SUPERADMIN")){
-				authorities += (ROLE_SUPER_ADMIN+"#");
+				authorities += (ROLE_SUPERADMIN+"#");
 			}
 			else if(ga.getAuthority().equals("ROLE_ADMIN")){
 				authorities += (ROLE_ADMIN+"#");
-			}
-			else if(ga.getAuthority().equals("ROLE_HERBALIST")){
-				authorities += (ROLE_HERBALIST+"#");
 			}
 			else if(ga.getAuthority().equals("ROLE_USER")){
 				authorities += (ROLE_USER+"#");
@@ -234,14 +230,11 @@ public class JwtTokenUtil implements Serializable {
     	// extracting authorities
     	for(String role : ((String)claims.get(CLAIM_KEY_AUTHORITIES)).split("#")){
 			if(!role.isEmpty()){
-				if(role.equals(ROLE_SUPER_ADMIN)){
+				if(role.equals(ROLE_SUPERADMIN)){
 					authorities.add(new SimpleGrantedAuthority("ROLE_SUPERADMIN"));
 				}
 				else if(role.equals(ROLE_ADMIN)){
 					authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-				}
-				else if(role.equals(ROLE_HERBALIST)){
-					authorities.add(new SimpleGrantedAuthority("ROLE_HERBALIST"));
 				}
 				else if(role.equals(ROLE_USER)){
 					authorities.add(new SimpleGrantedAuthority("ROLE_USER"));

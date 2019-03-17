@@ -31,9 +31,11 @@ public class AdminServiceImpl implements AdminService {
 		this.emailUtil = emailUtil;
 	}
 
-	public void lockUser(final Long id) throws MyRestPreconditionsException{
+	public void lockUser(final Long id, final String admin) throws MyRestPreconditionsException{
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(id), 
 				"Admin user lock", "Cannot find user with id = "+id);
+		
+		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user lock", "You cannot lock yourself");
 		
 		jpa.setNotLocked(false);
 		jpa.setIdentifier(UUID.randomUUID().toString());
@@ -44,9 +46,11 @@ public class AdminServiceImpl implements AdminService {
 		userRepo.save(jpa);
 	}
 	
-	public void unlockUser(final String username) throws MyRestPreconditionsException{
+	public void unlockUser(final String username, final String admin) throws MyRestPreconditionsException{
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
 				"Admin user unlock", "Cannot find user with username = "+username);
+		
+		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user unlock", "You cannot unlock yourself");
 		
 		jpa.setNotLocked(true);
 		jpa.setIdentifier(null);
@@ -57,9 +61,11 @@ public class AdminServiceImpl implements AdminService {
 		userRepo.save(jpa);
 	}
 	
-	public void makeUserAdmin(final Long id) throws MyRestPreconditionsException{
+	public void makeUserAdmin(final Long id, final String admin) throws MyRestPreconditionsException{
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(id), 
 				"Admin user adminize", "Cannot find user with id = "+id);
+		
+		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user adminize", "You are already an admin");
 		
 		// security roles :
 		UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
@@ -75,9 +81,12 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	//TODO : test this
-	public void removeAdminFromUser(final Long id)throws MyRestPreconditionsException{
+	public void removeAdminFromUser(final Long id, final String admin)throws MyRestPreconditionsException{
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(id), 
 				"Admin user de-adminize", "Cannot find user with id = "+id);
+		
+		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), 
+				"Admin user de-adminize", "You cannot remove your own admin privileges");
 		
 		UserHasRolesJPA uhrJpa = jpa.getUserHasRolesJpa()
 									.stream()
