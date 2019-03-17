@@ -38,8 +38,9 @@ public class UserController {
 	
 	@RequestMapping(value = "/act/{key}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public void activateUser(@PathVariable("key") final String key) throws MyRestPreconditionsException{
+	public String activateUser(@PathVariable("key") final String key) throws MyRestPreconditionsException{
 		userServiceImpl.activateUser(key);
+		return "User activation successfull";
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

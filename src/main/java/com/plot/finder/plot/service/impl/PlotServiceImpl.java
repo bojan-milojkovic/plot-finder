@@ -143,6 +143,7 @@ public class PlotServiceImpl implements PlotService {
 	
 	private List<PlotDTO> convertJpaListToModelList(List<PlotJPA> input){
 		return input.stream()
+				.filter(j -> j.getUserJpa().isNotLocked())
 				.map(j -> {
 					try {
 						return convertJpaToModel(j);
@@ -228,7 +229,9 @@ public class PlotServiceImpl implements PlotService {
 	// find plot by id :
 	public PlotDTO findOneById(final Long id) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
-		return convertJpaToModel(RestPreconditions.checkNotNull(plotRepo.getOne(id),"Finf plot error","Plot with id = "+id+" doesn't exist"));
+		PlotJPA jpa = RestPreconditions.checkNotNull(plotRepo.getOne(id),"Finf plot error","Plot with id = "+id+" doesn't exist");
+		
+		return jpa.getUserJpa().isNotLocked() ? convertJpaToModel(jpa) : null;
 	}
 	
 	private void checkPostDataPresent(final PlotDTO model) throws MyRestPreconditionsException {

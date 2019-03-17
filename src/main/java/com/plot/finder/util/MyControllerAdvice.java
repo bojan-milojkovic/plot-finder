@@ -60,4 +60,6 @@ public class MyControllerAdvice {
 		return new MyBadInputResponse("Your credentials are invalid.", 
 				ex.getLocalizedMessage());
 	}
+	
+	// FileSizeLimitExceededException
 }
