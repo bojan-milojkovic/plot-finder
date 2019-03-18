@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
+import com.plot.finder.util.RestPreconditions;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -116,14 +118,16 @@ public class JwtTokenUtil implements Serializable {
     
     public String refreshToken(String token) throws MyRestPreconditionsException {
         try {
+        	RestPreconditions.assertTrue(!isTokenNotExpired(token), "Session error", "Your session must expire first");
             final Claims claims = getClaimsFromToken(token);
-            UserJPA jpa = userRepository.findOneByUsername(claims.getSubject());
+            UserJPA jpa = RestPreconditions.checkNotNull(userRepository.findOneByUsername(claims.getSubject()),
+            		"Session error","Your credentials are invalid");
             claims.put(CLAIM_KEY_CREATED, new Date());
             jpa.setLastLogin(LocalDateTime.now());
             userRepository.save(jpa);
             return generateTokenFromClaims(claims);
         } catch (Exception e) {
-            throw new MyRestPreconditionsException("Refresh session error","Something went wrong during token refresh");
+            throw new MyRestPreconditionsException("Refresh session error","Something went wrong during refresh");
         }
     }
     

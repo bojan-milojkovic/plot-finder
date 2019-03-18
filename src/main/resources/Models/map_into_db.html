@@ -108,7 +108,6 @@
 		var marker;
 		var clicks = 0;
 		var index = 1;
-		var relogin=false;
 		
 		
 		var formData;
@@ -302,6 +301,10 @@
 			}
 			data3 += ']}';// end array end json
 			myJson = data1 + data2 + data3;
+			
+			if(formData){
+				formData.append('json', myJson);
+			}
 		}
 		
 		function openForm4(){
@@ -362,70 +365,8 @@
 			alert('SUCCESS\nYour plot add is now available to other users.\nIt will expire within 30 days unless you renew it before then.');
 		}
 		
-		function repeatRequest(){
-			// login again :
-			refreshToken();
-			
-			if(formData){
-				$.ajax({
-					url: 'http://localhost:8080/plot',
-					type: 'POST',
-					method: 'POST',
-					headers: {
-						'X-My-Security-Token': token			
-					},
-					data: formData,
-					cache: false,
-					contentType: false,
-					processData: false,
-					statusCode:{
-						201: function(){
-							successFunction();
-						},
-						400: function(jqXHR){
-							errorAlert(jqXHR.responseText);
-						},
-						404: function(){
-							alert("page not found!");
-						},
-						500: function(){
-							alert("Server error");
-						}
-					}
-				});
-			} else {
-				$.ajax({
-					url: 'http://localhost:8080/plot',
-					type: 'POST',
-					headers: {
-						'X-My-Security-Token': token
-					},
-					data: myJson,
-					contentType: 'Application/json',
-					statusCode:{
-						201: function(){
-							successFunction();
-						},
-						400: function(jqXHR){
-							errorAlert(jqXHR.responseText);
-						},
-						500: function(){
-							alert("Server error");
-						}
-					}	
-				});
-			}
-		}
-		
 		function saveData(){
 			if(formData){
-				formData.append('json', myJson);
-				
-				// Display the key/value pairs
-				for (var pair of formData.entries()) {
-					console.log(pair[0]+ ', ' + pair[1]); 
-				}
-				
 				$.ajax({
 					url: 'http://localhost:8080/plot',
 					type: 'POST',
@@ -445,7 +386,8 @@
 							errorAlert(jqXHR.responseText);
 						},
 						403: function(){
-							relogin = true;
+							refreshToken();
+							saveData();
 						},
 						404: function(){
 							alert("page not found!");
@@ -472,8 +414,8 @@
 							errorAlert(jqXHR.responseText);
 						},
 						403: function(jqXHR){
-							// execute request again
-							relogin=true;
+							refreshToken();
+							saveData();
 						},
 						404: function(){
 							alert("page not found!");
@@ -483,10 +425,6 @@
 						}
 					}
 				});
-			}
-			
-			if(relogin==true){
-				repeatRequest();
 			}
 		}
     </script>
