@@ -9,7 +9,19 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 100%;
+		position: absolute;
+		top: 3px;
+		left: 4px;
+        height: 95%;
+		width: 50%;
+		align: left;
+      }
+	  #infowindow {
+        height: 90%;
+		width: 50%;
+		position: absolute;
+		right: -6px;
+		top: 0px;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -17,6 +29,16 @@
         margin: 0;
         padding: 0;
       }
+	  body, #descRow {
+		position: relative;
+	  }
+	  th, td {
+		text-align: left;
+	  }
+	  #descCell {
+		position: absolute;
+		left:20px;
+	  }
     </style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -24,89 +46,132 @@
   </head>
   <body>
     <div id="map"></div>
+	<div id="infowindow">
+		<table id="basicinfo">
+			<tr><th>Title :</th><td id="titleCell"></td></tr>
+			<tr ><th>Description :</th></tr><tr id="descRow"><td id="descCell"></td><td><br/></td></tr>
+			<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
+			<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
+			<tr><th>District :</th><td id="distCell"></td></tr>
+			<tr><th>City :</th><td id="cityCell"></td></tr>
+			<tr><th>Country :</th><td id="countryCell"></td></tr>
+			<tr><th>Plot size : </th><td id="sizeCell"></td><th>Plot is for </th><td id="typeCell"></td></tr>
+			<tr><th>Price :</th><td id="priceCell"></td><th>Currency :</th><td id="curCell"></td></tr>
+		</table><br/>
+		<table id="aditionalInfo" class="unchanging">
+			<tr><th><input type="checkbox" id="house"> Plot has a house</th><th><input type="checkbox" id="garage"> Plot has a garage</th></tr>
+			<tr><th><input type="checkbox" id="power"> Plot has power</th><th><input type="checkbox" id="internet"> Plot has internet</th></tr>
+			<tr><th><input type="checkbox" id="sewer"> Plot has a sewer</th></tr>
+			<tr><th><input type="checkbox" id="water"> Plot has a water</th></tr>
+			<tr><th><input type="checkbox" id="gas"> Plot has gas station/gas line near by</th></tr>
+			<tr><th><input type="checkbox" id="farming"> Plot is for farming</th></tr>
+			<tr><th><input type="checkbox" id="grazing"> Plot is for grazing</th></tr>
+			<tr><th><input type="checkbox" id="orchard"> Plot is an orchard</th></tr>
+		</table>
+	</div>
     <script>
-      var customLabel = {
-        restaurant: {
-          label: 'R'
-        },
-        bar: {
-          label: 'B'
-        }
-      };
-	  
-	  function initMap(){
-		var map = new google.maps.Map(document.getElementById('map'), {
-          center: new google.maps.LatLng(-33.863276, 151.207977),
-          zoom: 12
-        });
-			
-		var infowindow = new google.maps.InfoWindow;
-		
+	
 		var json;
 		
-		$.get(
-			'hhtp://localhost:8080.......', 
-			function(data, status, xhr){
-				json = data;
+		var customLabel = {
+			RENT: {
+			  label: 'R'
 			},
-			'json'
-		);
+			SALE: {
+			  label: 'S'
+			}
+		};
 		
-		Array.prototype.forEach.call(json.markers, function(markerElem) {
-			var name = markerElem.name;
-			var address = markerElem.address;
-			var type = markerElem.type;
-			
-			var point = new google.maps.LatLng(
-				parseFloat(markerElem.lat),
-				parseFloat(markerElem.lng)
-			);
-			
-			var infowincontent = document.createElement('div');
-			var strong = document.createElement('strong');
-			
-			strong.textContent = name;
-			infowincontent.appendChild(strong);
-			infowincontent.appendChild(document.createElement('br'));
-			
-			var text = document.createElement('text');
-			text.textContent = address;
-			infowincontent.appendChild(text);
-			
-			var icon = customLabel[type] || {};
-			var marker = new google.maps.Marker({
-				map : map,
-				position : point,
-				label : icon.label
+		function getPlots(){
+			var plots = '{\"plots":[{';
+			// plot1:
+			plots+='\"title\":\"First plot title\",';
+			plots+='\"description\":\"First plot description\",';
+			plots+='\"address1\":\"First plot address 1\",';
+			plots+='\"address2\":\"First plot address 2\",';
+			plots+='\"district\":\"First plot district\",';
+			plots+='\"city\":\"First plot city\",';
+			plots+='\"country\":\"First plot country\",';
+			plots+='\"type\":\"RENT\",';
+			plots+='\"size\":\"24\",';
+			plots+='\"price\":\"265\",';
+			plots+='\"currency\":\"USD\",';
+			plots+='\"house\":\"true\",';
+			plots+='\"power\":\"true\",';
+			plots+='\"water\":\"true\",';
+			plots+='\"sewer\":\"true\",';
+			plots+='\"vertices\":[';
+			plots+='{\"lat\": -33.563276, \"lng\": 151.007977},';
+			plots+='{\"lat\": -33.563276, \"lng\": 150.997977},';
+			plots+='{\"lat\": -33.663276, \"lng\": 150.997977},';
+			plots+='{\"lat\": -33.663276, \"lng\": 151.007977}';
+			plots+=']},{';
+			// plot2:
+			plots+='\"title\":\"Second plot title\",';
+			plots+='\"description\":\"Second plot description\",';
+			plots+='\"address1\":\"Second plot address 1\",';
+			plots+='\"address2\":\"Second plot address 2\",';
+			plots+='\"district\":\"Second plot district\",';
+			plots+='\"city\":\"Second plot city\",';
+			plots+='\"country\":\"Second plot country\",';
+			plots+='\"type\":\"SALE\",';
+			plots+='\"size\":\"54\",';
+			plots+='\"price\":\"265481\",';
+			plots+='\"currency\":\"EUR\",';
+			plots+='\"orchard\":\"true\",';
+			plots+='\"vertices\":[';
+			plots+='{\"lat\": -33.863276, \"lng\": 151.107977},';
+			plots+='{\"lat\": -33.863276, \"lng\": 151.207977},';
+			plots+='{\"lat\": -33.963276, \"lng\": 151.207977},';
+			plots+='{\"lat\": -33.963276, \"lng\": 151.107977}';
+			plots += ']}]}';
+			return plots;
+		}
+	  
+		function initMap(){
+			var map = new google.maps.Map(document.getElementById('map'), {
+				center: new google.maps.LatLng(-33.863276, 151.207977),
+				zoom: 12
 			});
-			
-			marker.addListener('click', function(){
-				infowindow.setContent(infowincontent);
-				infowindow.open(map,marker);
-			});
-		});
 		
-	  }
-	  
-	  function downloadUrl(){
-		var data = "<markers>";
-		data += "<marker id='1' name='Love.Fish' address='580 Darling Street, Rozelle, NSW' lat='-33.861034' lng='151.171936' type='restaurant'/>";
-		data += "<marker id='2' name='Young Henrys' address='76 Wilford Street, Newtown, NSW' lat='-33.898113' lng='151.174469' type='bar'/>";
-		data += "<marker id='3' name='Hunter Gatherer' address='Greenwood Plaza, 36 Blue St, North Sydney NSW' lat='-33.840282' lng='151.207474' type='bar'/>";
-		data += "<marker id='4' name='The Potting Shed' address='7A, 2 Huntley Street, Alexandria, NSW' lat='-33.910751' lng='151.194168' type='bar'/>";
-		data += "<marker id='5' name='Nomad' address='16 Foster Street, Surry Hills, NSW' lat='-33.879917' lng='151.210449' type='bar'/>";
-		data += "<marker id='6' name='Three Blue Ducks' address='43 Macpherson Street, Bronte, NSW' lat='-33.906357' lng='151.263763' type='restaurant'/>";
-		data += "<marker id='7' name='Single Origin Roasters' address='60-64 Reservoir Street, Surry Hills, NSW' lat='-33.881123' lng='151.209656' type='restaurant'/>";
-		data += "<marker id='8' name='Red Lantern' address='60 Riley Street, Darlinghurst, NSW' lat='-33.874737' lng='151.215530' type='restaurant'/>";
-		data += "</markers>";
-		var parser = new DOMParser();
-		var xml = parser.parseFromString(data,"text/xml");
-		return xml;
-	  }
-	  
+			json = JSON.parse(getPlots());
+			
+			json.plots.forEach(function(plot) {
+				
+			});
+		
+			fillPlotInfo(json.plots[0]);
+		}
+		
+		function fillPlotInfo(plot){
+			$('#titleCell').text(plot.title);
+			$('#descCell').text(plot.description);
+			$('#add1Cell').text(plot.address1);
+			$('#add2Cell').text(plot.address2);
+			$('#distCell').text(plot.district);
+			$('#cityCell').text(plot.city);
+			$('#countryCell').text(plot.country);
+			$('#curCell').text(plot.currency);
+			$('#priceCell').text(plot.price);
+			$('#sizeCell').text(plot.size);
+			$('#typeCell').text(plot.type);
+				
+			$('#house').prop('checked',plot.house);
+			$('#power').prop('checked',plot.power);
+			$('#water').prop('checked',plot.water);
+			$('#sewer').prop('checked',plot.sewer);
+			
+			$('#gas').prop('checked',plot.gas);
+			$('#internet').prop('checked',plot.internet);
+			$('#garage').prop('checked',plot.garage);
+			
+			$('#farming').prop('checked',plot.farming);
+			$('#orchard').prop('checked',plot.orchard);
+			$('#grazing').prop('checked',plot.grazing);
+		}
     </script>
     <script async defer 
-		src="https://maps.googleapis.com/maps/api/js?v=quarterly&key=AIzaSyC32o-io8ytkxJjZcvuchJGBhPmPnmn3hs&callback=initMap">
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnUcOUuCwexpeI5wIAZMkpK5LRYDAajgk&callback=initMap">
 	</script>
   </body>
 </html>
