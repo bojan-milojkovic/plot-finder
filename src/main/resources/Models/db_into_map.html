@@ -29,15 +29,11 @@
         margin: 0;
         padding: 0;
       }
-	  body, #descRow {
+	  body {
 		position: relative;
 	  }
 	  th, td {
 		text-align: left;
-	  }
-	  #descCell {
-		position: absolute;
-		left:20px;
 	  }
     </style>
 	
@@ -49,7 +45,8 @@
 	<div id="infowindow">
 		<table id="basicinfo">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
-			<tr ><th>Description :</th></tr><tr id="descRow"><td id="descCell"></td><td><br/></td></tr>
+			<tr ><th>Description :</th></tr><tr><td><div id="div1"></div></td></tr>
+			<div id="div2">
 			<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
 			<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
 			<tr><th>District :</th><td id="distCell"></td></tr>
@@ -57,7 +54,9 @@
 			<tr><th>Country :</th><td id="countryCell"></td></tr>
 			<tr><th>Plot size : </th><td id="sizeCell"></td><th>Plot is for </th><td id="typeCell"></td></tr>
 			<tr><th>Price :</th><td id="priceCell"></td><th>Currency :</th><td id="curCell"></td></tr>
+			</div>
 		</table><br/>
+		<div id="div3">
 		<table id="aditionalInfo" class="unchanging">
 			<tr><th><input type="checkbox" id="house"> Plot has a house</th><th><input type="checkbox" id="garage"> Plot has a garage</th></tr>
 			<tr><th><input type="checkbox" id="power"> Plot has power</th><th><input type="checkbox" id="internet"> Plot has internet</th></tr>
@@ -68,6 +67,7 @@
 			<tr><th><input type="checkbox" id="grazing"> Plot is for grazing</th></tr>
 			<tr><th><input type="checkbox" id="orchard"> Plot is an orchard</th></tr>
 		</table>
+		</div>
 	</div>
     <script>
 	
@@ -170,7 +170,7 @@
 		
 		function fillPlotInfo(plot){
 			$('#titleCell').text(plot.title);
-			$('#descCell').text(plot.description);
+			$('#div1').text(plot.description);
 			$('#add1Cell').text(plot.address1);
 			$('#add2Cell').text(plot.address2);
 			$('#distCell').text(plot.district);
