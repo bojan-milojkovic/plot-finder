@@ -101,6 +101,7 @@
 			plots+='\"country\":\"First plot country\",';
 			plots+='\"type\":\"RENT\",';
 			plots+='\"size\":\"24\",';
+			plots+='\"sizeUnit\":\"Ha\",';
 			plots+='\"price\":\"265\",';
 			plots+='\"currency\":\"USD\",';
 			plots+='\"house\":\"true\",';
@@ -123,6 +124,7 @@
 			plots+='\"country\":\"Second plot country\",';
 			plots+='\"type\":\"SALE\",';
 			plots+='\"size\":\"54\",';
+			plots+='\"sizeUnit\":\"Ar\",';
 			plots+='\"price\":\"265481\",';
 			plots+='\"currency\":\"EUR\",';
 			plots+='\"orchard\":\"true\",';
@@ -183,7 +185,7 @@
 			$('#cityCell').text(plot.city);
 			$('#countryCell').text(plot.country);
 			$('#priceCell').text(plot.price + '  ' + plot.currency);
-			$('#sizeCell').text(plot.size);
+			$('#sizeCell').text(plot.size + '  ' + plot.sizeUnit);
 			$('#typeCell').text(plot.type);
 				
 			$('#house').prop('checked', plot.house);
