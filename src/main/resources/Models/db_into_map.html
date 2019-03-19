@@ -35,6 +35,10 @@
 	  th, td {
 		text-align: left;
 	  }
+	  #descCell {
+		position: absolute;
+		left: 20px;
+	  }
     </style>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -43,36 +47,38 @@
   <body>
     <div id="map"></div>
 	<div id="infowindow">
-		<table id="basicinfo">
+		<table id="title">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
-			<tr ><th>Description :</th></tr><tr><td><div id="div1"></div></td></tr>
-			<div id="div2">
+			<tr><th>Description :</th></tr>
+		</table>
+		<div id="descCell">
+		</div><br/>
+		<table id="basicinfo">
 			<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
 			<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
 			<tr><th>District :</th><td id="distCell"></td></tr>
 			<tr><th>City :</th><td id="cityCell"></td></tr>
 			<tr><th>Country :</th><td id="countryCell"></td></tr>
-			<tr><th>Plot size : </th><td id="sizeCell"></td><th>Plot is for </th><td id="typeCell"></td></tr>
-			<tr><th>Price :</th><td id="priceCell"></td><th>Currency :</th><td id="curCell"></td></tr>
-			</div>
+			<tr><th>Plot size : </th><td id="sizeCell"></td></tr>
+			<tr><th>Price :</th><td id="priceCell"></td></tr>
+			<tr><th>Plot is for </th><td id="typeCell"></td><tr>
 		</table><br/>
-		<div id="div3">
 		<table id="aditionalInfo" class="unchanging">
-			<tr><th><input type="checkbox" id="house"> Plot has a house</th><th><input type="checkbox" id="garage"> Plot has a garage</th></tr>
-			<tr><th><input type="checkbox" id="power"> Plot has power</th><th><input type="checkbox" id="internet"> Plot has internet</th></tr>
-			<tr><th><input type="checkbox" id="sewer"> Plot has a sewer</th></tr>
-			<tr><th><input type="checkbox" id="water"> Plot has a water</th></tr>
-			<tr><th><input type="checkbox" id="gas"> Plot has gas station/gas line near by</th></tr>
-			<tr><th><input type="checkbox" id="farming"> Plot is for farming</th></tr>
-			<tr><th><input type="checkbox" id="grazing"> Plot is for grazing</th></tr>
-			<tr><th><input type="checkbox" id="orchard"> Plot is an orchard</th></tr>
+			<tr><th><input type="checkbox" id="house"/> Plot has a house</th><th><input type="checkbox" id="garage"/> Plot has a garage</th></tr>
+			<tr><th><input type="checkbox" id="power"/> Plot has power</th><th><input type="checkbox" id="internet"/> Plot has internet</th></tr>
+			<tr><th><input type="checkbox" id="sewer"/> Plot has sewer</th></tr>
+			<tr><th><input type="checkbox" id="water"/> Plot has water</th></tr>
+			<tr><th><input type="checkbox" id="gas"/> Plot has gas station/gas line near by</th></tr>
+			<tr><th><input type="checkbox" id="farming"/> Plot is for farming</th></tr>
+			<tr><th><input type="checkbox" id="grazing"/> Plot is for grazing</th></tr>
+			<tr><th><input type="checkbox" id="orchard"/> Plot is an orchard</th></tr>
 		</table>
-		</div>
 	</div>
     <script>
-	
 		var json;
 		var map;
+		var marker;
+		var polygons = [];
 		
 		var customLabel = {
 			RENT: {
@@ -121,10 +127,10 @@
 			plots+='\"currency\":\"EUR\",';
 			plots+='\"orchard\":\"true\",';
 			plots+='\"vertices\":[';
+			plots+='{\"lat\": -33.865276, \"lng\": 151.205977},';
 			plots+='{\"lat\": -33.865276, \"lng\": 151.206977},';
-			plots+='{\"lat\": -33.865276, \"lng\": 151.207977},';
-			plots+='{\"lat\": -33.866276, \"lng\": 151.207977},';
-			plots+='{\"lat\": -33.866276, \"lng\": 151.206977}';
+			plots+='{\"lat\": -33.866276, \"lng\": 151.206977},';
+			plots+='{\"lat\": -33.866276, \"lng\": 151.205977}';
 			plots += ']}]}';
 			return plots;
 		}
@@ -135,17 +141,16 @@
 				zoom: 15
 			});
 		
+			marker = new google.maps.Marker({
+						map: map
+					});
+					
 			json = JSON.parse(getPlots());
 			
 			createPolygons(json.plots);
-			
-			fillPlotInfo(json.plots[0]);
 		}
 		
 		function createPolygons(plots){
-		
-			var polygons = [];
-			
 			plots.forEach(function(plot, index) {
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
@@ -155,8 +160,7 @@
 						strokeOpacity: 0.8,
 						strokeWeight: 2,
 						fillColor: '#FF0000',
-						fillOpacity: 0.35,
-						editable: false
+						fillOpacity: 0.35
 					});
 				polygon.setMap(map);
 				
@@ -169,30 +173,35 @@
 		}
 		
 		function fillPlotInfo(plot){
+			$('#aditionalInfo input[type=checkbox]').prop('checked', false);
+		
 			$('#titleCell').text(plot.title);
-			$('#div1').text(plot.description);
+			$('#descCell').text(plot.description);
 			$('#add1Cell').text(plot.address1);
 			$('#add2Cell').text(plot.address2);
 			$('#distCell').text(plot.district);
 			$('#cityCell').text(plot.city);
 			$('#countryCell').text(plot.country);
-			$('#curCell').text(plot.currency);
-			$('#priceCell').text(plot.price);
+			$('#priceCell').text(plot.price + '  ' + plot.currency);
 			$('#sizeCell').text(plot.size);
 			$('#typeCell').text(plot.type);
 				
-			$('#house').prop('checked',plot.house);
-			$('#power').prop('checked',plot.power);
-			$('#water').prop('checked',plot.water);
-			$('#sewer').prop('checked',plot.sewer);
+			$('#house').prop('checked', plot.house);
+			$('#power').prop('checked', plot.power);
+			$('#water').prop('checked', plot.water);
+			$('#sewer').prop('checked', plot.sewer);
 			
-			$('#gas').prop('checked',plot.gas);
-			$('#internet').prop('checked',plot.internet);
-			$('#garage').prop('checked',plot.garage);
+			$('#gas').prop('checked', plot.gas);
+			$('#internet').prop('checked', plot.internet);
+			$('#garage').prop('checked', plot.garage);
 			
-			$('#farming').prop('checked',plot.farming);
-			$('#orchard').prop('checked',plot.orchard);
-			$('#grazing').prop('checked',plot.grazing);
+			$('#farming').prop('checked', plot.farming);
+			$('#orchard').prop('checked', plot.orchard);
+			$('#grazing').prop('checked', plot.grazing);
+			
+			marker.setPosition(plot.vertices[0]);
+			marker.setTitle(plot.title);
+			marker.setLabel(customLabel[plot.type].label);
 		}
     </script>
     <script async defer 
