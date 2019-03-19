@@ -77,7 +77,6 @@
     <script>
 		var json;
 		var map;
-		var marker;
 		var polygons = [];
 		
 		var customLabel = {
@@ -142,10 +141,6 @@
 				center: new google.maps.LatLng(-33.863276, 151.207977),
 				zoom: 15
 			});
-		
-			marker = new google.maps.Marker({
-						map: map
-					});
 					
 			json = JSON.parse(getPlots());
 			
@@ -166,11 +161,26 @@
 					});
 				polygon.setMap(map);
 				
-				polygon.addListener('click', function(clickedPolygon){
+				var marker = new google.maps.Marker({
+						position: plot.vertices[0],
+						map: map,
+						title: plot.title,
+						label: customLabel[plot.type].label
+					});
+				
+				polygon.addListener('click', function(){
+					resetStrokes();
+					this.setOptions({strokeWeight: 6});
 					fillPlotInfo(plots[index]);
 				});
 				
 				polygons.push(polygon);
+			});
+		}
+		
+		function resetStrokes(){
+			polygons.forEach(function(polygon, index) {
+				polygon.setOptions({strokeWeight: 2});
 			});
 		}
 		
@@ -200,10 +210,6 @@
 			$('#farming').prop('checked', plot.farming);
 			$('#orchard').prop('checked', plot.orchard);
 			$('#grazing').prop('checked', plot.grazing);
-			
-			marker.setPosition(plot.vertices[0]);
-			marker.setTitle(plot.title);
-			marker.setLabel(customLabel[plot.type].label);
 		}
     </script>
     <script async defer 
