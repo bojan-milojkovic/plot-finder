@@ -72,6 +72,7 @@
     <script>
 	
 		var json;
+		var map;
 		
 		var customLabel = {
 			RENT: {
@@ -101,10 +102,10 @@
 			plots+='\"water\":\"true\",';
 			plots+='\"sewer\":\"true\",';
 			plots+='\"vertices\":[';
-			plots+='{\"lat\": -33.563276, \"lng\": 151.007977},';
-			plots+='{\"lat\": -33.563276, \"lng\": 150.997977},';
-			plots+='{\"lat\": -33.663276, \"lng\": 150.997977},';
-			plots+='{\"lat\": -33.663276, \"lng\": 151.007977}';
+			plots+='{\"lat\": -33.863276, \"lng\": 151.207977},';
+			plots+='{\"lat\": -33.863276, \"lng\": 151.208977},';
+			plots+='{\"lat\": -33.864276, \"lng\": 151.208977},';
+			plots+='{\"lat\": -33.864276, \"lng\": 151.207977}';
 			plots+=']},{';
 			// plot2:
 			plots+='\"title\":\"Second plot title\",';
@@ -120,27 +121,51 @@
 			plots+='\"currency\":\"EUR\",';
 			plots+='\"orchard\":\"true\",';
 			plots+='\"vertices\":[';
-			plots+='{\"lat\": -33.863276, \"lng\": 151.107977},';
-			plots+='{\"lat\": -33.863276, \"lng\": 151.207977},';
-			plots+='{\"lat\": -33.963276, \"lng\": 151.207977},';
-			plots+='{\"lat\": -33.963276, \"lng\": 151.107977}';
+			plots+='{\"lat\": -33.865276, \"lng\": 151.206977},';
+			plots+='{\"lat\": -33.865276, \"lng\": 151.207977},';
+			plots+='{\"lat\": -33.866276, \"lng\": 151.207977},';
+			plots+='{\"lat\": -33.866276, \"lng\": 151.206977}';
 			plots += ']}]}';
 			return plots;
 		}
 	  
 		function initMap(){
-			var map = new google.maps.Map(document.getElementById('map'), {
+			map = new google.maps.Map(document.getElementById('map'), {
 				center: new google.maps.LatLng(-33.863276, 151.207977),
-				zoom: 12
+				zoom: 15
 			});
 		
 			json = JSON.parse(getPlots());
 			
-			json.plots.forEach(function(plot) {
-				
-			});
-		
+			createPolygons(json.plots);
+			
 			fillPlotInfo(json.plots[0]);
+		}
+		
+		function createPolygons(plots){
+		
+			var polygons = [];
+			
+			plots.forEach(function(plot, index) {
+				var polygon = new google.maps.Polygon({
+						pIndex: index,
+						plotId: plot.id,
+						paths: plot.vertices,
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.35,
+						editable: false
+					});
+				polygon.setMap(map);
+				
+				polygon.addListener('click', function(clickedPolygon){
+					fillPlotInfo(plots[index]);
+				});
+				
+				polygons.push(polygon);
+			});
 		}
 		
 		function fillPlotInfo(plot){
