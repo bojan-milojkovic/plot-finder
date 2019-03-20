@@ -1,6 +1,9 @@
 package com.plot.finder.plot.repository;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -11,7 +14,9 @@ import org.springframework.stereotype.Repository;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.plot.entities.metamodels.PlotJPA_;
+import com.plot.finder.plot.entities.metamodels.WatchedJPA_;
 import com.plot.finder.util.RestPreconditions;
+import com.plot.finder.watched.entity.WatchedJPA;
 
 @Repository
 public class PlotCriteriaRepository {
@@ -22,34 +27,41 @@ public class PlotCriteriaRepository {
 	public List<PlotJPA> getPlotByCoordinates(final float ll_x, final float ll_y, final float ur_x, final float ur_y){
 		CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
 		
-		CriteriaQuery<PlotJPA> cquerry = builder.createQuery(PlotJPA.class);
-		Root<PlotJPA> croot = cquerry.from(PlotJPA.class);
+		CriteriaQuery<WatchedJPA> cquerry = builder.createQuery(WatchedJPA.class);
+		Root<WatchedJPA> croot = cquerry.from(WatchedJPA.class);
 		
 		cquerry.select(croot);
 		
 		Predicate dPred = builder.disjunction();
 		
-		// plot's ll_x is between ll_x and ur_x arguments :
+		// plot's ll_x is between arguments ll_x and ur_x  :
 		dPred = builder.or(dPred, builder.and(
-										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ll_x), ll_x), 
-						   				builder.lessThanOrEqualTo(croot.get(PlotJPA_.ll_x), ur_x)));
+										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ll_x), ll_x), 
+						   				builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ll_x), ur_x)));
 		
-		// plot's ur_x is between ll_x and ur_x arguments :
+		// plot's ur_x is between arguments ll_x and ur_x  :
 		dPred = builder.or(dPred, builder.and(
-										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ur_x), ll_x),
-										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ur_x), ur_x)));
+										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ur_x), ll_x),
+										builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ur_x), ur_x)));
 		
-		// plot's ll_y is between ll_y and ur_y arguments :
+		// plot's ll_y is between arguments ll_y and ur_y  :
 		dPred = builder.or(dPred, builder.and(
-										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ll_y), ll_y),
-										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ll_y), ur_y)));
+										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ll_y), ll_y),
+										builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ll_y), ur_y)));
 		
-		// plot's ur_y is between ll_y and ur_y arguments :
+		// plot's ur_y is between arguments ll_y and ur_y  :
 		dPred = builder.or(dPred, builder.and(
-										builder.greaterThanOrEqualTo(croot.get(PlotJPA_.ur_y), ll_y),
-										builder.lessThanOrEqualTo(croot.get(PlotJPA_.ur_y), ur_y)));
+										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ll_y),
+										builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ur_y)));
 		
-		return entityManagerFactory.createEntityManager().createQuery(cquerry.where(dPred)).getResultList();
+		return entityManagerFactory.createEntityManager()
+				.createQuery(cquerry.where(
+						builder.and(dPred, croot.get(WatchedJPA_.plotJpa).isNotNull())
+						)).getResultList()
+				.stream()
+				.map(w -> w.getPlotJpa())
+				//.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 	}
 	
 	public List<PlotJPA> getPlotByProperties(final PlotDTO model){

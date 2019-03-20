@@ -61,6 +61,10 @@ public class PlotDTO implements Serializable {
 	private String currency;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	@Pattern(regexp="^(Ha)|(Ar)|(m2)$")
+	private String sizeUnit;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	@Pattern(regexp="^(SALE)|(RENT)$")
 	private String type;
 	
@@ -411,5 +415,13 @@ public class PlotDTO implements Serializable {
 
 	public void setDistrict(String district) {
 		this.district = district;
+	}
+
+	public String getSizeUnit() {
+		return sizeUnit;
+	}
+
+	public void setSizeUnit(String sizeUnit) {
+		this.sizeUnit = sizeUnit;
 	}
 }

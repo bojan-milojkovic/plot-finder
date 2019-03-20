@@ -37,7 +37,7 @@ public class RestPreconditions {
 	}
 	
 	public static void checkId(final Long id) throws MyRestPreconditionsException {
-		if(!(id!=null && id>0)){
+		if(id==null || id<=0){
 			throw new MyRestPreconditionsException("Find object by id failed", "Id is invalid");
 		}
 	}

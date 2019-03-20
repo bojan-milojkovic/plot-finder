@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.user.entity.UserJPA;
 
 @Entity
@@ -35,6 +37,10 @@ public class WatchedJPA implements WatchedParent {
 	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private UserJPA userJpa;
+	
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "plot_id")
+	private PlotJPA plotJpa;
 
 	public Long getId() {
 		return id;
@@ -82,5 +88,13 @@ public class WatchedJPA implements WatchedParent {
 
 	public void setUserJpa(UserJPA userJpa) {
 		this.userJpa = userJpa;
+	}
+
+	public PlotJPA getPlotJpa() {
+		return plotJpa;
+	}
+
+	public void setPlotJpa(PlotJPA plotJpa) {
+		this.plotJpa = plotJpa;
 	}
 }

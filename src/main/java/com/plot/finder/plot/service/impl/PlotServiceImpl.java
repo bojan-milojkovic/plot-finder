@@ -64,6 +64,9 @@ public class PlotServiceImpl implements PlotService {
 		model.setDescription(jpa.getDescription());
 		model.setTitle(jpa.getTitle());
 		model.setSize(jpa.getSize());
+		model.setSizeUnit(jpa.getSizeUnit());
+		model.setPrice(jpa.getPrice());
+		model.setCurrency(jpa.getCurrency());
 		model.setAdded(jpa.getAdded());
 		model.setExpires(jpa.getExpires());
 		
@@ -90,19 +93,18 @@ public class PlotServiceImpl implements PlotService {
 	private PlotJPA setCoordinates(List<Vertice> vertices, PlotJPA jpa) {
 		String tmp="";
 		// jpa ll and ur x/y coordinates are already set
-		
 		for(Vertice v : vertices) {
-			if(v.getLat() < jpa.getLl_y()) {
-				jpa.setLl_y(v.getLat());
+			if(v.getLat() < jpa.getWa().getLl_y()) {
+				jpa.getWa().setLl_y(v.getLat());
 			}
-			if(v.getLat() > jpa.getUr_y()) {
-				jpa.setUr_y(v.getLat());
+			if(v.getLat() > jpa.getWa().getUr_y()) {
+				jpa.getWa().setUr_y(v.getLat());
 			}
-			if(v.getLng() < jpa.getLl_x()) {
-				jpa.setLl_x(v.getLng());
+			if(v.getLng() < jpa.getWa().getLl_x()) {
+				jpa.getWa().setLl_x(v.getLng());
 			}
-			if(v.getLng() > jpa.getUr_x()) {
-				jpa.setUr_x(v.getLng());
+			if(v.getLng() > jpa.getWa().getUr_x()) {
+				jpa.getWa().setUr_x(v.getLng());
 			}
 			
 			tmp+=(v.getLat().toString()+"#"+v.getLng().toString()+"@");
@@ -172,7 +174,7 @@ public class PlotServiceImpl implements PlotService {
 			plotRepo.save(jpa);
 		} else {
 			this.delete(id, username, false);
-			throw new MyRestPreconditionsException("Your plot has just expired","Please post the plot again");
+			throw new MyRestPreconditionsException("Your plot has just expired","Please post the plot add again");
 		}
 	}
 	
@@ -222,6 +224,9 @@ public class PlotServiceImpl implements PlotService {
 		if(model.getSize()!=null) {
 			jpa.setSize(model.getSize());
 		}
+		if(RestPreconditions.checkString(model.getSizeUnit())) {
+			jpa.setSizeUnit(model.getSizeUnit());
+		}
 		
 		return jpa;
 	}
@@ -266,6 +271,9 @@ public class PlotServiceImpl implements PlotService {
 		if(model.getSize()==null) {
 			e.getErrors().add("plot size is mandatory");
 		}
+		if(!RestPreconditions.checkString(model.getSizeUnit())) {
+			e.getErrors().add("unit of size is mandatory");
+		}
 		if(model.getPrice()==null) {
 			e.getErrors().add("price is mandatory");
 		}
@@ -291,11 +299,8 @@ public class PlotServiceImpl implements PlotService {
 		jpa.addRemoveFlag("orchard", model.getOrchard());
 		
 		if(RestPreconditions.checkString(model.getType())) {
-			if("SALE".equals(model.getType())){
-				jpa.addRemoveFlag("rent", false);
-			} else {
-				jpa.addRemoveFlag("sale", false);
-			}
+			jpa.addRemoveFlag("rent", false);
+			jpa.addRemoveFlag("sale", false);
 			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
 		}
 		
@@ -364,22 +369,25 @@ public class PlotServiceImpl implements PlotService {
 				RestPreconditions.checkString(model.getAddress2()) ||
 				RestPreconditions.checkString(model.getCity()) ||
 				RestPreconditions.checkString(model.getCountry()) ||
-				RestPreconditions.checkString(model.getCurrency()) ||
 				RestPreconditions.checkString(model.getDescription()) ||
 				RestPreconditions.checkString(model.getTitle()) ||
 				RestPreconditions.checkString(model.getDistrict()) ||
 				RestPreconditions.checkString(model.getType()) ||
+				RestPreconditions.checkString(model.getCurrency()) ||
+				RestPreconditions.checkString(model.getSizeUnit()) ||
 				
-				model.getSewer()!=null ||
-				model.isGarage()!=null ||
-				model.isGas()!=null ||
-				model.isInternet()!=null ||
-				model.isPower()!=null ||
-				model.isWater()!=null ||
 				model.getPrice()!=null ||
 				model.getSize()!=null ||
 				
 				model.getHouse()!=null ||
+				model.isPower()!=null ||
+				model.isWater()!=null ||
+				model.getSewer()!=null ||
+				
+				model.isGarage()!=null ||
+				model.isGas()!=null ||
+				model.isInternet()!=null ||
+				
 				model.getFarming()!=null ||
 				model.getGrazing()!=null ||
 				model.getOrchard()!=null ||
@@ -390,7 +398,10 @@ public class PlotServiceImpl implements PlotService {
 	
 	@Transactional
 	private PlotJPA saveAll(PlotJPA jpa, PlotDTO model) throws MyRestPreconditionsException{
-		saveModelFiles(model, (plotRepo.save(saveFlags(plotRepo.save(jpa), model))).getId());
+		saveModelFiles(model, 
+				(plotRepo.save(
+							saveFlags(jpa.getId()==null ? plotRepo.save(jpa) : jpa, model) // so jpa would have id for flags to use in hashCode
+										)).getId());
 		
 		return jpa;
 	}
@@ -416,35 +427,33 @@ public class PlotServiceImpl implements PlotService {
 		
 		// check vertices are convex and the number of vertices
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
-			if(!(model.getVertices().size()>3 && model.getVertices().size()<9)) {
-				throw new MyRestPreconditionsException("Edit plot error","Number of vertices in plot must be between 4 and 8");
-			} else if(!isConvex(model.getVertices())) {
-				throw new MyRestPreconditionsException("Edit plot error","Plot polygon you are entering is not convex.");
-			}
+			RestPreconditions.assertTrue(model.getVertices().size()>3 && model.getVertices().size()<9,
+					"Edit plot error","Number of vertices in plot must be between 4 and 8");
+			RestPreconditions.assertTrue(isConvex(model.getVertices()), 
+					"Edit plot error","Plot polygon you are entering is not convex.");
 		}
 		// check images :
 		checkFiles(model);
 		
 		model.setId(id);
-		if(checkPatchDataPresent(model)) {
+		
+		RestPreconditions.assertTrue(checkPatchDataPresent(model), 
+				"Edit plot error","You must provide some editable data");
 			
-			// check plot exists
-			RestPreconditions.assertTrue(
-					(RestPreconditions.checkNotNull(plotRepo.getOne(id), "Edit plot error", 
-													"You are trying to edit a plot that doesn't exist in our database")) // returns PlotJPA
-										// check user is editing his plot and not someone else's
-										.getUserJpa().getUsername().equals(username), 
-										"Edit plot error", "You are trying to edit someone else's plot");
-			
-			//TODO: check that it doesn't overlap with other plots in db :
-			
-			// save images :
-			saveModelFiles(model, id);
-			
-			return convertJpaToModel(saveAll(convertModelToJpa(model), model));
-		} else {
-			throw new MyRestPreconditionsException("Edit plot error","You must provide some editable data");
-		}
+		RestPreconditions.assertTrue(
+				// check plot exists
+				(RestPreconditions.checkNotNull(plotRepo.getOne(id), "Edit plot error", 
+												"You are trying to edit a plot that doesn't exist in our database")) // returns PlotJPA
+									// check user is editing his plot and not someone else's
+									.getUserJpa().getUsername().equals(username), 
+									"Edit plot error", "You are trying to edit someone else's plot");
+		
+		//TODO: check that it doesn't overlap with other plots in db :
+		
+		// save images :
+		saveModelFiles(model, id);
+		
+		return convertJpaToModel(saveAll(convertModelToJpa(model), model));
 	}
 	
 	@Transactional

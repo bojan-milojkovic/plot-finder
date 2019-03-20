@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
@@ -38,9 +39,9 @@ public class WatchedServiceImpl implements WatchedService {
 	}
 	
 	public WatchedDTO addEdit(WatchedDTO model, final String username) throws MyRestPreconditionsException{
-		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");
+		RestPreconditions.checkNotNull(model, "Watched area error", "You cannot add/edit watched area with an empty object in request.");
 		
-		String title = "Find plots by coordinates error";
+		String title = "Watched area error";
 		RestPreconditions.assertTrue(Math.abs(model.getLl_x()) < 90, 
 				title, "(LL) Latitude is outside the [-90,+90] range.");
 		RestPreconditions.assertTrue(Math.abs(model.getUr_x()) < 90, 
@@ -74,6 +75,14 @@ public class WatchedServiceImpl implements WatchedService {
 		return (WatchedJPA) setCoordinates(entity, model);
 	}
 	
+	public Vertice watchedAreaCenter(final Long id) throws MyRestPreconditionsException {
+		RestPreconditions.checkId(id);
+		WatchedJPA entity = RestPreconditions.checkNotNull(watchedRepo.getOne(id),
+				"Watched area center error","Area with id="+id+" does not exist");
+		
+		return new Vertice( (entity.getLl_x()+entity.getUr_x())/2, (entity.getLl_y()+entity.getUr_y())/2 );
+	}
+	
 	private WatchedParent setCoordinates(WatchedParent entity, WatchedParent model){
 		entity.setLl_x(model.getLl_x());
 		entity.setLl_y(model.getLl_y());
@@ -90,7 +99,7 @@ public class WatchedServiceImpl implements WatchedService {
 	
 	public void checkNewPlotIsInsideAnArea(final PlotJPA entity){
 		
-		watchedRepo.findAreasWatchingPlot(entity.getLl_x(), entity.getLl_y(), entity.getUr_x(), entity.getUr_y())
+		watchedRepo.findAreasWatchingPlot(entity.getWa().getLl_x(), entity.getWa().getLl_y(), entity.getWa().getUr_x(), entity.getWa().getUr_y())
 			.stream()
 			.filter(j -> j.getUserJpa().getId() != entity.getUserJpa().getId())
 			.forEach(j->emailUtil.sendNewPlotEmail(entity));

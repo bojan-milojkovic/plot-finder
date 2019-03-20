@@ -10,6 +10,11 @@ public class Vertice {
 		super();
 	}
 	
+	public Vertice(Float x, Float y) {
+		this.lng = x;
+		this.lat = y;
+	}
+	
 	public static Vertice createFromString(String v) {
 		String[] latLng = v.split("#");
 		

@@ -13,8 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.plot.finder.user.entity.UserJPA;
+import com.plot.finder.watched.entity.WatchedJPA;
 
 @Entity
 @Table(name = "plot")
@@ -26,29 +28,21 @@ public class PlotJPA {
 	private Long id;
 	
 	@Column
-	private Float ll_x;
-	
-	@Column
-	private Float ll_y;
-	
-	@Column
-	private Float ur_x;
-
-	@Column
-	private Float ur_y;
-	
-	@Column
 	private String polygon;
 	
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private UserJPA userJpa;
 	
+	@OneToOne(mappedBy="plotJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	private WatchedJPA wa;
+	
 	public PlotJPA() {
-		setLl_x(900f);
-		setLl_y(900f);
-		setUr_x(-900f);
-		setUr_y(-900f);
+		wa = new WatchedJPA();
+		wa.setLl_x(900f);
+		wa.setLl_y(900f);
+		wa.setUr_x(-900f);
+		wa.setUr_y(-900f);
 	}
 
 	@Column
@@ -81,6 +75,9 @@ public class PlotJPA {
 	@Column
 	private String currency;
 	
+	@Column(name="size_unit")
+	private String sizeUnit;
+	
 	@Column
 	private LocalDate added;
 	
@@ -112,38 +109,6 @@ public class PlotJPA {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Float getLl_x() {
-		return ll_x;
-	}
-
-	public void setLl_x(Float ll_x) {
-		this.ll_x = ll_x;
-	}
-
-	public Float getLl_y() {
-		return ll_y;
-	}
-
-	public void setLl_y(Float ll_y) {
-		this.ll_y = ll_y;
-	}
-
-	public Float getUr_x() {
-		return ur_x;
-	}
-
-	public void setUr_x(Float ur_x) {
-		this.ur_x = ur_x;
-	}
-
-	public Float getUr_y() {
-		return ur_y;
-	}
-
-	public void setUr_y(Float ur_y) {
-		this.ur_y = ur_y;
 	}
 
 	public String getPolygon() {
@@ -264,5 +229,21 @@ public class PlotJPA {
 
 	public void setFlags(Set<Flags> flags) {
 		this.flags = flags;
+	}
+
+	public String getSizeUnit() {
+		return sizeUnit;
+	}
+
+	public void setSizeUnit(String sizeUnit) {
+		this.sizeUnit = sizeUnit;
+	}
+
+	public WatchedJPA getWa() {
+		return wa;
+	}
+
+	public void setWa(WatchedJPA wa) {
+		this.wa = wa;
 	}
 }
