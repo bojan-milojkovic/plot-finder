@@ -22,6 +22,7 @@ import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
+import com.plot.finder.watched.entity.WatchedJPA;
 import com.plot.finder.watched.service.WatchedService;
 
 @Service
@@ -341,6 +342,15 @@ public class PlotServiceImpl implements PlotService {
 		watchedServiceImpl.checkNewPlotIsInsideAnArea(jpa);
 		
 		return convertJpaToModel(jpa);
+	}
+	
+	public List<PlotDTO> findPlotsInUserWatchedArea(final String username) throws MyRestPreconditionsException{
+		// username exists if it passed security
+		
+		WatchedJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username).getWatched(),
+				"Find plots by watched area error","User "+username+" did not specify a watched area");
+		
+		return findPlotsByCoordinates(new Vertice(jpa.getLl_x(), jpa.getLl_y()), new Vertice(jpa.getUr_x(), jpa.getUr_y()));
 	}
 	
 	private boolean isConvex(List<Vertice> _vertices) {

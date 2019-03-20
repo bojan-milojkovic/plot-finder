@@ -1,9 +1,8 @@
 package com.plot.finder.plot.repository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,9 +13,9 @@ import org.springframework.stereotype.Repository;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.PlotJPA;
 import com.plot.finder.plot.entities.metamodels.PlotJPA_;
-import com.plot.finder.plot.entities.metamodels.WatchedJPA_;
 import com.plot.finder.util.RestPreconditions;
 import com.plot.finder.watched.entity.WatchedJPA;
+import com.plot.finder.watched.entity.WatchedJPA_;
 
 @Repository
 public class PlotCriteriaRepository {
@@ -54,14 +53,19 @@ public class PlotCriteriaRepository {
 										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ll_y),
 										builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ur_y)));
 		
-		return entityManagerFactory.createEntityManager()
+		 List<WatchedJPA> wList = entityManagerFactory.createEntityManager()
 				.createQuery(cquerry.where(
 						builder.and(dPred, croot.get(WatchedJPA_.plotJpa).isNotNull())
-						)).getResultList()
-				.stream()
+						)).getResultList();
+		 
+		 
+		if(wList!=null && !wList.isEmpty())	
+			return wList.stream()
 				.map(w -> w.getPlotJpa())
-				//.filter(Objects::nonNull)
+				//.filter(p -> p!=null)
 				.collect(Collectors.toList());
+		
+		return new ArrayList<PlotJPA>();
 	}
 	
 	public List<PlotJPA> getPlotByProperties(final PlotDTO model){

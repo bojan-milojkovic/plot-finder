@@ -165,6 +165,13 @@ public class PlotController {
 		return plotServiceImpl.findPlotsByCoordinates(list.get(0), list.get(1));
 	}
 	
+	@RequestMapping(value="/fbwa", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody List<PlotDTO> findPlotsInWatchedArea(Principal principal) throws MyRestPreconditionsException{
+		return plotServiceImpl.findPlotsInUserWatchedArea(principal.getName());
+	}
+	
 	@RequestMapping(value="/fbp", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)

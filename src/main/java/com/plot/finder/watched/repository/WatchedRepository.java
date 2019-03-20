@@ -24,7 +24,7 @@ public interface WatchedRepository extends JpaRepository<WatchedJPA, Long>{
 								  ((w.ll_y<=?2 AND w.ur_y>=?2) OR (w.ll_y<=?4 AND w.ur_y>=?4))
 		
 	*/
-	@Query("SELECT * FROM WatchedJPA w where ((w.ll_x<=?1 AND w.ur_x>=?1) OR (w.ll_x<=?3 AND w.ur_x>=?3)) AND "+
+	@Query("SELECT w FROM WatchedJPA w where ((w.ll_x<=?1 AND w.ur_x>=?1) OR (w.ll_x<=?3 AND w.ur_x>=?3)) AND "+
 											  "((w.ll_y<=?2 AND w.ur_y>=?2) OR (w.ll_y<=?4 AND w.ur_y>=?4)) AND "+
 											  "w.userJpa IS NOT NULL") // this means we search for WAs, not plots
 	List<WatchedJPA> findAreasWatchingPlot(float ll_x, float ll_y, float ur_x, float ur_y);

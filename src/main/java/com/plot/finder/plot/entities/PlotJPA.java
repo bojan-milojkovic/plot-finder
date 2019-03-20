@@ -43,6 +43,7 @@ public class PlotJPA {
 		wa.setLl_y(900f);
 		wa.setUr_x(-900f);
 		wa.setUr_y(-900f);
+		wa.setPlotJpa(this);
 	}
 
 	@Column

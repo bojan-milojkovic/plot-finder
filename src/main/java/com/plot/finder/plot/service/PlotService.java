@@ -25,4 +25,6 @@ public interface PlotService {
 	List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException;
 	
 	List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException;
+	
+	List<PlotDTO> findPlotsInUserWatchedArea(final String username) throws MyRestPreconditionsException;
 }
