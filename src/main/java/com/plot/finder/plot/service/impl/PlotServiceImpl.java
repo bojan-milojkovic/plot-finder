@@ -25,6 +25,9 @@ import com.plot.finder.util.RestPreconditions;
 import com.plot.finder.watched.entity.WatchedJPA;
 import com.plot.finder.watched.service.WatchedService;
 
+import net.sf.geographiclib.Geodesic;
+import net.sf.geographiclib.PolygonArea;
+
 @Service
 public class PlotServiceImpl implements PlotService {
 
@@ -242,15 +245,17 @@ public class PlotServiceImpl implements PlotService {
 	
 	private void checkPostDataPresent(final PlotDTO model) throws MyRestPreconditionsException {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
-				"some data are missing from the request");
+				"some data are invalid or missing from the request");
 		
-		if(model.getVertices()!=null) {
-			if(model.getVertices().size()<4 || model.getVertices().size()>8) {
-				e.getErrors().add("plot vertices set must have between 4 and 8 vertices");
-			} else if(!isConvex(model.getVertices())) {
-				e.getErrors().add("The plot you are entering is not a convex polygon.");
-			}
+		
+		if(model.getVertices().size()<4 || model.getVertices().size()>8) {
+			e.getErrors().add("plot must have between 4 and 8 vertices");
+		} else if(!isConvex(model.getVertices())) {
+			e.getErrors().add("The plot you are entering is not a convex polygon.");
+		} else if (checkPlotArea(model)) {
+			e.getErrors().add("The inputed area does not match with the area calculated from vertices.");
 		}
+		
 		if(!RestPreconditions.checkString(model.getTitle())) {
 			e.getErrors().add("title is mandatory");
 		}
@@ -315,6 +320,17 @@ public class PlotServiceImpl implements PlotService {
 		storageServiceImpl.checkFile(model.getFile4());
 	}
 	
+	private boolean checkPlotArea(final PlotDTO model) {
+		PolygonArea p = new PolygonArea(Geodesic.WGS84, true);
+		
+		model.getVertices().stream().forEach(v -> p.AddPoint(v.getLat(), v.getLng()));
+		
+		Double vArea = p.Compute().area;
+		Integer iArea = model.convertSizeToM2(model.getSize());
+		
+		return (vArea > iArea/2 && vArea < iArea*1.5);
+	}
+	
 	public PlotDTO addNew(PlotDTO model, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkNotNull(model, "Create new plot error", "You cannot create new plot with an empty object in request.");
 		model.setId(null); // just in case
@@ -339,7 +355,7 @@ public class PlotServiceImpl implements PlotService {
 		
 		saveAll(jpa, model);
 		
-		watchedServiceImpl.checkNewPlotIsInsideAnArea(jpa);
+		watchedServiceImpl.checkNewPlotIsInsideAnArea(jpa); 
 		
 		return convertJpaToModel(jpa);
 	}
@@ -436,11 +452,13 @@ public class PlotServiceImpl implements PlotService {
 		RestPreconditions.checkId(id);
 		
 		// check vertices are convex and the number of vertices
-		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
+		if(!(model.getVertices()==null || model.getVertices().isEmpty())) {
 			RestPreconditions.assertTrue(model.getVertices().size()>3 && model.getVertices().size()<9,
 					"Edit plot error","Number of vertices in plot must be between 4 and 8");
 			RestPreconditions.assertTrue(isConvex(model.getVertices()), 
 					"Edit plot error","Plot polygon you are entering is not convex.");
+			RestPreconditions.assertTrue(checkPlotArea(model), 
+					"Edit plot error","Inputed area doesn't match with area calculated from vertices.");
 		}
 		// check images :
 		checkFiles(model);
