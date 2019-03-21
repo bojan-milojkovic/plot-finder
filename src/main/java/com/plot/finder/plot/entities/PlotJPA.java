@@ -247,4 +247,15 @@ public class PlotJPA {
 	public void setWa(WatchedJPA wa) {
 		this.wa = wa;
 	}
+	
+	public Integer convertM2ToSizeUnit() {
+		switch(getSizeUnit()) {
+			case "m2":
+				return getSize();
+			case "Ar":
+				return (Integer)(getSize()/100);
+			default:
+				return (Integer)(getSize()/10000);
+		}
+	}
 }

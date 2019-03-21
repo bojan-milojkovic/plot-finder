@@ -136,11 +136,9 @@ public class PlotController {
 													  @RequestParam(value="file4", required=false) final MultipartFile file4, 
 													  @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
 		try{
-			PlotDTO model;
+			PlotDTO model = new PlotDTO();
 			if(RestPreconditions.checkString(json)){
 				model = objectMapper.readValue(json, PlotDTO.class);
-			} else {
-				model = new PlotDTO();
 			}
 			model.setFile1(file1);
 			model.setFile2(file2);

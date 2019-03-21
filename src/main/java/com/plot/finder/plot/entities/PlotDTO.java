@@ -424,4 +424,15 @@ public class PlotDTO implements Serializable {
 	public void setSizeUnit(String sizeUnit) {
 		this.sizeUnit = sizeUnit;
 	}
+	
+	public Integer convertSizeToM2(final Integer size) {
+		switch(getSizeUnit()) {
+			case "m2":
+				return size;
+			case "Ar":
+				return size*100;
+			default:
+				return size*10000;
+		}
+	}
 }

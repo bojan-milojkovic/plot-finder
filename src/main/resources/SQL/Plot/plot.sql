@@ -1,9 +1,5 @@
 CREATE TABLE `plot` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ll_x` decimal(9,6) NOT NULL,
-  `ll_y` decimal(9,6) NOT NULL,
-  `ur_x` decimal(9,6) NOT NULL,
-  `ur_y` decimal(9,6) NOT NULL,
   `polygon` varchar(150) NOT NULL,
   `user_id` int(11) NOT NULL,
   `title` varchar(45) NOT NULL,
@@ -29,5 +25,5 @@ CREATE TABLE `plot` (
   KEY `SizeIndex` (`size`),
   KEY `CityIndex` (`city`),
   KEY `DistrictIndex` (`district`),
-  CONSTRAINT `my_foreign_key_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `my_foreign_key_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;

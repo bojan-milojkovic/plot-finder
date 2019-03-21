@@ -64,7 +64,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setCountry(jpa.getCountry());
 		model.setDescription(jpa.getDescription());
 		model.setTitle(jpa.getTitle());
-		model.setSize(jpa.getSize());
+		model.setSize(jpa.convertM2ToSizeUnit());
 		model.setSizeUnit(jpa.getSizeUnit());
 		model.setPrice(jpa.getPrice());
 		model.setCurrency(jpa.getCurrency());
@@ -223,7 +223,7 @@ public class PlotServiceImpl implements PlotService {
 			jpa.setPrice(model.getPrice());
 		}
 		if(model.getSize()!=null) {
-			jpa.setSize(model.getSize());
+			jpa.setSize(model.convertSizeToM2(model.getSize()));
 		}
 		if(RestPreconditions.checkString(model.getSizeUnit())) {
 			jpa.setSizeUnit(model.getSizeUnit());

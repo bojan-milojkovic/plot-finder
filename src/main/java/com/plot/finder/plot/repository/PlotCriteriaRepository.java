@@ -93,7 +93,6 @@ public class PlotCriteriaRepository {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.address2), model.getAddress2()));
 		}
 		
-		
 		if(model.getMaxPrice()!=null) {
 			pred = builder.and(pred, builder.lessThanOrEqualTo(croot.get(PlotJPA_.price), model.getMaxPrice()));
 		}
@@ -102,45 +101,12 @@ public class PlotCriteriaRepository {
 		}
 		
 		if(model.getMaxSize()!=null) {
-			pred = builder.and(pred, builder.lessThanOrEqualTo(croot.get(PlotJPA_.size), model.getMaxSize()));
+			pred = builder.and(pred, builder.lessThanOrEqualTo(croot.get(PlotJPA_.size), model.convertSizeToM2(model.getMaxSize())));
 		}
 		if(model.getMinSize()!=null) {
-			pred = builder.and(pred, builder.greaterThanOrEqualTo(croot.get(PlotJPA_.size), model.getMinSize()));
+			pred = builder.and(pred, builder.greaterThanOrEqualTo(croot.get(PlotJPA_.size), model.convertSizeToM2(model.getMinSize())));
 		}
 		
-		/*if(model.getPower()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.power), model.getPower()));
-		}
-		if(model.getWater()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.water), model.getWater()));
-		}
-		if(model.getGas()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.gas), model.getGas()));
-		}
-		if(model.getSewer()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.sewer), model.getSewer()));
-		}
-		if(model.getInternet()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.internet), model.getInternet()));
-		}
-		if(model.getGarage()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.garage), model.getGarage()));
-		}
-		if(model.getHouse()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.house), model.getHouse()));
-		}
-		if(model.getType()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.type), model.getType()));
-		}
-		if(model.getFarming()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.farming), model.getFarming()));
-		}
-		if(model.getGrazing()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.grazing), model.getGrazing()));
-		}
-		if(model.getOrchard()!=null) {
-			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.orchard), model.getOrchard()));
-		}*/
 		return entityManagerFactory.createEntityManager().createQuery(cquerry.where(pred)).getResultList();
 	}
 }
