@@ -118,25 +118,29 @@ public class PlotServiceImpl implements PlotService {
 		return jpa;
 	}
 	
-	public List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException{
+	public List<PlotDTO> findPlotsByCoordinates(final Vertice v1, final Vertice v2) throws MyRestPreconditionsException{
+		return findPlotsByCoordinates(v1.getLng(), v1.getLat(), v2.getLng(), v2.getLat());
+	}
+	
+	public List<PlotDTO> findPlotsByCoordinates(final Float ll_x, final Float ll_y, final Float ur_x, final Float ur_y) throws MyRestPreconditionsException{
 		String title = "Find plots by coordinates error";
-		RestPreconditions.assertTrue(Math.abs(ll.getLat()) < 90, 
+		RestPreconditions.assertTrue(Math.abs(ll_y) < 90, 
 				title, "(LL) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(ur.getLat()) < 90, 
+		RestPreconditions.assertTrue(Math.abs(ur_y) < 90, 
 				title, "(UR) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(ll.getLng()) < 180, 
+		RestPreconditions.assertTrue(Math.abs(ll_x) < 180, 
 				title, "(LL) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(Math.abs(ur.getLng()) < 180, 
+		RestPreconditions.assertTrue(Math.abs(ur_x) < 180, 
 				title, "(UR) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(ll.getLat()!=ur.getLat() && ll.getLng()!=ur.getLng(), 
+		RestPreconditions.assertTrue(ll_y!=ur_y && ll_x!=ur_x, 
 				title, "You did not enter a valid set of coordinates.");
 		
 		return convertJpaListToModelList(plotCriteriaRepo.getPlotByCoordinates(
-											ll.getLng()<ur.getLng() ? ll.getLng() : ur.getLng(), 
-											ll.getLat()<ur.getLat() ? ll.getLat() : ur.getLat(),
+											ll_x<ur_x ? ll_x : ur_x, 
+											ll_y<ur_y ? ll_y : ur_y,
 													
-											ll.getLng()>ur.getLng() ? ll.getLng() : ur.getLng(), 
-											ll.getLat()>ur.getLat() ? ll.getLat() : ur.getLat()   ));
+											ll_x>ur_x ? ll_x : ur_x, 
+											ll_y>ur_y ? ll_y : ur_y   ));
 	}
 	
 	public List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException{
@@ -366,7 +370,7 @@ public class PlotServiceImpl implements PlotService {
 		WatchedJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username).getWatched(),
 				"Find plots by watched area error","User "+username+" did not specify a watched area");
 		
-		return findPlotsByCoordinates(new Vertice(jpa.getLl_x(), jpa.getLl_y()), new Vertice(jpa.getUr_x(), jpa.getUr_y()));
+		return findPlotsByCoordinates(jpa.getLl_x(), jpa.getLl_y(), jpa.getUr_x(), jpa.getUr_y());
 	}
 	
 	private boolean isConvex(List<Vertice> _vertices) {

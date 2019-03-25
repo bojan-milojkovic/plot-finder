@@ -22,7 +22,9 @@ public interface PlotService {
 
 	void renewPlotAdd(final Long id, final String username) throws MyRestPreconditionsException;
 	
-	List<PlotDTO> findPlotsByCoordinates(final Vertice ll, final Vertice ur) throws MyRestPreconditionsException;
+	List<PlotDTO> findPlotsByCoordinates(final Float ll_x, final Float ll_y, final Float ur_x, final Float ur_y) throws MyRestPreconditionsException;
+	
+	List<PlotDTO> findPlotsByCoordinates(final Vertice v1, final Vertice v2) throws MyRestPreconditionsException;
 	
 	List<PlotDTO> findPlotsByProperties(final PlotDTO model) throws MyRestPreconditionsException;
 	

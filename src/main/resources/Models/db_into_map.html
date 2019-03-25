@@ -17,11 +17,12 @@
 		align: left;
       }
 	  #infowindow {
-        height: 90%;
+        height:100%;
 		width: 50%;
 		position: absolute;
 		right: -6px;
 		top: 0px;
+		overflow-y: scroll;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -38,6 +39,14 @@
 	  #descCell {
 		position: absolute;
 		left: 20px;
+	  }
+	  #searchDiv {
+		left: 10px;
+		top: 10px;
+		background: white;
+		position: absolute;
+		align: bottom;
+		z-index:2;
 	  }
     </style>
 	
@@ -74,80 +83,71 @@
 			<tr><th><input type="checkbox" id="orchard"/> Plot is an orchard</th></tr>
 		</table>
 	</div>
+	<div id="searchDiv">
+		<p>Find plots by :</p><br/>
+		<table id="searchTable">
+			<tr><td>Min price = <input type="text" id="minPrice"/></td><td>Max price = <input type="text" id="maxPrice"/></td></tr>
+			<tr><td>Min size = <input type="text" id="minSize"/></td><td>Max size = <input type="text" id="maxSize"/></td></tr>
+			<tr><td><input type="button" id="filter" value="Filter" onClick="filterPlots();"/></td></tr>
+		</table>
+	</div>
     <script>
 		var json;
 		var map;
 		var polygons = [];
+		var plots = [];
 		
-		var customLabel = {
-			RENT: {
-			  label: 'R'
-			},
-			SALE: {
-			  label: 'S'
-			}
-		};
 		
-		function getPlots(){
-			var plots = '{\"plots":[{';
-			// plot1:
-			plots+='\"title\":\"First plot title\",';
-			plots+='\"description\":\"First plot description\",';
-			plots+='\"address1\":\"First plot address 1\",';
-			plots+='\"address2\":\"First plot address 2\",';
-			plots+='\"district\":\"First plot district\",';
-			plots+='\"city\":\"First plot city\",';
-			plots+='\"country\":\"First plot country\",';
-			plots+='\"type\":\"RENT\",';
-			plots+='\"size\":\"24\",';
-			plots+='\"sizeUnit\":\"Ha\",';
-			plots+='\"price\":\"265\",';
-			plots+='\"currency\":\"USD\",';
-			plots+='\"house\":\"true\",';
-			plots+='\"power\":\"true\",';
-			plots+='\"water\":\"true\",';
-			plots+='\"sewer\":\"true\",';
-			plots+='\"vertices\":[';
-			plots+='{\"lat\": -33.863276, \"lng\": 151.207977},';
-			plots+='{\"lat\": -33.863276, \"lng\": 151.208977},';
-			plots+='{\"lat\": -33.864276, \"lng\": 151.208977},';
-			plots+='{\"lat\": -33.864276, \"lng\": 151.207977}';
-			plots+=']},{';
-			// plot2:
-			plots+='\"title\":\"Second plot title\",';
-			plots+='\"description\":\"Second plot description\",';
-			plots+='\"address1\":\"Second plot address 1\",';
-			plots+='\"address2\":\"Second plot address 2\",';
-			plots+='\"district\":\"Second plot district\",';
-			plots+='\"city\":\"Second plot city\",';
-			plots+='\"country\":\"Second plot country\",';
-			plots+='\"type\":\"SALE\",';
-			plots+='\"size\":\"54\",';
-			plots+='\"sizeUnit\":\"Ar\",';
-			plots+='\"price\":\"265481\",';
-			plots+='\"currency\":\"EUR\",';
-			plots+='\"orchard\":\"true\",';
-			plots+='\"vertices\":[';
-			plots+='{\"lat\": -33.865276, \"lng\": 151.205977},';
-			plots+='{\"lat\": -33.865276, \"lng\": 151.206977},';
-			plots+='{\"lat\": -33.866276, \"lng\": 151.206977},';
-			plots+='{\"lat\": -33.866276, \"lng\": 151.205977}';
-			plots += ']}]}';
-			return plots;
-		}
-	  
 		function initMap(){
+			//$('#searchDiv').hide();
+			
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: new google.maps.LatLng(-33.863276, 151.207977),
 				zoom: 15
 			});
 					
-			json = JSON.parse(getPlots());
+			plots = JSON.parse(getPlots()).plots;
 			
-			createPolygons(json.plots);
+			createPolygons();
 		}
 		
-		function createPolygons(plots){
+		function reDrawPolygons(filteredPlotIds){
+			polygons.forEach(function(polygon){
+				if(polygon.plotId in filteredPlotIds){
+					polygon.setMap(map);
+				} else {
+					polygon.setMap(null);
+				}
+			});
+		}
+		
+		function validNumber(numValue){
+			return numValue!==undefined && !isNaN(numValue) && typeof(numValue)==='number' && numValue>0;
+		}
+		
+		function filterPlots(){
+			var filteredPlotIds = [];
+		
+			var minSize = $('#minSize').val();
+			var maxSize = $('#maxSize').val();
+			
+			plots
+			.filter(function(plot){
+				return validNumber(minSize) && plot.size>=minSize;
+			})
+			.filter(function(plot){
+				return validNumber(maxSize) && plot.size<=maxSize;
+			})
+			.forEach(function(plot){
+				filteredPlotIds.push(plot.id);
+			});
+			
+			if(filteredPlotIds.length){
+				reDrawPolygons(filteredPlotIds);
+			}
+		}
+		
+		function createPolygons(){
 			plots.forEach(function(plot, index) {
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
@@ -210,6 +210,63 @@
 			$('#farming').prop('checked', plot.farming);
 			$('#orchard').prop('checked', plot.orchard);
 			$('#grazing').prop('checked', plot.grazing);
+		}
+		
+		var customLabel = {
+			RENT: {
+			  label: 'R'
+			},
+			SALE: {
+			  label: 'S'
+			}
+		};
+		
+		function getPlots(){
+			var json = '{\"plots":[{';
+			// plot1:
+			json+='\"title\":\"First plot title\",';
+			json+='\"description\":\"First plot description\",';
+			json+='\"address1\":\"First plot address 1\",';
+			json+='\"address2\":\"First plot address 2\",';
+			json+='\"district\":\"First plot district\",';
+			json+='\"city\":\"First plot city\",';
+			json+='\"country\":\"First plot country\",';
+			json+='\"type\":\"RENT\",';
+			json+='\"size\":\"24\",';
+			json+='\"sizeUnit\":\"Ha\",';
+			json+='\"price\":\"265\",';
+			json+='\"currency\":\"USD\",';
+			json+='\"house\":\"true\",';
+			json+='\"power\":\"true\",';
+			json+='\"water\":\"true\",';
+			json+='\"sewer\":\"true\",';
+			json+='\"vertices\":[';
+			json+='{\"lat\": -33.863276, \"lng\": 151.207977},';
+			json+='{\"lat\": -33.863276, \"lng\": 151.208977},';
+			json+='{\"lat\": -33.864276, \"lng\": 151.208977},';
+			json+='{\"lat\": -33.864276, \"lng\": 151.207977}';
+			json+=']},{';
+			// plot2:
+			json+='\"title\":\"Second plot title\",';
+			json+='\"description\":\"Second plot description\",';
+			json+='\"address1\":\"Second plot address 1\",';
+			json+='\"address2\":\"Second plot address 2\",';
+			json+='\"district\":\"Second plot district\",';
+			json+='\"city\":\"Second plot city\",';
+			json+='\"country\":\"Second plot country\",';
+			json+='\"type\":\"SALE\",';
+			json+='\"size\":\"54\",';
+			json+='\"sizeUnit\":\"Ar\",';
+			json+='\"price\":\"265481\",';
+			json+='\"currency\":\"EUR\",';
+			json+='\"orchard\":\"true\",';
+			json+='\"vertices\":[';
+			json+='{\"lat\": -33.865276, \"lng\": 151.205977},';
+			json+='{\"lat\": -33.865276, \"lng\": 151.206977},';
+			json+='{\"lat\": -33.866276, \"lng\": 151.206977},';
+			json+='{\"lat\": -33.866276, \"lng\": 151.205977}';
+			json += ']}]}';
+			return json;
 		}
     </script>
     <script async defer 
