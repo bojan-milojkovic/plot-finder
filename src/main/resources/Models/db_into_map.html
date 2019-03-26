@@ -16,6 +16,12 @@
 		width: 50%;
 		align: left;
       }
+	  #filterDiv {
+		position: absolute;
+		top: 3px;
+		right: 15px;
+		z-index:2;
+	  }
 	  #infowindow {
         height:100%;
 		width: 50%;
@@ -55,6 +61,7 @@
   </head>
   <body>
     <div id="map"></div>
+	<div id="filterDiv"><input type="button" id="openFilterForm" value="Filter" onClick="$('#searchDiv').show();"/></div>
 	<div id="infowindow">
 		<table id="title">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
@@ -62,7 +69,7 @@
 		</table>
 		<div id="descCell">
 		</div><br/>
-		<table id="basicinfo">
+		<table id="basicInfo">
 			<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
 			<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
 			<tr><th>District :</th><td id="distCell"></td></tr>
@@ -73,18 +80,18 @@
 			<tr><th>Plot is for </th><td id="typeCell"></td><tr>
 		</table><br/>
 		<table id="aditionalInfo" class="unchanging">
-			<tr><th><input type="checkbox" id="house"/> Plot has a house</th><th><input type="checkbox" id="garage"/> Plot has a garage</th></tr>
-			<tr><th><input type="checkbox" id="power"/> Plot has power</th><th><input type="checkbox" id="internet"/> Plot has internet</th></tr>
-			<tr><th><input type="checkbox" id="sewer"/> Plot has sewer</th></tr>
-			<tr><th><input type="checkbox" id="water"/> Plot has water</th></tr>
-			<tr><th><input type="checkbox" id="gas"/> Plot has gas station/gas line near by</th></tr>
-			<tr><th><input type="checkbox" id="farming"/> Plot is for farming</th></tr>
-			<tr><th><input type="checkbox" id="grazing"/> Plot is for grazing</th></tr>
-			<tr><th><input type="checkbox" id="orchard"/> Plot is an orchard</th></tr>
+			<tr><th><input type="checkbox" id="house" disabled="true"/> Plot has a house</th><th><input type="checkbox" id="garage" disabled="true"/> Plot has a garage</th></tr>
+			<tr><th><input type="checkbox" id="power" disabled="true"/> Plot has power</th><th><input type="checkbox" id="internet" disabled="true"/> Plot has internet</th></tr>
+			<tr><th><input type="checkbox" id="sewer" disabled="true"/> Plot has sewer</th></tr>
+			<tr><th><input type="checkbox" id="water" disabled="true"/> Plot has water</th></tr>
+			<tr><th><input type="checkbox" id="gas" disabled="true"/> Plot has gas station/gas line near by</th></tr>
+			<tr><th><input type="checkbox" id="farming" disabled="true"/> Plot is for farming</th></tr>
+			<tr><th><input type="checkbox" id="grazing" disabled="true"/> Plot is for grazing</th></tr>
+			<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
 		</table>
 	</div>
 	<div id="searchDiv">
-		<p>Find plots by :</p><br/>
+		<p>Find plots by :</p>
 		<table id="searchTable">
 			<tr><td>Min price = <input type="text" id="minPrice"/></td><td>Max price = <input type="text" id="maxPrice"/></td></tr>
 			<tr><td>Min size = <input type="text" id="minSize"/></td><td>Max size = <input type="text" id="maxSize"/></td></tr>
@@ -99,7 +106,7 @@
 		
 		
 		function initMap(){
-			//$('#searchDiv').hide();
+			$('#searchDiv').hide();
 			
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: new google.maps.LatLng(-33.863276, 151.207977),
@@ -109,46 +116,95 @@
 			plots = JSON.parse(getPlots()).plots;
 			
 			createPolygons();
+			
+			map.addListener('click', function(){
+				resetPlotData();
+			});
 		}
 		
-		function reDrawPolygons(filteredPlotIds){
+		function reDrawPolygons(id){
 			polygons.forEach(function(polygon){
-				if(polygon.plotId in filteredPlotIds){
+				if(polygon.plotId == id){
 					polygon.setMap(map);
-				} else {
-					polygon.setMap(null);
+					polygon.marker.setMap(map);
 				}
 			});
 		}
 		
 		function validNumber(numValue){
-			return numValue!==undefined && !isNaN(numValue) && typeof(numValue)==='number' && numValue>0;
+			if(numValue!==undefined && !isNaN(numValue)){
+				return parseInt(numValue);
+			}
+			return NaN;
 		}
 		
 		function filterPlots(){
-			var filteredPlotIds = [];
-		
-			var minSize = $('#minSize').val();
-			var maxSize = $('#maxSize').val();
+			var minPrice = validNumber($('#minPrice').val());
+			var maxPrice = validNumber($('#maxPrice').val());
+			var minSize = validNumber($('#minSize').val());
+			var maxSize = validNumber($('#maxSize').val());
 			
-			plots
-			.filter(function(plot){
-				return validNumber(minSize) && plot.size>=minSize;
-			})
-			.filter(function(plot){
-				return validNumber(maxSize) && plot.size<=maxSize;
-			})
-			.forEach(function(plot){
-				filteredPlotIds.push(plot.id);
-			});
+			var newArray = plots;
 			
-			if(filteredPlotIds.length){
-				reDrawPolygons(filteredPlotIds);
+			if(!isNaN(minPrice)){
+				var tmp = newArray.filter(function(plot){
+					return parseInt(plot.price) >= minPrice;
+				});
+				
+				newArray = newArray.filter(value => tmp.includes(value));
 			}
+			if(!isNaN(maxPrice)){
+				var tmp = newArray.filter(function(plot){
+					return parseInt(plot.price) <= maxPrice;
+				});
+				
+				newArray = newArray.filter(value => tmp.includes(value));
+			}
+			if(!isNaN(minSize)){
+				var tmp = newArray.filter(function(plot){
+					return parseInt(plot.size) >= minSize;
+				});
+				
+				newArray = newArray.filter(value => tmp.includes(value));
+			}
+			if(!isNaN(maxSize)){
+				var tmp = newArray.filter(function(plot){
+					return parseInt(plot.size) <= maxSize;
+				});
+				
+				newArray = newArray.filter(value => tmp.includes(value));
+			}
+			
+			if(newArray.length < plots.length){
+				polygons.forEach(function(polygon){
+					polygon.setMap(null);
+					polygon.marker.setMap(null);
+				});
+			
+				newArray.forEach(function(plot){
+					reDrawPolygons(plot.id);
+				});
+			} else {
+				polygons.forEach(function(polygon){
+					polygon.setMap(map);
+					polygon.marker.setMap(map);
+				});
+			}
+			
+			resetPlotData();
+			$('#searchDiv').hide();
 		}
 		
 		function createPolygons(){
 			plots.forEach(function(plot, index) {
+			
+				var marker = new google.maps.Marker({
+						position: plot.vertices[0],
+						map: map,
+						title: plot.title,
+						label: customLabel[plot.type].label
+					});
+					
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
 						plotId: plot.id,
@@ -157,16 +213,11 @@
 						strokeOpacity: 0.8,
 						strokeWeight: 2,
 						fillColor: '#FF0000',
-						fillOpacity: 0.35
+						fillOpacity: 0.35,
+						marker: marker
 					});
+					
 				polygon.setMap(map);
-				
-				var marker = new google.maps.Marker({
-						position: plot.vertices[0],
-						map: map,
-						title: plot.title,
-						label: customLabel[plot.type].label
-					});
 				
 				polygon.addListener('click', function(){
 					resetStrokes();
@@ -182,6 +233,14 @@
 			polygons.forEach(function(polygon, index) {
 				polygon.setOptions({strokeWeight: 2});
 			});
+		}
+		
+		function resetPlotData(){
+			$('#title td[id]').html('');
+			$('#descCell').html('');
+			$('#basicInfo td[id]').html('');
+			$('#aditionalInfo input[type="checkbox"]').prop('checked', false);
+			resetStrokes();
 		}
 		
 		function fillPlotInfo(plot){
@@ -224,6 +283,7 @@
 		function getPlots(){
 			var json = '{\"plots":[{';
 			// plot1:
+			json+='\"id\":1,';
 			json+='\"title\":\"First plot title\",';
 			json+='\"description\":\"First plot description\",';
 			json+='\"address1\":\"First plot address 1\",';
@@ -247,6 +307,7 @@
 			json+='{\"lat\": -33.864276, \"lng\": 151.207977}';
 			json+=']},{';
 			// plot2:
+			json+='\"id\":2,';
 			json+='\"title\":\"Second plot title\",';
 			json+='\"description\":\"Second plot description\",';
 			json+='\"address1\":\"Second plot address 1\",';
