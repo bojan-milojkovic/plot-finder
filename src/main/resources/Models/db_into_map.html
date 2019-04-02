@@ -16,13 +16,14 @@
 		width: 50%;
 		align: left;
       }
-	  #filterDiv {
+	  #converterDiv {
 		position: absolute;
-		top: 3px;
-		right: 15px;
+		top: 2%;
+		right: 2%;
 		z-index:2;
+		height:10%;
 	  }
-	  #infowindow {
+	  #parentinfowindow {
         height:100%;
 		width: 50%;
 		position: absolute;
@@ -41,18 +42,54 @@
 	  }
 	  th, td {
 		text-align: left;
+		padding: 4px;
 	  }
 	  #descCell {
 		position: absolute;
-		left: 20px;
+		left: 5%;
+		width: 80%;
+	  }
+	  .popupborders{
+		border-style: solid;
+		border-width: medium;
+		border-color: green;
 	  }
 	  #searchDiv {
-		left: 10px;
-		top: 10px;
+		left: 5%;
+		top: 10%;
+		padding: 5px;
 		background: white;
 		position: absolute;
 		align: bottom;
 		z-index:2;
+		border: 3px solid #73AD21;
+	  }
+	  #navigation{
+		position: absolute;
+		width: 100%;
+		z-index:2;
+		bottom: 10%;
+	  }
+	  .navButtons {
+		font-weight: bold;
+		width: 20%
+		z-index:2;
+		position: absolute;
+		top: 0px;
+	  }
+	  .infowindows {
+		position: absolute;
+		top: 15%;
+		width: 100%;
+	  }
+	  #nextInfo{
+		right: 3%;
+	  }
+	  #previousInfo{
+		left: 3%;
+	  }
+	  #openFilterForm{
+		border-left: 6px solid green;
 	  }
     </style>
 	
@@ -61,40 +98,69 @@
   </head>
   <body>
     <div id="map"></div>
-	<div id="filterDiv"><input type="button" id="openFilterForm" value="Filter" onClick="$('#searchDiv').show();"/></div>
-	<div id="infowindow">
+	
+	<div id="parentinfowindow">
+		<div id="converterDiv" class="popupborders">
+			<table>
+			<tr><td>Select prefered currency unit</td>
+				<td>
+					<select id="currency">
+					<option value="EUR" SELECTED>EUR</option>
+					<option value="USD">USD</option>
+					<option value="RSD">RSD</option>
+					</select>
+				</td>
+			</tr>
+			<tr><td>Select prefered size unit</td>
+				<td><select id="unitsize">
+					<option value="m2" SELECTED>Square meters</option>
+					<option value="Ar">Ar</option>
+					<option value="Ha">Hectar</option>
+					</select></td>
+			<td><input type="button" id="openFilterForm" value="Filter" onClick="$('#searchDiv').show();"/></td></tr>
+			</table>
+		</div>
+		<div id="navigation">
+			<input type="button" class="navButtons" id="previousInfo" value="<< PREVIOUS" onClick="previousClicked();"/>
+			<input type="button" class="navButtons" id="nextInfo" value="NEXT >>" onClick="nextClicked();"/>
+		</div>
 		<table id="title">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
-			<tr><th>Description :</th></tr>
-		</table>
-		<div id="descCell">
-		</div><br/>
-		<table id="basicInfo">
-			<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
-			<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
-			<tr><th>District :</th><td id="distCell"></td></tr>
-			<tr><th>City :</th><td id="cityCell"></td></tr>
-			<tr><th>Country :</th><td id="countryCell"></td></tr>
-			<tr><th>Plot size : </th><td id="sizeCell"></td></tr>
-			<tr><th>Price :</th><td id="priceCell"></td></tr>
-			<tr><th>Plot is for </th><td id="typeCell"></td><tr>
-		</table><br/>
-		<table id="aditionalInfo" class="unchanging">
-			<tr><th><input type="checkbox" id="house" disabled="true"/> Plot has a house</th><th><input type="checkbox" id="garage" disabled="true"/> Plot has a garage</th></tr>
-			<tr><th><input type="checkbox" id="power" disabled="true"/> Plot has power</th><th><input type="checkbox" id="internet" disabled="true"/> Plot has internet</th></tr>
-			<tr><th><input type="checkbox" id="sewer" disabled="true"/> Plot has sewer</th></tr>
-			<tr><th><input type="checkbox" id="water" disabled="true"/> Plot has water</th></tr>
-			<tr><th><input type="checkbox" id="gas" disabled="true"/> Plot has gas station/gas line near by</th></tr>
-			<tr><th><input type="checkbox" id="farming" disabled="true"/> Plot is for farming</th></tr>
-			<tr><th><input type="checkbox" id="grazing" disabled="true"/> Plot is for grazing</th></tr>
-			<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
-		</table>
+		</table></br>
+		<div id="infowindow0" class="infowindows">
+			<p><h4>Description :</h4></p>
+			<div id="descCell"></div>
+		</div>
+		<div id="infowindow1" class="infowindows">
+			<table id="basicInfo">
+				<tr><th>Address line 1 :</th><td id="add1Cell"></td></tr>
+				<tr><th>Address line 2 :</th><td id="add2Cell"></td></tr>
+				<tr><th>District :</th><td id="distCell"></td></tr>
+				<tr><th>City :</th><td id="cityCell"></td></tr>
+				<tr><th>Country :</th><td id="countryCell"></td></tr>
+				<tr><th>Plot size : </th><td id="sizeCell"></td></tr>
+				<tr><th>Price :</th><td id="priceCell"></td></tr>
+				<tr><th>Plot is for </th><td id="typeCell"></td><tr>
+			</table>
+		</div>
+		<div id="infowindow2" class="infowindows">
+			<table id="aditionalInfo" class="unchanging">
+				<tr><th><input type="checkbox" id="house" disabled="true"/> Plot has a house</th><th><input type="checkbox" id="garage" disabled="true"/> Plot has a garage</th></tr>
+				<tr><th><input type="checkbox" id="power" disabled="true"/> Plot has power</th><th><input type="checkbox" id="internet" disabled="true"/> Plot has internet</th></tr>
+				<tr><th><input type="checkbox" id="sewer" disabled="true"/> Plot has sewer</th></tr>
+				<tr><th><input type="checkbox" id="water" disabled="true"/> Plot has water</th></tr>
+				<tr><th><input type="checkbox" id="gas" disabled="true"/> Plot has gas station/gas line near by</th></tr>
+				<tr><th><input type="checkbox" id="farming" disabled="true"/> Plot is for farming</th></tr>
+				<tr><th><input type="checkbox" id="grazing" disabled="true"/> Plot is for grazing</th></tr>
+				<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
+			</table>
+		</div>
 	</div>
-	<div id="searchDiv">
+	<div id="searchDiv" class="popupborders">
 		<p>Find plots by :</p>
 		<table id="searchTable">
-			<tr><td>Min price = <input type="text" id="minPrice"/></td><td>Max price = <input type="text" id="maxPrice"/></td></tr>
-			<tr><td>Min size = <input type="text" id="minSize"/></td><td>Max size = <input type="text" id="maxSize"/></td></tr>
+			<tr><td>Min price = </td><td><input type="text" id="minPrice"/></td><td>Max price = </td><td><input type="text" id="maxPrice"/></td></tr>
+			<tr><td>Min size = </td><td><input type="text" id="minSize"/></td><td>Max size = </td><td><input type="text" id="maxSize"/></td></tr>
 			<tr><td><input type="button" id="filter" value="Filter" onClick="filterPlots();"/></td></tr>
 		</table>
 	</div>
@@ -103,23 +169,49 @@
 		var map;
 		var polygons = [];
 		var plots = [];
+		var iwIndex = 0;
 		
+		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzRzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NTM5NzM2MzAzNTksInB3ZCI6IldlbGNvbWUxMSMiLCJleHAiOjE1NTM5NzU0MzB9.uCCSHryeWzaObV_5UgJ91wJV-OwtZecPHdBgQDZo9zmWCfdELrzlpBmnShcOHOOHJcA2N1CzE8z4OgKeGuE4yA';	
+				
+		function nextClicked(){
+			$('#infowindow'+iwIndex).hide();
+			iwIndex = (iwIndex+1)%3;
+			$('#infowindow'+iwIndex).slideDown(500);
+		}
+		
+		function previousClicked(){
+			$('#infowindow'+iwIndex).hide();
+			iwIndex = iwIndex-1;
+			if(iwIndex==-1){
+				iwIndex=2;
+			}
+			$('#infowindow'+iwIndex).slideDown(500);
+		}
+		
+		function updatePolygonSizes(){
+		
+		}
+		
+		function updatePolygonPrices(){
+			
+		}
 		
 		function initMap(){
 			$('#searchDiv').hide();
+			$('#infowindow1').hide();
+			$('#infowindow2').hide();
 			
 			map = new google.maps.Map(document.getElementById('map'), {
-				center: new google.maps.LatLng(-33.863276, 151.207977),
 				zoom: 15
 			});
-					
-			plots = JSON.parse(getPlots()).plots;
 			
-			createPolygons();
+			getPlots();
 			
 			map.addListener('click', function(){
 				resetPlotData();
 			});
+			
+			$('.navButtons').prop( "disabled", true );
 		}
 		
 		function reDrawPolygons(id){
@@ -196,6 +288,8 @@
 		}
 		
 		function createPolygons(){
+			var latlngbounds = new google.maps.LatLngBounds();
+			
 			plots.forEach(function(plot, index) {
 			
 				var marker = new google.maps.Marker({
@@ -204,7 +298,9 @@
 						title: plot.title,
 						label: customLabel[plot.type].label
 					});
-					
+				
+				latlngbounds.extend(plot.vertices[0]);
+				
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
 						plotId: plot.id,
@@ -220,12 +316,18 @@
 				polygon.setMap(map);
 				
 				polygon.addListener('click', function(){
-					resetStrokes();
+					resetPlotData();
 					this.setOptions({strokeWeight: 6});
 					fillPlotInfo(plots[index]);
 				});
 				
 				polygons.push(polygon);
+			});
+			
+			map.fitBounds(latlngbounds);
+			var listener = google.maps.event.addListener(map, "idle", function() { 
+			  map.setZoom((map.getZoom() - 1));
+			  google.maps.event.removeListener(listener); 
 			});
 		}
 		
@@ -236,11 +338,16 @@
 		}
 		
 		function resetPlotData(){
+			iwIndex = 0;
+			$('#infowindow0').show();
+			$('#infowindow1').hide();
+			$('#infowindow2').hide();
 			$('#title td[id]').html('');
 			$('#descCell').html('');
 			$('#basicInfo td[id]').html('');
 			$('#aditionalInfo input[type="checkbox"]').prop('checked', false);
 			resetStrokes();
+			$('.navButtons').prop( "disabled", true );
 		}
 		
 		function fillPlotInfo(plot){
@@ -269,6 +376,8 @@
 			$('#farming').prop('checked', plot.farming);
 			$('#orchard').prop('checked', plot.orchard);
 			$('#grazing').prop('checked', plot.grazing);
+			
+			$('.navButtons').prop( "disabled", false );
 		}
 		
 		var customLabel = {
@@ -280,54 +389,49 @@
 			}
 		};
 		
+		function refreshToken(){
+			$.ajax({
+				url: 'http://localhost:8080/refresh',
+				type: 'GET',
+				headers: {
+					'X-My-Security-Token': token			
+				},
+				statusCode:{
+					200: function(text){
+						token = text;
+					}
+				}
+			});
+		}
+		
 		function getPlots(){
-			var json = '{\"plots":[{';
-			// plot1:
-			json+='\"id\":1,';
-			json+='\"title\":\"First plot title\",';
-			json+='\"description\":\"First plot description\",';
-			json+='\"address1\":\"First plot address 1\",';
-			json+='\"address2\":\"First plot address 2\",';
-			json+='\"district\":\"First plot district\",';
-			json+='\"city\":\"First plot city\",';
-			json+='\"country\":\"First plot country\",';
-			json+='\"type\":\"RENT\",';
-			json+='\"size\":\"24\",';
-			json+='\"sizeUnit\":\"Ha\",';
-			json+='\"price\":\"265\",';
-			json+='\"currency\":\"USD\",';
-			json+='\"house\":\"true\",';
-			json+='\"power\":\"true\",';
-			json+='\"water\":\"true\",';
-			json+='\"sewer\":\"true\",';
-			json+='\"vertices\":[';
-			json+='{\"lat\": -33.863276, \"lng\": 151.207977},';
-			json+='{\"lat\": -33.863276, \"lng\": 151.208977},';
-			json+='{\"lat\": -33.864276, \"lng\": 151.208977},';
-			json+='{\"lat\": -33.864276, \"lng\": 151.207977}';
-			json+=']},{';
-			// plot2:
-			json+='\"id\":2,';
-			json+='\"title\":\"Second plot title\",';
-			json+='\"description\":\"Second plot description\",';
-			json+='\"address1\":\"Second plot address 1\",';
-			json+='\"address2\":\"Second plot address 2\",';
-			json+='\"district\":\"Second plot district\",';
-			json+='\"city\":\"Second plot city\",';
-			json+='\"country\":\"Second plot country\",';
-			json+='\"type\":\"SALE\",';
-			json+='\"size\":\"54\",';
-			json+='\"sizeUnit\":\"Ar\",';
-			json+='\"price\":\"265481\",';
-			json+='\"currency\":\"EUR\",';
-			json+='\"orchard\":\"true\",';
-			json+='\"vertices\":[';
-			json+='{\"lat\": -33.865276, \"lng\": 151.205977},';
-			json+='{\"lat\": -33.865276, \"lng\": 151.206977},';
-			json+='{\"lat\": -33.866276, \"lng\": 151.206977},';
-			json+='{\"lat\": -33.866276, \"lng\": 151.205977}';
-			json += ']}]}';
-			return json;
+			$.ajax({
+				url: 'http://localhost:8080/plot/fbwa',
+				type: 'GET',
+				contentType: 'Application/json',
+				headers: {
+					'X-My-Security-Token': token
+				},
+				statusCode:{
+					200: function(dataArray){
+						plots = dataArray;
+						createPolygons();
+					},
+					400: function(jqXHR){
+						alert(jqXHR.responseText);
+					},
+					403: function(jqXHR){
+						refreshToken();
+						getPlots();
+					},
+					404: function(){
+						alert("page not found!");
+					},
+					500: function(){
+						alert("Server error");
+					}
+				}
+			});
 		}
     </script>
     <script async defer 
