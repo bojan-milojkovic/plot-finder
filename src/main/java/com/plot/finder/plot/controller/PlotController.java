@@ -90,7 +90,7 @@ public class PlotController {
 	@RequestMapping(value="/thumb/{id}", method = RequestMethod.GET)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody ResponseEntity<Resource> getImageThumb(@PathVariable("id") final Long id,
+	public ResponseEntity<Resource> getImageThumb(@PathVariable("id") final Long id,
 																@RequestParam(value="name", required=true) String name,
 																HttpServletRequest request) throws MyRestPreconditionsException{
 		return plotServiceImpl.getImage(id, name, true, request);

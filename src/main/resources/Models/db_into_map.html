@@ -8,8 +8,10 @@
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-      #map {
+	  .aClass {
 		position: absolute;
+	  }
+      #map {
 		top: 3px;
 		left: 4px;
         height: 95%;
@@ -17,16 +19,13 @@
 		align: left;
       }
 	  #converterDiv {
-		position: absolute;
 		top: 2%;
 		right: 2%;
 		z-index:2;
-		height:10%;
 	  }
 	  #parentinfowindow {
         height:100%;
 		width: 50%;
-		position: absolute;
 		right: -6px;
 		top: 0px;
 		overflow-y: scroll;
@@ -37,15 +36,32 @@
         margin: 0;
         padding: 0;
       }
-	  body {
+	  body{
 		position: relative;
+	  }
+	  #images {
+		z-index:2;
+		bottom: 20%;
+		width: 50%;
+		margin: 0 auto;
+	  }
+	  #thumb1{
+		left: 0%;
+	  }
+	  #thumb2{
+		left: 25%;
+	  }
+	  #thumb3{
+		left: 50%;
+	  }
+	  #thumb4{
+		left: 75%;
 	  }
 	  th, td {
 		text-align: left;
 		padding: 4px;
 	  }
 	  #descCell {
-		position: absolute;
 		left: 5%;
 		width: 80%;
 	  }
@@ -59,13 +75,11 @@
 		top: 10%;
 		padding: 5px;
 		background: white;
-		position: absolute;
 		align: bottom;
 		z-index:2;
 		border: 3px solid #73AD21;
 	  }
 	  #navigation{
-		position: absolute;
 		width: 100%;
 		z-index:2;
 		bottom: 10%;
@@ -74,7 +88,6 @@
 		font-weight: bold;
 		width: 20%
 		z-index:2;
-		position: absolute;
 		top: 0px;
 	  }
 	  .infowindows {
@@ -97,10 +110,10 @@
 
   </head>
   <body>
-    <div id="map"></div>
+    <div id="map" class="aClass"></div>
 	
-	<div id="parentinfowindow">
-		<div id="converterDiv" class="popupborders">
+	<div id="parentinfowindow" class="aClass">
+		<div id="converterDiv" class="popupborders aClass">
 			<table>
 			<tr><td>Select prefered currency unit</td>
 				<td>
@@ -120,16 +133,16 @@
 			<td><input type="button" id="openFilterForm" value="Filter" onClick="$('#searchDiv').show();"/></td></tr>
 			</table>
 		</div>
-		<div id="navigation">
-			<input type="button" class="navButtons" id="previousInfo" value="<< PREVIOUS" onClick="previousClicked();"/>
-			<input type="button" class="navButtons" id="nextInfo" value="NEXT >>" onClick="nextClicked();"/>
+		<div id="navigation" class="aClass">
+			<input type="button" class="navButtons aClass" id="previousInfo" value="<< PREVIOUS" onClick="previousClicked();"/>
+			<input type="button" class="navButtons aClass" id="nextInfo" value="NEXT >>" onClick="nextClicked();"/>
 		</div>
 		<table id="title">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
 		</table></br>
 		<div id="infowindow0" class="infowindows">
 			<p><h4>Description :</h4></p>
-			<div id="descCell"></div>
+			<div id="descCell" class="aClass"></div>
 		</div>
 		<div id="infowindow1" class="infowindows">
 			<table id="basicInfo">
@@ -155,8 +168,20 @@
 				<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
 			</table>
 		</div>
+		<div id="images" class="aClass">
+			<div id="fullSize" class="aClass">
+			</div>
+			<div id="thumb1" class="aClass">
+			</div>
+			<div id="thumb2" class="aClass">
+			</div>
+			<div id="thumb3" class="aClass">
+			</div>
+			<div id="thumb4" class="aClass">
+			</div>
+		</div>
 	</div>
-	<div id="searchDiv" class="popupborders">
+	<div id="searchDiv" class="popupborders aClass">
 		<p>Find plots by :</p>
 		<table id="searchTable">
 			<tr><td>Min price = </td><td><input type="text" id="minPrice"/></td><td>Max price = </td><td><input type="text" id="maxPrice"/></td></tr>
@@ -292,6 +317,7 @@
 			
 			plots.forEach(function(plot, index) {
 			
+				// add marker to polygon
 				var marker = new google.maps.Marker({
 						position: plot.vertices[0],
 						map: map,
@@ -299,7 +325,12 @@
 						label: customLabel[plot.type].label
 					});
 				
-				latlngbounds.extend(plot.vertices[0]);
+				// fit map to polygon
+				plot.vertices.forEach(function(vertice, index){
+					if(index%2==0){
+						latlngbounds.extend(vertice);
+					}
+				});
 				
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
@@ -318,16 +349,59 @@
 				polygon.addListener('click', function(){
 					resetPlotData();
 					this.setOptions({strokeWeight: 6});
+					fillImages(this.plotId);
 					fillPlotInfo(plots[index]);
 				});
 				
 				polygons.push(polygon);
 			});
 			
+			// resize map to fit polygon
 			map.fitBounds(latlngbounds);
 			var listener = google.maps.event.addListener(map, "idle", function() { 
-			  map.setZoom((map.getZoom() - 1));
+			  var newZoom = map.getZoom();
+			  if(newZoom>0 && newZoom<=19){ newZoom--; }
+			  map.setZoom(newZoom);
+			  // remove listener
 			  google.maps.event.removeListener(listener); 
+			});
+		}
+		
+		function fillImages(plotIndex){
+			getThumbForPlotIdAndImageNumber(plotIndex, 1);
+			
+			getThumbForPlotIdAndImageNumber(plotIndex, 2);
+			getThumbForPlotIdAndImageNumber(plotIndex, 3);
+			getThumbForPlotIdAndImageNumber(plotIndex, 4);
+		}
+		
+		function getThumbForPlotIdAndImageNumber(plotId, thumbId){
+			$.ajax({
+				url: 'http://localhost:8080/plot/thumb/'+plotId+'?name=File1',
+				type: 'GET',
+				headers: {
+					'X-My-Security-Token': token			
+				},
+				statusCode:{
+					200: function(data){
+						$("#thumb"+thumbId).html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+						
+						$("#thumb"+thumbId).click(function(){
+							$.ajax({
+								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File1',
+								type: 'GET',
+								headers: {
+									'X-My-Security-Token': token			
+								},
+								statusCode:{
+									200: function(data){
+										$("#fullSize").html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+									}
+								}
+							});
+						});
+					}
+				}
 			});
 		}
 		

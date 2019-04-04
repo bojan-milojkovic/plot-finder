@@ -11,14 +11,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Base64;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +26,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.util.RestPreconditions;
+import org.springframework.core.io.ByteArrayResource;
 
 @Service
 public class StorageServiceImpl implements StorageService {
 
 	private String fileStorageLocation;
-	private ResourceLoader resourceLoader;
 	
 	@Autowired
-	public StorageServiceImpl(ResourceLoader resourceLoader) throws MyRestPreconditionsException {
-		this.resourceLoader = resourceLoader;
+	public StorageServiceImpl() throws MyRestPreconditionsException {
 		this.fileStorageLocation = System.getProperty("user.dir")+File.separator+"images"+File.separator;
 		
 		try {
@@ -50,18 +48,13 @@ public class StorageServiceImpl implements StorageService {
 	
 	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) 
 			throws MyRestPreconditionsException{
-		Resource resource = readImage(id, name, isThumbnail);
-		String contentType = null;
-	    try {
-	        contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-	    } catch (Exception e) {
-	    	contentType = "application/octet-stream";
-	    }
+		byte[] data = Base64.getEncoder().encodeToString(readImage(id, name, isThumbnail)).getBytes();
 	    
 	    return ResponseEntity.ok()
-	            .contentType(MediaType.parseMediaType(contentType))
-	            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-	            .body(resource);
+	            .contentType(MediaType.parseMediaType("application/octet-stream"))
+	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + name + "\"")
+	            .contentLength(data.length)
+	            .body(new ByteArrayResource(data));
 	}
 	
 	public void saveImage(final MultipartFile mpf, String name, Long id) throws MyRestPreconditionsException {
@@ -86,7 +79,7 @@ public class StorageServiceImpl implements StorageService {
 		saveFileInDir(path, name, mpf);
 	}
 	
-	private Resource readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
+	private byte[] readImage(final Long id, String name, boolean thumbnail) throws MyRestPreconditionsException{
 		
 		// build dir path :
 		String imgDir = buildDirPath(id);
@@ -114,9 +107,9 @@ public class StorageServiceImpl implements StorageService {
             }
 			
 			if(filePath!=null){
-				return new UrlResource(filePath.toUri());
+				return Files.readAllBytes(filePath);
 			} else {
-            	return resourceLoader.getResource("classpath:images/no_image_found.jpeg");
+            	return Files.readAllBytes(Paths.get("classpath:images/no_image_found.jpeg"));
             }
 		} catch (Exception e){
 			throw new MyRestPreconditionsException("Resource retreave error", "Oops ! Something went wrong in retreaving the image.");
