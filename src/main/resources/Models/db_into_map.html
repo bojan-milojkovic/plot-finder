@@ -396,7 +396,7 @@
 			
 			// resize map to fit polygon
 			map.fitBounds(latlngbounds);
-			var listener = google.maps.event.addListener(map, "idle", function() { 
+			var listener = google.maps.event.addListener(map, "idle", function() {
 			  var newZoom = map.getZoom();
 			  if(newZoom>0 && newZoom<=19){ newZoom--; }
 			  map.setZoom(newZoom);
@@ -407,14 +407,13 @@
 		
 		function fillImages(plotIndex){
 			getThumbForPlotIdAndImageNumber(plotIndex, 1);
-			
 			getThumbForPlotIdAndImageNumber(plotIndex, 2);
 			getThumbForPlotIdAndImageNumber(plotIndex, 3);
 			getThumbForPlotIdAndImageNumber(plotIndex, 4);
 		}
 		
 		function resetStrokes(){
-			polygons.forEach(function(polygon, index) {
+			polygons.forEach(function(polygon) {
 				polygon.setOptions({strokeWeight: 2});
 			});
 		}
