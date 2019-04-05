@@ -45,6 +45,10 @@
 		width: 50%;
 		margin: 0 auto;
 	  }
+	  .thumb{
+	    padding: 5px;
+		top:0%;
+	  }
 	  #thumb1{
 		left: 0%;
 	  }
@@ -56,6 +60,11 @@
 	  }
 	  #thumb4{
 		left: 75%;
+	  }
+	  #fullSize{
+		width:500px;
+		height:500px;
+		bottom :0%;
 	  }
 	  th, td {
 		text-align: left;
@@ -103,6 +112,23 @@
 	  }
 	  #openFilterForm{
 		border-left: 6px solid green;
+	  }
+	  .selectedThumb {
+	    border-style:solid;
+	    border-color:green;
+	    border-width:5px;
+	  }
+	  #closeImg{
+		top: 5px;
+		right: 5px;
+		width: 30px;
+		height: 30px;
+		background-color: red;
+		opacity: 0.5;
+		text-align: center;
+		font-size: 25px;
+		font-weight: bold;
+		z-index:3;
 	  }
     </style>
 	
@@ -170,14 +196,16 @@
 		</div>
 		<div id="images" class="aClass">
 			<div id="fullSize" class="aClass">
+				<div id="closeImg" class="aClass">X</div>
+				<img id="orgImg" class="aClass"/>
 			</div>
-			<div id="thumb1" class="aClass">
+			<div id="thumb1" class="aClass thumb">
 			</div>
-			<div id="thumb2" class="aClass">
+			<div id="thumb2" class="aClass thumb">
 			</div>
-			<div id="thumb3" class="aClass">
+			<div id="thumb3" class="aClass thumb">
 			</div>
-			<div id="thumb4" class="aClass">
+			<div id="thumb4" class="aClass thumb">
 			</div>
 		</div>
 	</div>
@@ -200,12 +228,16 @@
 				
 		function nextClicked(){
 			$('#infowindow'+iwIndex).hide();
+			$('#fullSize').hide();
+			$('div[id^="thumb"]').removeClass('selectedThumb');
 			iwIndex = (iwIndex+1)%3;
 			$('#infowindow'+iwIndex).slideDown(500);
 		}
 		
 		function previousClicked(){
 			$('#infowindow'+iwIndex).hide();
+			$('#fullSize').hide();
+			$('div[id^="thumb"]').removeClass('selectedThumb');
 			iwIndex = iwIndex-1;
 			if(iwIndex==-1){
 				iwIndex=2;
@@ -225,6 +257,7 @@
 			$('#searchDiv').hide();
 			$('#infowindow1').hide();
 			$('#infowindow2').hide();
+			$('#fullSize').hide();
 			
 			map = new google.maps.Map(document.getElementById('map'), {
 				zoom: 15
@@ -234,6 +267,11 @@
 			
 			map.addListener('click', function(){
 				resetPlotData();
+			});
+			
+			$('#closeImg').click(function(){
+				$('#fullSize').hide();
+				$('div[id^="thumb"]').removeClass('selectedThumb');
 			});
 			
 			$('.navButtons').prop( "disabled", true );
@@ -375,36 +413,6 @@
 			getThumbForPlotIdAndImageNumber(plotIndex, 4);
 		}
 		
-		function getThumbForPlotIdAndImageNumber(plotId, thumbId){
-			$.ajax({
-				url: 'http://localhost:8080/plot/thumb/'+plotId+'?name=File1',
-				type: 'GET',
-				headers: {
-					'X-My-Security-Token': token			
-				},
-				statusCode:{
-					200: function(data){
-						$("#thumb"+thumbId).html('<img src="data:application/octet-stream;base64,' + data + '"/>');
-						
-						$("#thumb"+thumbId).click(function(){
-							$.ajax({
-								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File1',
-								type: 'GET',
-								headers: {
-									'X-My-Security-Token': token			
-								},
-								statusCode:{
-									200: function(data){
-										$("#fullSize").html('<img src="data:application/octet-stream;base64,' + data + '"/>');
-									}
-								}
-							});
-						});
-					}
-				}
-			});
-		}
-		
 		function resetStrokes(){
 			polygons.forEach(function(polygon, index) {
 				polygon.setOptions({strokeWeight: 2});
@@ -422,6 +430,9 @@
 			$('#aditionalInfo input[type="checkbox"]').prop('checked', false);
 			resetStrokes();
 			$('.navButtons').prop( "disabled", true );
+			$('div[id^="thumb"]').html('');
+			$('div[id^="thumb"]').removeClass('selectedThumb');
+			$('#fullSize').hide();
 		}
 		
 		function fillPlotInfo(plot){
@@ -463,6 +474,8 @@
 			}
 		};
 		
+		// >>>>>>>> COPPY BORDER <<<<<<<<
+		
 		function refreshToken(){
 			$.ajax({
 				url: 'http://localhost:8080/refresh',
@@ -473,6 +486,41 @@
 				statusCode:{
 					200: function(text){
 						token = text;
+					}
+				}
+			});
+		}
+		
+		function getThumbForPlotIdAndImageNumber(plotId, thumbId){
+			$.ajax({
+				url: 'http://localhost:8080/plot/thumb/'+plotId+'?name=File'+thumbId,
+				type: 'GET',
+				headers: {
+					'X-My-Security-Token': token			
+				},
+				statusCode:{
+					200: function(data){
+						$("#thumb"+thumbId).html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+						
+						$("#thumb"+thumbId).click(function(){
+							$.ajax({
+								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File'+thumbId,
+								type: 'GET',
+								headers: {
+									'X-My-Security-Token': token			
+								},
+								statusCode:{
+									200: function(data){
+										$('div[id^="thumb"]').removeClass('selectedThumb');
+										$(this).addClass('selectedThumb');
+										$("#fullSize").html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+									}
+								}
+							});
+						});
+					},
+					204: function(){
+						$("#thumb"+thumbId).html('<img src="no_image_found.jpg"/>');
 					}
 				}
 			});

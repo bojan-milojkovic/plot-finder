@@ -26,7 +26,7 @@ public class WebInitializer implements WebApplicationInitializer{
 		
 		// cofigure multipart form requests :
 		MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp", 
-				3 * 1024 * 1024, 6 * 1024 * 1024, 1 * 512 * 1024);        
+				6 * 1024 * 1024, 7 * 1024 * 1024, 3 * 1024 * 1024);        
 		apiSR.setMultipartConfig(multipartConfigElement);
 		
 		HttpConstraintElement forceHttpsConstraint = new HttpConstraintElement(

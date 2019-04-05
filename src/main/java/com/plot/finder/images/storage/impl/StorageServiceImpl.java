@@ -19,6 +19,7 @@ import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,11 +51,15 @@ public class StorageServiceImpl implements StorageService {
 			throws MyRestPreconditionsException{
 		byte[] data = Base64.getEncoder().encodeToString(readImage(id, name, isThumbnail)).getBytes();
 	    
-	    return ResponseEntity.ok()
-	            .contentType(MediaType.parseMediaType("application/octet-stream"))
-	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + name + "\"")
-	            .contentLength(data.length)
-	            .body(new ByteArrayResource(data));
+		if(data.length>0) {
+		    return ResponseEntity.ok()
+		            .contentType(MediaType.parseMediaType("application/octet-stream"))
+		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + name + "\"")
+		            .contentLength(data.length)
+		            .body(new ByteArrayResource(data));
+		} else {
+			return new ResponseEntity<Resource>(null, null, HttpStatus.NO_CONTENT);
+		}
 	}
 	
 	public void saveImage(final MultipartFile mpf, String name, Long id) throws MyRestPreconditionsException {
@@ -109,7 +114,7 @@ public class StorageServiceImpl implements StorageService {
 			if(filePath!=null){
 				return Files.readAllBytes(filePath);
 			} else {
-            	return Files.readAllBytes(Paths.get("classpath:images/no_image_found.jpeg"));
+            	return new byte[0];
             }
 		} catch (Exception e){
 			throw new MyRestPreconditionsException("Resource retreave error", "Oops ! Something went wrong in retreaving the image.");
@@ -164,8 +169,8 @@ public class StorageServiceImpl implements StorageService {
 					"You are attempting to upload an empty file - "+mpf.getOriginalFilename());
 			RestPreconditions.assertTrue(!mpf.getOriginalFilename().contains(".."), "Image save error", 
 					"Upload filename contains invalid path sequence"+mpf.getOriginalFilename());
-			RestPreconditions.assertTrue(mpf.getSize() < (5 * 1024 * 1024), "Image save error", 
-					"Max upload file size is 3MB"+mpf.getOriginalFilename());
+			RestPreconditions.assertTrue(mpf.getSize() <= (6 * 1024 * 1024), "Image save error", 
+					"Max upload file size is 6MB"+mpf.getOriginalFilename());
 			RestPreconditions.assertTrue(checkMpFileExtension(mpf.getOriginalFilename()), "Image save error", 
 					"You are only allowed to upload files with extensions jpg, jpeg, png and bmp"+mpf.getOriginalFilename());
 		}
@@ -180,12 +185,11 @@ public class StorageServiceImpl implements StorageService {
 		try {
 			// save original :
 			Path targetLocation = Paths.get(dir + name + "."+ext).toAbsolutePath().normalize();
-			Files.copy(mpf.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(scaleImageInputstream(mpf, ext, 500, 500), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 			// save thumbnail :
 			targetLocation = Paths.get(dir + name +"_THUMBNAIL." + ext).toAbsolutePath().normalize();
-			Files.copy(scaleImageInputstream(mpf, ext, 80, 100), 
-					targetLocation, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(scaleImageInputstream(mpf, ext, 80, 100), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 		}catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
