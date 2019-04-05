@@ -124,6 +124,7 @@
 		width: 30px;
 		height: 30px;
 		background-color: red;
+		border-radius: 5px;
 		opacity: 0.5;
 		text-align: center;
 		font-size: 25px;
@@ -245,11 +246,40 @@
 			$('#infowindow'+iwIndex).slideDown(500);
 		}
 		
-		function updatePolygonSizes(){
-		
+		function updatePlotSizes(){
+			plots.forEach(function(plot){
+				switch($('#unitsize').val()){
+					case "m2":
+						if(curUnitSize=="Ar"){
+							plot.size = plot.size / 100;
+							plot.sizeUnit = "Ar";
+						} else if(curUnitSize=="Ha") {
+							plot.size = plot.size / 10000;
+							plot.sizeUnit = "Ha";
+						}
+						break;
+					case "Ar":						
+						if(curUnitSize=="m2"){
+							plot.size = plot.size * 100;
+							plot.sizeUnit = "m2";
+						} else if(curUnitSize=="Ha"){
+							plot.size = plot.size / 100;
+							plot.sizeUnit = "Ha";
+						}
+						break;
+					default:
+						if(curUnitSize=="Ar"){
+							plot.size = plot.size * 100;
+							plot.sizeUnit = "Ar";
+						} else if(curUnitSize=="m2"){
+							plot.size = plot.size * 10000;
+							plot.sizeUnit = "m2";
+						}
+				}
+			});
 		}
 		
-		function updatePolygonPrices(){
+		function updatePlotPrices(){
 			
 		}
 		
@@ -258,6 +288,11 @@
 			$('#infowindow1').hide();
 			$('#infowindow2').hide();
 			$('#fullSize').hide();
+			
+			$('#unitsize').change(function(){
+				curUnitSize = $(this).children("option:selected").val();
+				updatePlotSizes();
+			});
 			
 			map = new google.maps.Map(document.getElementById('map'), {
 				zoom: 15
