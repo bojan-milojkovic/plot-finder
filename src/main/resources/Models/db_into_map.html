@@ -8,10 +8,9 @@
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
-	  .aClass {
-		position: absolute;
-	  }
+	  
       #map {
+		position: absolute;
 		top: 3px;
 		left: 4px;
         height: 95%;
@@ -19,11 +18,13 @@
 		align: left;
       }
 	  #converterDiv {
+		position: absolute;
 		top: 2%;
 		right: 2%;
 		z-index:2;
 	  }
 	  #parentinfowindow {
+		position: absolute;
         height:100%;
 		width: 50%;
 		right: -6px;
@@ -36,32 +37,32 @@
         margin: 0;
         padding: 0;
       }
-	  body{
-		position: relative;
-	  }
 	  #images {
+		position: absolute;
 		z-index:2;
 		bottom: 20%;
 		width: 50%;
 		margin: 0 auto;
 	  }
-	  .thumb{
+	  .thumb {
+		position: absolute;
 	    padding: 5px;
 		top:0%;
 	  }
-	  #thumb1{
+	  #thumb1 {
 		left: 0%;
 	  }
-	  #thumb2{
+	  #thumb2 {
 		left: 25%;
 	  }
-	  #thumb3{
+	  #thumb3 {
 		left: 50%;
 	  }
-	  #thumb4{
+	  #thumb4 {
 		left: 75%;
 	  }
-	  #fullSize{
+	  #fullSize {
+		position: absolute;
 		width:500px;
 		height:500px;
 		bottom :0%;
@@ -71,15 +72,17 @@
 		padding: 4px;
 	  }
 	  #descCell {
+		position: absolute;
 		left: 5%;
 		width: 80%;
 	  }
-	  .popupborders{
+	  .popupborders {
 		border-style: solid;
 		border-width: medium;
 		border-color: green;
 	  }
 	  #searchDiv {
+		position: absolute;
 		left: 5%;
 		top: 10%;
 		padding: 5px;
@@ -88,12 +91,14 @@
 		z-index:2;
 		border: 3px solid #73AD21;
 	  }
-	  #navigation{
+	  #navigation {
+		position: absolute;
 		width: 100%;
 		z-index:2;
 		bottom: 10%;
 	  }
 	  .navButtons {
+		position: absolute;
 		font-weight: bold;
 		width: 20%
 		z-index:2;
@@ -104,13 +109,15 @@
 		top: 15%;
 		width: 100%;
 	  }
-	  #nextInfo{
+	  #nextInfo {
+		position: absolute;
 		right: 3%;
 	  }
-	  #previousInfo{
+	  #previousInfo {
+		position: absolute;
 		left: 3%;
 	  }
-	  #openFilterForm{
+	  #openFilterForm {
 		border-left: 6px solid green;
 	  }
 	  .selectedThumb {
@@ -118,7 +125,8 @@
 	    border-color:green;
 	    border-width:5px;
 	  }
-	  #closeImg{
+	  #closeImg {
+		position: absolute;
 		top: 5px;
 		right: 5px;
 		width: 30px;
@@ -137,10 +145,10 @@
 
   </head>
   <body>
-    <div id="map" class="aClass"></div>
+    <div id="map"></div>
 	
-	<div id="parentinfowindow" class="aClass">
-		<div id="converterDiv" class="popupborders aClass">
+	<div id="parentinfowindow">
+		<div id="converterDiv" class="popupborders">
 			<table>
 			<tr><td>Select prefered currency unit</td>
 				<td>
@@ -153,23 +161,23 @@
 			</tr>
 			<tr><td>Select prefered size unit</td>
 				<td><select id="unitsize">
-					<option value="m2" SELECTED>Square meters</option>
+					<option value="m2" SELECTED>m2</option>
 					<option value="Ar">Ar</option>
-					<option value="Ha">Hectar</option>
+					<option value="Ha">Ha</option>
 					</select></td>
 			<td><input type="button" id="openFilterForm" value="Filter" onClick="$('#searchDiv').show();"/></td></tr>
 			</table>
 		</div>
-		<div id="navigation" class="aClass">
-			<input type="button" class="navButtons aClass" id="previousInfo" value="<< PREVIOUS" onClick="previousClicked();"/>
-			<input type="button" class="navButtons aClass" id="nextInfo" value="NEXT >>" onClick="nextClicked();"/>
+		<div id="navigation">
+			<input type="button" class="navButtons" id="previousInfo" value="<< PREVIOUS" onClick="previousClicked();"/>
+			<input type="button" class="navButtons" id="nextInfo" value="NEXT >>" onClick="nextClicked();"/>
 		</div>
 		<table id="title">
 			<tr><th>Title :</th><td id="titleCell"></td></tr>
 		</table></br>
 		<div id="infowindow0" class="infowindows">
 			<p><h4>Description :</h4></p>
-			<div id="descCell" class="aClass"></div>
+			<div id="descCell"></div>
 		</div>
 		<div id="infowindow1" class="infowindows">
 			<table id="basicInfo">
@@ -195,22 +203,22 @@
 				<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
 			</table>
 		</div>
-		<div id="images" class="aClass">
-			<div id="fullSize" class="aClass">
-				<div id="closeImg" class="aClass">X</div>
-				<img id="orgImg" class="aClass"/>
+		<div id="images">
+			<div id="fullSize">
+				<div id="closeImg">X</div>
+				<img id="orgImg"/>
 			</div>
-			<div id="thumb1" class="aClass thumb">
+			<div id="thumb1" class="thumb">
 			</div>
-			<div id="thumb2" class="aClass thumb">
+			<div id="thumb2" class="thumb">
 			</div>
-			<div id="thumb3" class="aClass thumb">
+			<div id="thumb3" class="thumb">
 			</div>
-			<div id="thumb4" class="aClass thumb">
+			<div id="thumb4" class="thumb">
 			</div>
 		</div>
 	</div>
-	<div id="searchDiv" class="popupborders aClass">
+	<div id="searchDiv" class="popupborders">
 		<p>Find plots by :</p>
 		<table id="searchTable">
 			<tr><td>Min price = </td><td><input type="text" id="minPrice"/></td><td>Max price = </td><td><input type="text" id="maxPrice"/></td></tr>
