@@ -21,14 +21,13 @@
 		position: absolute;
 		top: 2%;
 		right: 2%;
-		z-index:2;
+		z-index: 2;
 	  }
 	  #parentinfowindow {
-		position: absolute;
-        height:100%;
+		position: relative;
+        height: 100%;
 		width: 50%;
-		right: -6px;
-		top: 0px;
+		left: 51%;
 		overflow-y: scroll;
       }
       /* Optional: Makes the sample page fill the window. */
@@ -37,17 +36,21 @@
         margin: 0;
         padding: 0;
       }
+	  #parentImgs {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	  }
 	  #images {
 		position: absolute;
-		z-index:2;
+		z-index: 2;
 		bottom: 20%;
 		width: 50%;
-		margin: 0 auto;
 	  }
 	  .thumb {
 		position: absolute;
 	    padding: 5px;
-		top:0%;
+		top: 0%;
 	  }
 	  #thumb1 {
 		left: 0%;
@@ -63,8 +66,8 @@
 	  }
 	  #fullSize {
 		position: absolute;
-		width:500px;
-		height:500px;
+		width: 500px;
+		height: 500px;
 		bottom :0%;
 	  }
 	  th, td {
@@ -88,20 +91,20 @@
 		padding: 5px;
 		background: white;
 		align: bottom;
-		z-index:2;
+		z-index: 2;
 		border: 3px solid #73AD21;
 	  }
 	  #navigation {
 		position: absolute;
 		width: 100%;
-		z-index:2;
+		z-index: 2;
 		bottom: 10%;
 	  }
 	  .navButtons {
 		position: absolute;
 		font-weight: bold;
 		width: 20%
-		z-index:2;
+		z-index: 2;
 		top: 0px;
 	  }
 	  .infowindows {
@@ -121,9 +124,9 @@
 		border-left: 6px solid green;
 	  }
 	  .selectedThumb {
-	    border-style:solid;
-	    border-color:green;
-	    border-width:5px;
+	    border-style: solid;
+	    border-color: green;
+	    border-width: 5px;
 	  }
 	  #closeImg {
 		position: absolute;
@@ -137,7 +140,7 @@
 		text-align: center;
 		font-size: 25px;
 		font-weight: bold;
-		z-index:3;
+		z-index: 3;
 	  }
     </style>
 	
@@ -204,17 +207,19 @@
 			</table>
 		</div>
 		<div id="images">
-			<div id="fullSize">
-				<div id="closeImg">X</div>
-				<img id="orgImg"/>
-			</div>
-			<div id="thumb1" class="thumb">
-			</div>
-			<div id="thumb2" class="thumb">
-			</div>
-			<div id="thumb3" class="thumb">
-			</div>
-			<div id="thumb4" class="thumb">
+			<div id="parentImgs">
+				<div id="fullSize">
+					<div id="closeImg">X</div>
+					<img id="orgImg"/>
+				</div>
+				<div id="thumb1" class="thumb">
+				</div>
+				<div id="thumb2" class="thumb">
+				</div>
+				<div id="thumb3" class="thumb">
+				</div>
+				<div id="thumb4" class="thumb">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -232,6 +237,7 @@
 		var polygons = [];
 		var plots = [];
 		var iwIndex = 0;
+		var curUnitSize = "m2";
 		
 		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzRzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NTM5NzM2MzAzNTksInB3ZCI6IldlbGNvbWUxMSMiLCJleHAiOjE1NTM5NzU0MzB9.uCCSHryeWzaObV_5UgJ91wJV-OwtZecPHdBgQDZo9zmWCfdELrzlpBmnShcOHOOHJcA2N1CzE8z4OgKeGuE4yA';	
 				
@@ -256,7 +262,7 @@
 		
 		function updatePlotSizes(){
 			plots.forEach(function(plot){
-				switch($('#unitsize').val()){
+				switch($('#unitsize').children("option:SELECTED").val()){
 					case "m2":
 						if(curUnitSize=="Ar"){
 							plot.size = plot.size / 100;
@@ -298,7 +304,7 @@
 			$('#fullSize').hide();
 			
 			$('#unitsize').change(function(){
-				curUnitSize = $(this).children("option:selected").val();
+				curUnitSize = $(this).children("option:SELECTED").val();
 				updatePlotSizes();
 			});
 			
@@ -439,7 +445,7 @@
 			
 			// resize map to fit polygon
 			map.fitBounds(latlngbounds);
-			var listener = google.maps.event.addListener(map, "idle", function() {
+			var listener = google.maps.event.addListener(map, "idle", function() { 
 			  var newZoom = map.getZoom();
 			  if(newZoom>0 && newZoom<=19){ newZoom--; }
 			  map.setZoom(newZoom);
@@ -450,13 +456,14 @@
 		
 		function fillImages(plotIndex){
 			getThumbForPlotIdAndImageNumber(plotIndex, 1);
+			
 			getThumbForPlotIdAndImageNumber(plotIndex, 2);
 			getThumbForPlotIdAndImageNumber(plotIndex, 3);
 			getThumbForPlotIdAndImageNumber(plotIndex, 4);
 		}
 		
 		function resetStrokes(){
-			polygons.forEach(function(polygon) {
+			polygons.forEach(function(polygon, index) {
 				polygon.setOptions({strokeWeight: 2});
 			});
 		}
