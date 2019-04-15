@@ -128,10 +128,14 @@
 	    border-color: green;
 	    border-width: 5px;
 	  }
+	  #orgImg{
+		position: absolute;
+		bottom: 0%;
+	  }
 	  #closeImg {
 		position: absolute;
-		top: 5px;
-		right: 5px;
+		top: 27%;
+		right: 5%;
 		width: 30px;
 		height: 30px;
 		background-color: red;
@@ -552,6 +556,7 @@
 						$("#thumb"+thumbId).html('<img src="data:application/octet-stream;base64,' + data + '"/>');
 						
 						$("#thumb"+thumbId).click(function(){
+						
 							$.ajax({
 								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File'+thumbId,
 								type: 'GET',
@@ -561,11 +566,13 @@
 								statusCode:{
 									200: function(data){
 										$('div[id^="thumb"]').removeClass('selectedThumb');
-										$(this).addClass('selectedThumb');
-										$("#fullSize").html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+										$("#thumb"+thumbId).addClass('selectedThumb');
+										$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
+										$("#fullSize").show();
 									}
 								}
 							});
+						
 						});
 					},
 					204: function(){
