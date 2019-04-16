@@ -99,6 +99,9 @@ public class PlotDTO implements Serializable {
 	private Boolean orchard;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean forest;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	@Min(1)
 	private Integer price;
 	
@@ -391,6 +394,14 @@ public class PlotDTO implements Serializable {
 
 	public void setOrchard(Boolean orchard) {
 		this.orchard = orchard;
+	}
+	
+	public Boolean getForest() {
+		return forest;
+	}
+
+	public void setForest(Boolean forest) {
+		this.forest = forest;
 	}
 
 	public LocalDate getAdded() {

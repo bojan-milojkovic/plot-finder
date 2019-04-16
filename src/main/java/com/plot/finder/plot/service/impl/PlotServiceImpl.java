@@ -84,10 +84,11 @@ public class PlotServiceImpl implements PlotService {
 		model.setFarming(jpa.containsFlag("farming"));
 		model.setGrazing(jpa.containsFlag("grazing"));
 		model.setOrchard(jpa.containsFlag("orchard"));
+		model.setForest(jpa.containsFlag("forest"));
 		
 		if(jpa.containsFlag("sale")){
 			model.setType("SALE");
-		} else if(jpa.containsFlag("rent")){
+		} else {
 			model.setType("RENT");
 		}
 		
@@ -307,6 +308,7 @@ public class PlotServiceImpl implements PlotService {
 		jpa.addRemoveFlag("farming", model.getFarming());
 		jpa.addRemoveFlag("grazing", model.getGrazing());
 		jpa.addRemoveFlag("orchard", model.getOrchard());
+		jpa.addRemoveFlag("forest", model.getForest());
 		
 		if(RestPreconditions.checkString(model.getType())) {
 			jpa.addRemoveFlag("rent", false);
@@ -421,6 +423,7 @@ public class PlotServiceImpl implements PlotService {
 				model.getFarming()!=null ||
 				model.getGrazing()!=null ||
 				model.getOrchard()!=null ||
+				model.getForest()!=null ||
 				
 				model.getFile1()!=null
 				;

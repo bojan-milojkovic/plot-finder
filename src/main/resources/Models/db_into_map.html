@@ -208,6 +208,7 @@
 				<tr><th><input type="checkbox" id="farming" disabled="true"/> Plot is for farming</th></tr>
 				<tr><th><input type="checkbox" id="grazing" disabled="true"/> Plot is for grazing</th></tr>
 				<tr><th><input type="checkbox" id="orchard" disabled="true"/> Plot is an orchard</th></tr>
+				<tr><th><input type="checkbox" id="forest" disabled="true"/> Plot is a forest</th></tr>
 			</table>
 		</div>
 		<div id="images">
@@ -514,6 +515,7 @@
 			$('#farming').prop('checked', plot.farming);
 			$('#orchard').prop('checked', plot.orchard);
 			$('#grazing').prop('checked', plot.grazing);
+			$('#forest').prop('checked', plot.forest);
 			
 			$('.navButtons').prop( "disabled", false );
 		}
