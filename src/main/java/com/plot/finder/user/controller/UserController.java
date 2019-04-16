@@ -101,7 +101,6 @@ public class UserController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void changePassword(@RequestBody @Valid UserDTO model, @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
 		RestPreconditions.assertTrue(model!=null, "User password edit error !!!", "You are sending a request without the object");
-		RestPreconditions.assertTrue(id!=null, "User password edit error !!!", "User id is mandatory.");
 		model.setId(id);
 		userServiceImpl.changePassword(model, principal.getName());
 	}

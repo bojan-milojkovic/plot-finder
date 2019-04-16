@@ -183,37 +183,38 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public void changePassword(UserDTO model, String username) throws MyRestPreconditionsException {
-		{
+		{ 	// input data basic checks :
 			MyRestPreconditionsException ex = 
-					new MyRestPreconditionsException("Change password error","Input information is invalid.");
+					new MyRestPreconditionsException("Change password error", "Input information is invalid.");
 	
-			if(model.getId()<0) {
-				ex.getErrors().add("Invalid or missing user id");
+			if(!(model.getId()!=null && model.getId()>0)) {
+				ex.getErrors().add("Invalid user id");
 			}
+			// check passwords :
 			if(!RestPreconditions.checkString(model.getPassword())) {
 				ex.getErrors().add("Original password is mandatory");
 			}
 			if(!RestPreconditions.checkString(model.getNewPassword())) {
 				ex.getErrors().add("New password is mandatory");
 			}
+			if(model.getPassword().equals(model.getNewPassword())) {
+				ex.getErrors().add("Old password and new password should be different.");
+			}
 			
 			if(!ex.getErrors().isEmpty()){
 				throw ex;
 			}
-		}
+		} // ex no longer exists from here on
 		
-		RestPreconditions.assertTrue(!model.getPassword().equals(model.getNewPassword()),
-				"Change password error","Old password and new password should be different.");
-		
-		//check that user exists
-		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
-				"Change password error", "user you are changing the password for does not exist.");
-		// check that ids match
-		RestPreconditions.assertTrue(jpa.getId() == model.getId(), 
+		// check user exists for that id
+		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(model.getId()), 
+				"Change password error", "No user found for that id");
+		// check that usernames match
+		RestPreconditions.assertTrue(username.equals(jpa.getUsername()), 
 				"Access violation !!!","You are trying to change someone elses's password");
 		// password is verified with : BCrypt.checkpw(password_plaintext, stored_hash)
 		RestPreconditions.assertTrue(BCrypt.checkpw(model.getPassword(), jpa.getPassword()), 
-				"Change password error","Your entry for original password does not match with the DB value");
+				"Change password error","Your original password value does not match with the password in DB");
 		
 		jpa.setPassword(BCrypt.hashpw(model.getPassword(), BCrypt.gensalt()));
 		jpa.setLastPasswordChange(LocalDateTime.now());

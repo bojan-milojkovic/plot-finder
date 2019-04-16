@@ -21,7 +21,7 @@ public class SecurityController {
 	
 	@RequestMapping(value = "/roles", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody String generateToken(@RequestBody CredentialsDTO credentials){
+	public @ResponseBody String generateToken(@RequestBody CredentialsDTO credentials) throws MyRestPreconditionsException{
 		return securityServiceImpl.generateTokenForUser(credentials);
 	}
 	

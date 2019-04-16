@@ -1,8 +1,8 @@
 package com.plot.finder.security.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.security.JwtTokenUtil;
 import com.plot.finder.security.dto.CredentialsDTO;
-import com.plot.finder.security.entities.RoleJPA;
-import com.plot.finder.security.entities.UserHasRolesJPA;
 import com.plot.finder.security.service.SecurityService;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
+import com.plot.finder.util.RestPreconditions;
 
 @Service
 public class SecurityServiceImpl implements SecurityService {
@@ -27,43 +26,35 @@ public class SecurityServiceImpl implements SecurityService {
 	private JwtTokenUtil jwtTokenUtil;
 	
 	@Override
-	public String generateTokenForUser(CredentialsDTO credentials){
+	public String generateTokenForUser(CredentialsDTO credentials) throws MyRestPreconditionsException{
 		
 		// check username :
-		UserJPA jpa = userRepository.findOneByUsername(credentials.getUsername());
-		if(jpa != null){
-			// check password - BCrypt.checkpw(password_plaintext, stored_hash)
-			if(BCrypt.checkpw(credentials.getPassword(), jpa.getPassword())){
-				
-				List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-				
-				for(UserHasRolesJPA userRoles : jpa.getUserHasRolesJpa()){
-					RoleJPA role = userRoles.getRoleJpa();
-					
-					authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
-				}
-				
-				String token = jwtTokenUtil.generateToken(new User(
-							jpa.getUsername(),
-							credentials.getPassword(),
-							jpa.isActive(),
-							true,
-							true,
-							jpa.isNotLocked(),
-							authorities
-						));
-				
-				// update last login datetime
-				jpa.setLastLogin(LocalDateTime.now());
-				userRepository.save(jpa);
-				
-				return token;
-			}
-			
-			return "Error - passwords do not match.";
-		}
+		UserJPA jpa = RestPreconditions.checkNotNull(userRepository.findOneByUsername(credentials.getUsername()),
+									"Authentication failed", "No user found for these credentials");
 		
-		return "Error - no user with those credentials.";
+		// check password - BCrypt.checkpw(password_plaintext, stored_hash)
+		RestPreconditions.assertTrue(BCrypt.checkpw(credentials.getPassword(), jpa.getPassword()), 
+									"Authentication failed", "Passwords do not match");
+		
+		List<SimpleGrantedAuthority> authorities = jpa.getUserHasRolesJpa().stream()
+								.map(j -> new SimpleGrantedAuthority(j.getRoleJpa().getRoleName()))
+								.collect(Collectors.toList());
+		
+		String token = jwtTokenUtil.generateToken(new User(
+					jpa.getUsername(),
+					credentials.getPassword(),
+					jpa.isActive(),
+					true,
+					true,
+					jpa.isNotLocked(),
+					authorities
+				));
+		
+		// update last login datetime
+		jpa.setLastLogin(LocalDateTime.now());
+		userRepository.save(jpa);
+		
+		return token;
 	}
 	
 	@Override
