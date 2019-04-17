@@ -90,6 +90,9 @@ public class PlotDTO implements Serializable {
 	private Boolean garage;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private Boolean parking;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	private Boolean farming;
 	
 	@JsonProperty(access = Access.READ_WRITE)
@@ -133,6 +136,19 @@ public class PlotDTO implements Serializable {
 
 	public PlotDTO() {
 		super();
+	}
+	
+	private boolean flagCheck(Boolean flag) {
+		if(flag!=null) {
+			return (boolean)flag;
+		}
+		return false;
+	}
+	
+	public boolean checkPostFlags() {
+		return flagCheck(house) || flagCheck(power) || flagCheck(water)
+				|| flagCheck(sewer) || flagCheck(gas) || flagCheck(internet) || flagCheck(garage) || flagCheck(parking)
+				|| flagCheck(farming) || flagCheck(grazing) || flagCheck(orchard) || flagCheck(forest);
 	}
 
 	public Long getId() {
@@ -234,6 +250,14 @@ public class PlotDTO implements Serializable {
 
 	public Boolean getGarage() {
 		return garage;
+	}
+
+	public Boolean getParking() {
+		return parking;
+	}
+
+	public void setParking(Boolean parking) {
+		this.parking = parking;
 	}
 
 	public Boolean isInternet() {

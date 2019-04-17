@@ -75,6 +75,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setExpires(jpa.getExpires());
 		
 		model.setGarage(jpa.containsFlag("garage"));
+		model.setParking(jpa.containsFlag("parking"));
 		model.setGas(jpa.containsFlag("gas"));
 		model.setInternet(jpa.containsFlag("internet"));
 		model.setPower(jpa.containsFlag("power"));
@@ -252,7 +253,6 @@ public class PlotServiceImpl implements PlotService {
 		MyRestPreconditionsException e = new MyRestPreconditionsException("Create new plot error",
 				"some data are invalid or missing from the request");
 		
-		
 		if(model.getVertices().size()<4 || model.getVertices().size()>8) {
 			e.getErrors().add("plot must have between 4 and 8 vertices");
 		} else if(!isConvex(model.getVertices())) {
@@ -291,6 +291,9 @@ public class PlotServiceImpl implements PlotService {
 		if(!RestPreconditions.checkString(model.getCurrency())) {
 			e.getErrors().add("price currency is mandatory");
 		}
+		if(!model.checkPostFlags()) {
+			e.getErrors().add("you must check at least one of the check boxes");
+		}
 		
 		if(!e.getErrors().isEmpty()){
 			throw e;
@@ -299,6 +302,7 @@ public class PlotServiceImpl implements PlotService {
 	
 	private PlotJPA saveFlags(PlotJPA jpa, PlotDTO model){
 		jpa.addRemoveFlag("garage", model.isGarage());
+		jpa.addRemoveFlag("parking", model.getParking());
 		jpa.addRemoveFlag("gas", model.isGas());
 		jpa.addRemoveFlag("internet", model.isInternet());
 		jpa.addRemoveFlag("power", model.isPower());
@@ -309,6 +313,7 @@ public class PlotServiceImpl implements PlotService {
 		jpa.addRemoveFlag("grazing", model.getGrazing());
 		jpa.addRemoveFlag("orchard", model.getOrchard());
 		jpa.addRemoveFlag("forest", model.getForest());
+		
 		
 		if(RestPreconditions.checkString(model.getType())) {
 			jpa.addRemoveFlag("rent", false);
@@ -417,6 +422,7 @@ public class PlotServiceImpl implements PlotService {
 				model.getSewer()!=null ||
 				
 				model.isGarage()!=null ||
+				model.getParking()!=null ||
 				model.isGas()!=null ||
 				model.isInternet()!=null ||
 				
@@ -444,12 +450,14 @@ public class PlotServiceImpl implements PlotService {
 			storageServiceImpl.saveImage(model.getFile1(), "File1", id);
 			if(model.getFile2()!=null){
 				storageServiceImpl.saveImage(model.getFile2(), "File2", id);
-			}
-			if(model.getFile3()!=null){
-				storageServiceImpl.saveImage(model.getFile3(), "File3", id);
-			}
-			if(model.getFile4()!=null){
-				storageServiceImpl.saveImage(model.getFile4(), "File4", id);
+			
+				if(model.getFile3()!=null){
+					storageServiceImpl.saveImage(model.getFile3(), "File3", id);
+			
+					if(model.getFile4()!=null){
+						storageServiceImpl.saveImage(model.getFile4(), "File4", id);
+					}
+				}
 			}
 		}
 	}
@@ -459,7 +467,7 @@ public class PlotServiceImpl implements PlotService {
 		RestPreconditions.checkId(id);
 		
 		// check vertices are convex and the number of vertices
-		if(!(model.getVertices()==null || model.getVertices().isEmpty())) {
+		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
 			RestPreconditions.assertTrue(model.getVertices().size()>3 && model.getVertices().size()<9,
 					"Edit plot error","Number of vertices in plot must be between 4 and 8");
 			RestPreconditions.assertTrue(isConvex(model.getVertices()), 
