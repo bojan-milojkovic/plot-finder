@@ -69,8 +69,8 @@
 			<tr><td><input type="checkbox" id="gas"/>Gas</td><td><input type="checkbox" id="farming"/>Land is for farming</td></tr>
 			<tr><td><input type="checkbox" id="sewer"/>Sewer</td><td><input type="checkbox" id="grazing"/>Land is for grazing</td></tr>
 			<tr><td><input type="checkbox" id="internet"/>Internet</td><td><input type="checkbox" id="Orchard"/>Land is an orchard</td></tr>
-			<tr><td><input type="checkbox" id="garage"/>Garage</td><td><input type="checkbox" id="forest"/>Land is a forest</td></tr>
-			<tr><td><input type="checkbox" id="power"/>Power</td></tr>
+			<tr><td><input type="checkbox" id="garage"/>Garage</td><td><input type="checkbox" id="parking"/>Parking spot</td></tr>
+			<tr><td><input type="checkbox" id="power"/>Power</td><td><input type="checkbox" id="forest"/>Land is a forest</td></tr>
 			<tr><td><input type="button" value="Back" onclick="openForm1()"/></td>
 				<td><input type="button" value="Next" onclick="saveData2();openForm3();"/></td></tr>
 		</table>
@@ -262,6 +262,7 @@
 				'\"sewer\" : \"'+getChecked(document.getElementById('sewer'))+'\",' +
 				'\"internet\" : \"'+getChecked(document.getElementById('internet'))+'\",' +
 				'\"garage\" : \"'+getChecked(document.getElementById('garage'))+'\",' +
+				'\"parking\" : \"'+getChecked(document.getElementById('parking'))+'\",' +
 				'\"house\" : \"'+getChecked(document.getElementById('house'))+'\",' +
 				'\"farming\" : \"'+getChecked(document.getElementById('farming'))+'\",' +
 				'\"grazing\" : \"'+getChecked(document.getElementById('grazing'))+'\",' +

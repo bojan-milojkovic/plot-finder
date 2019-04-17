@@ -200,9 +200,9 @@
 		</div>
 		<div id="infowindow2" class="infowindows">
 			<table id="aditionalInfo" class="unchanging">
-				<tr><th><input type="checkbox" id="house" disabled="true"/> Plot has a house</th><th><input type="checkbox" id="garage" disabled="true"/> Plot has a garage</th></tr>
+				<tr><th><input type="checkbox" id="house" disabled="true"/> Plot has a house</th><th><input type="checkbox" id="sewer" disabled="true"/> Plot has a sewer</th></tr>
 				<tr><th><input type="checkbox" id="power" disabled="true"/> Plot has power</th><th><input type="checkbox" id="internet" disabled="true"/> Plot has internet</th></tr>
-				<tr><th><input type="checkbox" id="sewer" disabled="true"/> Plot has sewer</th></tr>
+				<tr><th><input type="checkbox" id="garage" disabled="true"/> Plot has garage</th><th><input type="checkbox" id="parking" disabled="true"/> Plot has a parking spot</th></tr>
 				<tr><th><input type="checkbox" id="water" disabled="true"/> Plot has water</th></tr>
 				<tr><th><input type="checkbox" id="gas" disabled="true"/> Plot has gas station/gas line near by</th></tr>
 				<tr><th><input type="checkbox" id="farming" disabled="true"/> Plot is for farming</th></tr>
@@ -511,6 +511,7 @@
 			$('#gas').prop('checked', plot.gas);
 			$('#internet').prop('checked', plot.internet);
 			$('#garage').prop('checked', plot.garage);
+			$('#parking').prop('checked', plot.parking);
 			
 			$('#farming').prop('checked', plot.farming);
 			$('#orchard').prop('checked', plot.orchard);
@@ -569,6 +570,7 @@
 									200: function(data){
 										$('div[id^="thumb"]').removeClass('selectedThumb');
 										$("#thumb"+thumbId).addClass('selectedThumb');
+										$("#orgImg").attr('src', '');
 										$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
 										$("#fullSize").show();
 									}
