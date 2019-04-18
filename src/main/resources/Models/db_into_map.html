@@ -44,13 +44,13 @@
 	  #images {
 		position: absolute;
 		z-index: 2;
-		bottom: 20%;
+		bottom: 10%;
 		width: 50%;
 	  }
 	  .thumb {
 		position: absolute;
 	    padding: 5px;
-		top: 0%;
+		bottom: 0%;
 	  }
 	  #thumb1 {
 		left: 0%;
@@ -68,7 +68,7 @@
 		position: absolute;
 		width: 500px;
 		height: 500px;
-		bottom :0%;
+		bottom: 20%;
 	  }
 	  th, td {
 		text-align: left;
@@ -140,7 +140,7 @@
 		height: 30px;
 		background-color: red;
 		border-radius: 5px;
-		opacity: 0.5;
+		opacity: 0.75;
 		text-align: center;
 		font-size: 25px;
 		font-weight: bold;
@@ -218,12 +218,16 @@
 					<img id="orgImg"/>
 				</div>
 				<div id="thumb1" class="thumb">
+					<img id="thumb1_img"/>
 				</div>
 				<div id="thumb2" class="thumb">
+					<img id="thumb2_img"/>
 				</div>
 				<div id="thumb3" class="thumb">
+					<img id="thumb3_img"/>
 				</div>
 				<div id="thumb4" class="thumb">
+					<img id="thumb4_img"/>
 				</div>
 			</div>
 		</div>
@@ -239,15 +243,18 @@
     <script>
 		var json;
 		var map;
+		var plotId;
 		var polygons = [];
 		var plots = [];
 		var iwIndex = 0;
 		var curUnitSize = "m2";
 		
+		
 		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzRzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NTM5NzM2MzAzNTksInB3ZCI6IldlbGNvbWUxMSMiLCJleHAiOjE1NTM5NzU0MzB9.uCCSHryeWzaObV_5UgJ91wJV-OwtZecPHdBgQDZo9zmWCfdELrzlpBmnShcOHOOHJcA2N1CzE8z4OgKeGuE4yA';	
 				
 		function nextClicked(){
 			$('#infowindow'+iwIndex).hide();
+			$("#orgImg").attr('src', '');
 			$('#fullSize').hide();
 			$('div[id^="thumb"]').removeClass('selectedThumb');
 			iwIndex = (iwIndex+1)%3;
@@ -256,6 +263,7 @@
 		
 		function previousClicked(){
 			$('#infowindow'+iwIndex).hide();
+			$("#orgImg").attr('src', '');
 			$('#fullSize').hide();
 			$('div[id^="thumb"]').removeClass('selectedThumb');
 			iwIndex = iwIndex-1;
@@ -324,6 +332,7 @@
 			});
 			
 			$('#closeImg').click(function(){
+				$("#orgImg").attr('src', '');
 				$('#fullSize').hide();
 				$('div[id^="thumb"]').removeClass('selectedThumb');
 			});
@@ -426,7 +435,6 @@
 				
 				var polygon = new google.maps.Polygon({
 						pIndex: index,
-						plotId: plot.id,
 						paths: plot.vertices,
 						strokeColor: '#FF0000',
 						strokeOpacity: 0.8,
@@ -441,8 +449,9 @@
 				polygon.addListener('click', function(){
 					resetPlotData();
 					this.setOptions({strokeWeight: 6});
-					fillImages(this.plotId);
-					fillPlotInfo(plots[index]);
+					plotId = plot.id;
+					fillImages();
+					fillPlotInfo(plot);
 				});
 				
 				polygons.push(polygon);
@@ -459,12 +468,12 @@
 			});
 		}
 		
-		function fillImages(plotIndex){
-			getThumbForPlotIdAndImageNumber(plotIndex, 1);
+		function fillImages(){
+			getThumbForPlotIdAndImageNumber(1);
 			
-			getThumbForPlotIdAndImageNumber(plotIndex, 2);
-			getThumbForPlotIdAndImageNumber(plotIndex, 3);
-			getThumbForPlotIdAndImageNumber(plotIndex, 4);
+			getThumbForPlotIdAndImageNumber(2);
+			getThumbForPlotIdAndImageNumber(3);
+			getThumbForPlotIdAndImageNumber(4);
 		}
 		
 		function resetStrokes(){
@@ -484,7 +493,7 @@
 			$('#aditionalInfo input[type="checkbox"]').prop('checked', false);
 			resetStrokes();
 			$('.navButtons').prop( "disabled", true );
-			$('div[id^="thumb"]').html('');
+			$('img[id^="thumb"]').attr('src', '');
 			$('div[id^="thumb"]').removeClass('selectedThumb');
 			$('#fullSize').hide();
 		}
@@ -547,7 +556,8 @@
 			});
 		}
 		
-		function getThumbForPlotIdAndImageNumber(plotId, thumbId){
+		function getThumbForPlotIdAndImageNumber(thumbId){
+			var selected = "";
 			$.ajax({
 				url: 'http://localhost:8080/plot/thumb/'+plotId+'?name=File'+thumbId,
 				type: 'GET',
@@ -556,10 +566,12 @@
 				},
 				statusCode:{
 					200: function(data){
-						$("#thumb"+thumbId).html('<img src="data:application/octet-stream;base64,' + data + '"/>');
+						selected = '#thumb' + thumbId;
 						
-						$("#thumb"+thumbId).click(function(){
+						$(selected+'_img').attr('src', 'data:application/octet-stream;base64,' + data);
 						
+						$(selected).click(function(e){
+							e.preventDefault();
 							$.ajax({
 								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File'+thumbId,
 								type: 'GET',
@@ -568,19 +580,23 @@
 								},
 								statusCode:{
 									200: function(data){
-										$('div[id^="thumb"]').removeClass('selectedThumb');
-										$("#thumb"+thumbId).addClass('selectedThumb');
-										$("#orgImg").attr('src', '');
-										$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
-										$("#fullSize").show();
+										if (!$(selected).hasClass('selectedThumb')){
+											$('div[id^="thumb"]').removeClass('selectedThumb');
+											$(selected).addClass('selectedThumb');
+											$("#orgImg").attr('src', '');
+											$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
+											$("#fullSize").show();
+										}
+									},
+									400: function(jqXHR){
+										alert(jqXHR.responseText);
 									}
 								}
 							});
-						
 						});
 					},
 					204: function(){
-						$("#thumb"+thumbId).html('<img src="no_image_found.jpg"/>');
+						$('#thumb'+thumbId+'_img').attr('src', 'no_image_found.jpg');
 					}
 				}
 			});

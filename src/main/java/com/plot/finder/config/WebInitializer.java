@@ -1,5 +1,6 @@
 package com.plot.finder.config;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.HttpConstraintElement;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.ServletSecurity;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class WebInitializer implements WebApplicationInitializer{
@@ -25,9 +27,11 @@ public class WebInitializer implements WebApplicationInitializer{
 		apiSR.addMapping("/");
 		
 		// cofigure multipart form requests :
-		MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp", 
-				11 * 1024 * 1024, 12 * 1024 * 1024, 3 * 1024 * 1024);        
+		MultipartConfigElement multipartConfigElement = new MultipartConfigElement("/tmp");        
 		apiSR.setMultipartConfig(multipartConfigElement);
+		
+		FilterRegistration.Dynamic multipartFilter = sc.addFilter("multipartFilter", MultipartFilter.class);
+        multipartFilter.addMappingForUrlPatterns(null, true, "/*");
 		
 		HttpConstraintElement forceHttpsConstraint = new HttpConstraintElement(
 				ServletSecurity.TransportGuarantee.CONFIDENTIAL);

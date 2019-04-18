@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +18,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @ComponentScan(basePackages={"com.plot.finder.*"})
 @EnableTransactionManagement
 public class SpringConfig {
+	
+    public static final String ENCODING_UTF_8 = "UTF-8";
+
+    public static final long MAX_UPLOAD_FILE_SIZE = 52428807;
+
+    public static final long MAX_UPLOAD_PER_FILE_SIZE = 5242880;
 
 	@Bean
     @Primary
@@ -33,8 +39,16 @@ public class SpringConfig {
     }
 	
 	@Bean(name = "multipartResolver")
-	public StandardServletMultipartResolver multipartResolver() {
-		return new StandardServletMultipartResolver();
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver ret = new CommonsMultipartResolver();
+
+        ret.setMaxUploadSize(MAX_UPLOAD_FILE_SIZE);
+
+        ret.setMaxUploadSizePerFile(MAX_UPLOAD_PER_FILE_SIZE);
+
+        ret.setDefaultEncoding(ENCODING_UTF_8);
+
+        return ret;
 	}
 	
 	@Bean

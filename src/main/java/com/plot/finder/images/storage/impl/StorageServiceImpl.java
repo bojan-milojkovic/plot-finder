@@ -189,7 +189,7 @@ public class StorageServiceImpl implements StorageService {
 			
 			// save thumbnail :
 			targetLocation = Paths.get(dir + name +"_THUMBNAIL." + ext).toAbsolutePath().normalize();
-			Files.copy(scaleImageInputstream(mpf, ext, 80, 100), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(scaleImageInputstream(mpf, ext, 80, 80), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 			
 		}catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
