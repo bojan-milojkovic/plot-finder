@@ -168,6 +168,8 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	public ResponseEntity<Resource> getImage(Long id, String name, boolean isThumbnail, HttpServletRequest request) throws MyRestPreconditionsException{
+		RestPreconditions.checkId(id);
+		RestPreconditions.checkNotNull(plotRepo.getOne(id), "Image read error", "No plot found for id = "+id);
 		return storageServiceImpl.getImage(id, name, isThumbnail, request);
 	}
 	

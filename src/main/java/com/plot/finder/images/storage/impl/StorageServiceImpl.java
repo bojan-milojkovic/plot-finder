@@ -169,8 +169,8 @@ public class StorageServiceImpl implements StorageService {
 					"You are attempting to upload an empty file - "+mpf.getOriginalFilename());
 			RestPreconditions.assertTrue(!mpf.getOriginalFilename().contains(".."), "Image save error", 
 					"Upload filename contains invalid path sequence"+mpf.getOriginalFilename());
-			RestPreconditions.assertTrue(mpf.getSize() <= (6 * 1024 * 1024), "Image save error", 
-					"Max upload file size is 6MB"+mpf.getOriginalFilename());
+			RestPreconditions.assertTrue(mpf.getSize() <= (5 * 1024 * 1024), "Image save error", 
+					"Max upload file size is 5MB"+mpf.getOriginalFilename());
 			RestPreconditions.assertTrue(checkMpFileExtension(mpf.getOriginalFilename()), "Image save error", 
 					"You are only allowed to upload files with extensions jpg, jpeg, png and bmp"+mpf.getOriginalFilename());
 		}

@@ -1,7 +1,6 @@
 
 CREATE INDEX PriceIndex ON plotfinder.plot(price);
 CREATE INDEX SizeIndex ON plotfinder.plot(size);
-
 CREATE INDEX CityIndex ON plotfinder.plot(city);
 CREATE INDEX DistrictIndex ON plotfinder.plot(district);
 
