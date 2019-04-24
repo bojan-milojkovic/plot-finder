@@ -11,6 +11,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name="roles")
 public class RoleJPA {
+	
+	public RoleJPA() {}
+	
+	public RoleJPA(final Long roleId) {
+		this.roleId = roleId;
+	}
 
 	@Id
 	@Column(name="role_id")

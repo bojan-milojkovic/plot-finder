@@ -73,13 +73,7 @@ public class UserJPA {
 	private Set<UserHasRolesJPA> userHasRolesJpa = new HashSet<UserHasRolesJPA>();
 	
 	public boolean checkIfUserHasRole(final Long roleId) {
-		UserHasRolesJPA uhr = new UserHasRolesJPA();
-		uhr.setUserSecurityJpa(this);
-		RoleJPA role = new RoleJPA();
-		role.setRoleId(roleId);
-		uhr.setRoleJpa(role);
-		
-		return userHasRolesJpa.contains(uhr);
+		return userHasRolesJpa.contains(new UserHasRolesJPA(this, new RoleJPA(roleId)));
 	}
 	
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

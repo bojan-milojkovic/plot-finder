@@ -14,6 +14,13 @@ import com.plot.finder.user.entity.UserJPA;
 @Entity
 @Table(name="user_has_roles")
 public class UserHasRolesJPA {
+	
+	public UserHasRolesJPA() {}
+	
+	public UserHasRolesJPA(UserJPA u, RoleJPA r) {
+		userJpa = u;
+		roleJpa = r;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
