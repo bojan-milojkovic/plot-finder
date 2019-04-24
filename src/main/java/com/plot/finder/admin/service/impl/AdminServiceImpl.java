@@ -33,6 +33,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	public void lockUser(final Long id, final String admin) throws MyRestPreconditionsException{
+		RestPreconditions.checkId(id);
+		
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(id), 
 				"Admin user lock", "Cannot find user with id = "+id);
 		
@@ -67,6 +69,12 @@ public class AdminServiceImpl implements AdminService {
 				"Admin user adminize", "Cannot find user with id = "+id);
 		
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user adminize", "You are already an admin");
+		
+		RestPreconditions.assertTrue(!(jpa.getUserHasRolesJpa()
+										  .stream()
+										  .filter(j -> j.getRoleJpa().getRoleId()==2)
+										  .findFirst())
+									 .isPresent(), "Admin user adminize", "This user is already an admin");
 		
 		// security roles :
 		UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
