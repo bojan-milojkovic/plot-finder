@@ -52,5 +52,21 @@ public class UserHasRolesJPA {
 		this.roleJpa = roleJpa;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		if(o!=null && o instanceof UserHasRolesJPA) {
+			return userJpa.getId() == ((UserHasRolesJPA)o).getUserSecurityJpa().getId() &&
+					roleJpa.getRoleId() == ((UserHasRolesJPA)o).getRoleJpa().getRoleId();
+		}
+		
+		return false;
+	}
 	
+	@Override
+	public final int hashCode() {
+		int result = 17;
+		result = (int) (31*result + userJpa.getId());
+		result = (int) (31*result + roleJpa.getRoleId());
+		return result;
+	}
 }

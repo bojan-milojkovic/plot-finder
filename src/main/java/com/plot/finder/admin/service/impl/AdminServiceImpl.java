@@ -1,7 +1,6 @@
 package com.plot.finder.admin.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,11 +69,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user adminize", "You are already an admin");
 		
-		RestPreconditions.assertTrue(!(jpa.getUserHasRolesJpa()
-										  .stream()
-										  .filter(j -> j.getRoleJpa().getRoleId()==2)
-										  .findFirst())
-									 .isPresent(), "Admin user adminize", "This user is already an admin");
+		RestPreconditions.assertTrue(!jpa.checkIfUserHasRole(2L), "Admin user adminize", "This user is already an admin");
 		
 		// security roles :
 		UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
@@ -96,15 +91,13 @@ public class AdminServiceImpl implements AdminService {
 		
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), 
 				"Admin user de-adminize", "You cannot remove your own admin privileges");
+		RestPreconditions.assertTrue(jpa.checkIfUserHasRole(2L), 
+				"Admin user de-adminize", "User with id="+id+" has no admin privileges for you to remove");
 		
-		Optional<UserHasRolesJPA> uhrJpa = jpa.getUserHasRolesJpa()
-									.stream()
-									.filter(j -> j.getRoleJpa().getRoleId()==2)
-									.findFirst();
-		
-		RestPreconditions.assertTrue(uhrJpa.isPresent(), "Admin user de-adminize", "User with id="+id+" has no admin privileges for you to remove");
-		
-		jpa.getUserHasRolesJpa().remove(uhrJpa.get());
+		jpa.getUserHasRolesJpa().remove((jpa.getUserHasRolesJpa()
+											.stream()
+											.filter(j -> j.getRoleJpa().getRoleId()==2)
+											.findFirst()).get());
 
 		userRepo.save(jpa);
 	}

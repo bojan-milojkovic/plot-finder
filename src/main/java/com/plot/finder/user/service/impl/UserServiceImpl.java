@@ -255,6 +255,9 @@ public class UserServiceImpl implements UserService {
 			jpa.setLastLogin(LocalDateTime.now());
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			
+			// to get user.id for hashCode in UserHasRolesJPA :
+			jpa = userRepo.save(jpa);
+			
 			// security roles :
 			UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
 			RoleJPA rJpa = roleRepo.getOne(1L);

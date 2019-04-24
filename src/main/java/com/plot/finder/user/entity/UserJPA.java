@@ -1,9 +1,7 @@
 package com.plot.finder.user.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.security.entities.RoleJPA;
 import com.plot.finder.security.entities.UserHasRolesJPA;
 import com.plot.finder.watched.entity.WatchedJPA;
 
@@ -71,7 +70,17 @@ public class UserJPA {
 	private LocalDateTime lastUpdate;
 	
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<UserHasRolesJPA> userHasRolesJpa = new ArrayList<UserHasRolesJPA>();
+	private Set<UserHasRolesJPA> userHasRolesJpa = new HashSet<UserHasRolesJPA>();
+	
+	public boolean checkIfUserHasRole(final Long roleId) {
+		UserHasRolesJPA uhr = new UserHasRolesJPA();
+		uhr.setUserSecurityJpa(this);
+		RoleJPA role = new RoleJPA();
+		role.setRoleId(roleId);
+		uhr.setRoleJpa(role);
+		
+		return userHasRolesJpa.contains(uhr);
+	}
 	
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PlotJPA> plots = new HashSet<PlotJPA>();
@@ -191,11 +200,11 @@ public class UserJPA {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public List<UserHasRolesJPA> getUserHasRolesJpa() {
+	public Set<UserHasRolesJPA> getUserHasRolesJpa() {
 		return userHasRolesJpa;
 	}
 
-	public void setUserHasRolesJpa(List<UserHasRolesJPA> userHasRolesJpa) {
+	public void setUserHasRolesJpa(Set<UserHasRolesJPA> userHasRolesJpa) {
 		this.userHasRolesJpa = userHasRolesJpa;
 	}
 
