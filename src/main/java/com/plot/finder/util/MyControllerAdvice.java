@@ -48,7 +48,7 @@ public class MyControllerAdvice {
 	@ExceptionHandler({JsonMappingException.class, EmptyResultDataAccessException.class, EntityNotFoundException.class, HttpMessageNotReadableException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-	public MyBadInputResponse BadRequest_MissingEntity(RuntimeException ex) {
+	public MyBadInputResponse badRequest_MissingEntity(RuntimeException ex) {
 		return new MyBadInputResponse("You are attempting to process an invalid object.", 
 				ex.getLocalizedMessage());
 	}
@@ -56,10 +56,16 @@ public class MyControllerAdvice {
 	@ExceptionHandler(UsernameNotFoundException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
-	public MyBadInputResponse BadCredentials(UsernameNotFoundException ex){
+	public MyBadInputResponse badCredentials(UsernameNotFoundException ex){
 		return new MyBadInputResponse("Your credentials are invalid.", 
 				ex.getLocalizedMessage());
 	}
 	
-	// FileSizeLimitExceededException
+	@ExceptionHandler(NumberFormatException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public MyBadInputResponse badNumberInput(NumberFormatException ex) {
+		return new MyBadInputResponse("Invalid numerical value", 
+				ex.getLocalizedMessage());
+	}
 }
