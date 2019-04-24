@@ -256,7 +256,7 @@ public class UserServiceImpl implements UserService {
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			
 			// to get user.id for hashCode in UserHasRolesJPA :
-			jpa = userRepo.save(jpa);
+			jpa = userRepo.save(finishConvertingModelToJpa(model, jpa));
 			
 			// security roles :
 			UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
@@ -270,9 +270,13 @@ public class UserServiceImpl implements UserService {
 			
 			emailUtil.confirmRegistration(identifier, model.getFirstName()+" "+model.getLastName(), model.getEmail());
 		} else {
-			jpa = userRepo.getOne(model.getId());jpa.setLastUpdate(LocalDateTime.now());
+			jpa = finishConvertingModelToJpa(model, userRepo.getOne(model.getId()));
 		}
 		
+		return jpa;
+	}
+	
+	private UserJPA finishConvertingModelToJpa(final UserDTO model, UserJPA jpa){
 		jpa.setLastUpdate(LocalDateTime.now());
 		
 		if(RestPreconditions.checkString(model.getEmail())) {

@@ -84,7 +84,6 @@ public class AdminServiceImpl implements AdminService {
 		userRepo.save(jpa);
 	}
 	
-	//TODO : test this
 	public void removeAdminFromUser(final Long id, final String admin)throws MyRestPreconditionsException{
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.getOne(id), 
 				"Admin user de-adminize", "Cannot find user with id = "+id);
@@ -94,10 +93,7 @@ public class AdminServiceImpl implements AdminService {
 		RestPreconditions.assertTrue(jpa.checkIfUserHasRole(2L), 
 				"Admin user de-adminize", "User with id="+id+" has no admin privileges for you to remove");
 		
-		jpa.getUserHasRolesJpa().remove((jpa.getUserHasRolesJpa()
-											.stream()
-											.filter(j -> j.getRoleJpa().getRoleId()==2)
-											.findFirst()).get());
+		jpa.getUserHasRolesJpa().remove(new UserHasRolesJPA(jpa, new RoleJPA(2L)));
 
 		userRepo.save(jpa);
 	}

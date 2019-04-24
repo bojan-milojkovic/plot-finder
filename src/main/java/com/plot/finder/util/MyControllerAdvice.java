@@ -1,5 +1,6 @@
 package com.plot.finder.util;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -66,6 +67,15 @@ public class MyControllerAdvice {
     @ResponseBody
     public MyBadInputResponse badNumberInput(NumberFormatException ex) {
 		return new MyBadInputResponse("Invalid numerical value", 
+				ex.getLocalizedMessage());
+	}
+	
+	// SQLIntegrityConstraintViolationException
+	@ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public MyBadInputResponse databaseIntegrityViolation(SQLIntegrityConstraintViolationException ex) {
+		return new MyBadInputResponse("Database did not like one of the values", 
 				ex.getLocalizedMessage());
 	}
 }
