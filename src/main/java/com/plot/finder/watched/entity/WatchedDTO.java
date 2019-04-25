@@ -13,16 +13,16 @@ public class WatchedDTO implements WatchedParent {
 	private Long id;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	private Float ll_x;
+	private Float ll_lng;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	private Float ll_y;
+	private Float ll_lat;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	private Float ur_x;
+	private Float ur_lng;
 	
 	@JsonProperty(access = Access.READ_WRITE)
-	private Float ur_y;
+	private Float ur_lat;
 
 	public Long getId() {
 		return id;
@@ -32,35 +32,35 @@ public class WatchedDTO implements WatchedParent {
 		this.id = id;
 	}
 
-	public Float getLl_x() {
-		return ll_x;
+	public Float getLl_lng() {
+		return ll_lng;
 	}
 
-	public void setLl_x(Float ll_x) {
-		this.ll_x = ll_x;
+	public void setLl_lng(final Float ll_lng) {
+		this.ll_lng = ll_lng;
 	}
 
-	public Float getLl_y() {
-		return ll_y;
+	public Float getLl_lat() {
+		return ll_lat;
 	}
 
-	public void setLl_y(Float ll_y) {
-		this.ll_y = ll_y;
+	public void setLl_lat(final Float ll_lat) {
+		this.ll_lat = ll_lat;
 	}
 
-	public Float getUr_x() {
-		return ur_x;
+	public Float getUr_lng() {
+		return ur_lng;
 	}
 
-	public void setUr_x(Float ur_x) {
-		this.ur_x = ur_x;
+	public void setUr_lng(final Float ur_lng) {
+		this.ur_lng = ur_lng;
 	}
 
-	public Float getUr_y() {
-		return ur_y;
+	public Float getUr_lat() {
+		return ur_lat;
 	}
 
-	public void setUr_y(Float ur_y) {
-		this.ur_y = ur_y;
+	public void setUr_lat(final Float ur_lat) {
+		this.ur_lat = ur_lat;
 	}
 }

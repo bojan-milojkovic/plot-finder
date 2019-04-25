@@ -39,10 +39,10 @@ public class PlotJPA {
 	
 	public PlotJPA() {
 		wa = new WatchedJPA();
-		wa.setLl_x(900f);
-		wa.setLl_y(900f);
-		wa.setUr_x(-900f);
-		wa.setUr_y(-900f);
+		wa.setLl_lng(900f);
+		wa.setLl_lat(900f);
+		wa.setUr_lng(-900f);
+		wa.setUr_lat(-900f);
 		wa.setPlotJpa(this);
 	}
 

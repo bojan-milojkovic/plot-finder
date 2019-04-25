@@ -38,20 +38,27 @@ public class WatchedServiceImpl implements WatchedService {
 		return (WatchedDTO) setCoordinates(new WatchedDTO(), entity);
 	}
 	
+	public void checkRectangleCoordinates(final Float ll_lng, 
+										  final Float ll_lat,
+										  final Float ur_lng,
+										  final Float ur_lat, final String title) throws MyRestPreconditionsException {
+		
+		RestPreconditions.assertTrue(Math.abs(ll_lat) < 90, 
+				title, "(LL) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ur_lat) < 90, 
+				title, "(UR) Latitude is outside the [-90,+90] range.");
+		RestPreconditions.assertTrue(Math.abs(ll_lng) < 180, 
+				title, "(LL) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(Math.abs(ur_lng) < 180, 
+				title, "(UR) Longitude is outside the [-180,+180] range.");
+		RestPreconditions.assertTrue(ll_lat!=ur_lat && ll_lng!=ur_lng, 
+				title, "You did not enter a valid set of coordinates.");
+	}
+	
 	public WatchedDTO addEdit(WatchedDTO model, final String username) throws MyRestPreconditionsException{
 		RestPreconditions.checkNotNull(model, "Watched area error", "You cannot add/edit watched area with an empty object in request.");
 		
-		String title = "Watched area error";
-		RestPreconditions.assertTrue(Math.abs(model.getLl_x()) < 90, 
-				title, "(LL) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(model.getUr_x()) < 90, 
-				title, "(UR) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(model.getLl_y()) < 180, 
-				title, "(LL) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(Math.abs(model.getUr_y()) < 180, 
-				title, "(UR) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(model.getLl_x()!=model.getUr_x() && model.getLl_y()!=model.getUr_y(), 
-				title, "You did not enter a valid set of coordinates.");
+		checkRectangleCoordinates(model.getLl_lng(), model.getLl_lat(), model.getUr_lng(), model.getUr_lat(), "Watched area error");
 		
 		UserJPA entity = userRepo.findOneByUsername(username);
 		
@@ -61,15 +68,15 @@ public class WatchedServiceImpl implements WatchedService {
 	private WatchedJPA saveCoordinates(WatchedJPA entity, WatchedDTO model){
 		
 		// just in case
-		if(model.getLl_x() > model.getUr_x()){
-			Float tmp = model.getLl_x();
-			model.setLl_x(model.getUr_x());
-			model.setUr_x(tmp);
+		if(model.getLl_lng() > model.getUr_lng()){
+			Float tmp = model.getLl_lng();
+			model.setLl_lng(model.getUr_lng());
+			model.setUr_lng(tmp);
 		}
-		if(model.getLl_y() > model.getUr_y()){
-			Float tmp = model.getLl_y();
-			model.setLl_y(model.getUr_y());
-			model.setUr_y(tmp);
+		if(model.getLl_lat() > model.getUr_lat()){
+			Float tmp = model.getLl_lat();
+			model.setLl_lat(model.getUr_lat());
+			model.setUr_lat(tmp);
 		}
 		
 		return (WatchedJPA) setCoordinates(entity, model);
@@ -80,14 +87,14 @@ public class WatchedServiceImpl implements WatchedService {
 		WatchedJPA entity = RestPreconditions.checkNotNull(watchedRepo.getOne(id),
 				"Watched area center error","Area with id="+id+" does not exist");
 		
-		return new Vertice( (entity.getLl_x()+entity.getUr_x())/2, (entity.getLl_y()+entity.getUr_y())/2 );
+		return new Vertice( (entity.getLl_lng()+entity.getUr_lng())/2, (entity.getLl_lat()+entity.getUr_lat())/2 );
 	}
 	
 	private WatchedParent setCoordinates(WatchedParent entity, WatchedParent model){
-		entity.setLl_x(model.getLl_x());
-		entity.setLl_y(model.getLl_y());
-		entity.setUr_x(model.getUr_x());
-		entity.setUr_y(model.getUr_y());
+		entity.setLl_lng(model.getLl_lng());
+		entity.setLl_lat(model.getLl_lat());
+		entity.setUr_lng(model.getUr_lng());
+		entity.setUr_lat(model.getUr_lat());
 		
 		return entity;
 	}
@@ -99,7 +106,7 @@ public class WatchedServiceImpl implements WatchedService {
 	
 	public void checkNewPlotIsInsideAnArea(final PlotJPA entity){
 		
-		watchedRepo.findAreasWatchingPlot(entity.getWa().getLl_x(), entity.getWa().getLl_y(), entity.getWa().getUr_x(), entity.getWa().getUr_y())
+		watchedRepo.findAreasWatchingPlot(entity.getWa().getLl_lng(), entity.getWa().getLl_lat(), entity.getWa().getUr_lng(), entity.getWa().getUr_lat())
 			.stream()
 			.filter(j -> j.getUserJpa().getId() != entity.getUserJpa().getId())
 			.forEach(j->emailUtil.sendNewPlotEmail(entity));

@@ -16,4 +16,9 @@ public interface WatchedService {
 	void checkNewPlotIsInsideAnArea(final PlotJPA entity);
 	
 	Vertice watchedAreaCenter(final Long id) throws MyRestPreconditionsException;
+	
+	public void checkRectangleCoordinates(final Float ll_lng, 
+			  final Float ll_lat,
+			  final Float ur_lng,
+			  final Float ur_lat, final String title) throws MyRestPreconditionsException;
 }

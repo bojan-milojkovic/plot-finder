@@ -100,17 +100,17 @@ public class PlotServiceImpl implements PlotService {
 		String tmp="";
 		// jpa ll and ur x/y coordinates are already set
 		for(Vertice v : vertices) {
-			if(v.getLat() < jpa.getWa().getLl_y()) {
-				jpa.getWa().setLl_y(v.getLat());
+			if(v.getLat() < jpa.getWa().getLl_lat()) {
+				jpa.getWa().setLl_lat(v.getLat());
 			}
-			if(v.getLat() > jpa.getWa().getUr_y()) {
-				jpa.getWa().setUr_y(v.getLat());
+			if(v.getLat() > jpa.getWa().getUr_lat()) {
+				jpa.getWa().setUr_lat(v.getLat());
 			}
-			if(v.getLng() < jpa.getWa().getLl_x()) {
-				jpa.getWa().setLl_x(v.getLng());
+			if(v.getLng() < jpa.getWa().getLl_lng()) {
+				jpa.getWa().setLl_lng(v.getLng());
 			}
-			if(v.getLng() > jpa.getWa().getUr_x()) {
-				jpa.getWa().setUr_x(v.getLng());
+			if(v.getLng() > jpa.getWa().getUr_lng()) {
+				jpa.getWa().setUr_lng(v.getLng());
 			}
 			
 			tmp+=(v.getLat().toString()+"#"+v.getLng().toString()+"@");
@@ -125,17 +125,8 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	public List<PlotDTO> findPlotsByCoordinates(final Float ll_x, final Float ll_y, final Float ur_x, final Float ur_y) throws MyRestPreconditionsException{
-		String title = "Find plots by coordinates error";
-		RestPreconditions.assertTrue(Math.abs(ll_y) < 90, 
-				title, "(LL) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(ur_y) < 90, 
-				title, "(UR) Latitude is outside the [-90,+90] range.");
-		RestPreconditions.assertTrue(Math.abs(ll_x) < 180, 
-				title, "(LL) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(Math.abs(ur_x) < 180, 
-				title, "(UR) Longitude is outside the [-180,+180] range.");
-		RestPreconditions.assertTrue(ll_y!=ur_y && ll_x!=ur_x, 
-				title, "You did not enter a valid set of coordinates.");
+		
+		watchedServiceImpl.checkRectangleCoordinates(ll_x, ll_y, ur_x, ur_y, "Find plots by coordinates error");
 		
 		return convertJpaListToModelList(plotCriteriaRepo.getPlotByCoordinates(
 											ll_x<ur_x ? ll_x : ur_x, 
@@ -379,7 +370,7 @@ public class PlotServiceImpl implements PlotService {
 		WatchedJPA jpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username).getWatched(),
 				"Find plots by watched area error","User "+username+" did not specify a watched area");
 		
-		return findPlotsByCoordinates(jpa.getLl_x(), jpa.getLl_y(), jpa.getUr_x(), jpa.getUr_y());
+		return findPlotsByCoordinates(jpa.getLl_lng(), jpa.getLl_lat(), jpa.getUr_lng(), jpa.getUr_lat());
 	}
 	
 	private boolean isConvex(List<Vertice> _vertices) {
