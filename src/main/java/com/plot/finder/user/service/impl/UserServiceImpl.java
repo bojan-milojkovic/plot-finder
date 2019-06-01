@@ -33,32 +33,32 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserDTO> getAll(){
-		return userRepo.findAll().stream().map(j -> convertJpaToModel(j)).collect(Collectors.toList());
+		return userRepo.findAll().stream().map(j -> convertJpaToModel(j, null)).collect(Collectors.toList());
 	}
 	
-	public UserDTO getOneById(Long id) throws MyRestPreconditionsException {
+	public UserDTO getOneById(final Long id, final String name) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.getOne(id), 
-				"Find user by id failed", "That user does not exist in our database"));
+				"Find user by id failed", "That user does not exist in our database"), name);
 	}
 	
-	public UserDTO getOneByUsername(String username) throws MyRestPreconditionsException {
+	public UserDTO getOneByUsername(final String username, final String name) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(username, "Find user by username failed");
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
-				"Find user by username failed", "That user does not exist in our database"));
+				"Find user by username failed", "That user does not exist in our database"), name);
 	}
 	
-	public UserDTO getOneByEmail(String email) throws MyRestPreconditionsException {
+	public UserDTO getOneByEmail(final String email, final String name) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(email, "Find user by email failed");
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByEmail(email), 
-				"Find user by email failed", "That user does not exist in our database"));
+				"Find user by email failed", "That user does not exist in our database"), name);
 	}
 	
-	public UserDTO getOneByMobile(String mobile) throws MyRestPreconditionsException {
+	public UserDTO getOneByMobile(final String mobile, final String name) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(mobile, "Find user by mobile phone number failed");
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByPhone(mobile), 
-				"Find user by mobile failed", "That user does not exist in our database"));
+				"Find user by mobile failed", "That user does not exist in our database"), name);
 	}
 	
 	public void delete(Long id, String username) throws MyRestPreconditionsException {
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
 						"User with that mobile phone number already exists");
 			}
 			
-			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
+			return convertJpaToModel(userRepo.save(convertModelToJpa(model)), model.getUsername());
 		}
 		
 		MyRestPreconditionsException e = new MyRestPreconditionsException("User create error", 
@@ -175,7 +175,9 @@ public class UserServiceImpl implements UserService {
 					  "^([+][0-9]{1,3})?[0-9 -]+$",
 					  userRepo.findOneByPhone(model.getPhone2()) );
 			
-			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
+			UserJPA jpa = userRepo.save(convertModelToJpa(model));
+			
+			return convertJpaToModel(jpa, jpa.getUsername());
 		} else {
 			throw new MyRestPreconditionsException("Edit user error",
 					"You must provide some editable data.");
@@ -222,17 +224,20 @@ public class UserServiceImpl implements UserService {
 		userRepo.save(jpa);
 	}
 	
-	public UserDTO convertJpaToModel(UserJPA jpa) {
+	public UserDTO convertJpaToModel(UserJPA jpa, final String name) {
 		UserDTO model = new UserDTO();
 		
-		model.setEmail(jpa.getEmail());
-		model.setFirstName(jpa.getFirstName());
 		model.setId(jpa.getId());
-		model.setLastName(jpa.getLastName());
-		model.setPhone1(jpa.getPhone1());
-		model.setPhone2(jpa.getPhone2());
 		model.setUsername(jpa.getUsername());
 		model.setRegisterred(jpa.getRegistration());
+		model.setFirstName(jpa.getFirstName());
+		
+		if(jpa.getUsername().equals(name)){
+			model.setLastName(jpa.getLastName());
+			model.setEmail(jpa.getEmail());
+			model.setPhone1(jpa.getPhone1());
+			model.setPhone2(jpa.getPhone2());
+		}
 		
 		return model;
 	}

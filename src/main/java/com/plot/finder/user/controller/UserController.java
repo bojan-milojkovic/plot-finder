@@ -46,29 +46,29 @@ public class UserController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserById(@PathVariable("id") final Long id) throws MyRestPreconditionsException{
-		return userServiceImpl.getOneById(id);
+	public @ResponseBody UserDTO getUserById(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException{
+		return userServiceImpl.getOneById(id, principal.getName());
 	}
 	
 	@RequestMapping(value = "/un", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserByUsername(@RequestParam(value="username") final String username) throws MyRestPreconditionsException {
-		return userServiceImpl.getOneByUsername(username);
+	public @ResponseBody UserDTO getUserByUsername(@RequestParam(value="username") final String username, Principal principal) throws MyRestPreconditionsException {
+		return userServiceImpl.getOneByUsername(username, principal.getName());
 	}
 	
 	@RequestMapping(value = "/e", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserByEmail(@RequestParam(value="email") final String email) throws MyRestPreconditionsException {
-		return userServiceImpl.getOneByEmail(email);
+	public @ResponseBody UserDTO getUserByEmail(@RequestParam(value="email") final String email, Principal principal) throws MyRestPreconditionsException {
+		return userServiceImpl.getOneByEmail(email, principal.getName());
 	}
 	
 	@RequestMapping(value = "/m", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserByMobile(@RequestParam(value="mobile") final String mobile) throws MyRestPreconditionsException {
-		return userServiceImpl.getOneByMobile(mobile);
+	public @ResponseBody UserDTO getUserByMobile(@RequestParam(value="mobile") final String mobile, Principal principal) throws MyRestPreconditionsException {
+		return userServiceImpl.getOneByMobile(mobile, principal.getName());
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,

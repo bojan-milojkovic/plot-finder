@@ -7,10 +7,10 @@ import com.plot.finder.user.entity.UserDTO;
 public interface UserService {
 
 	List<UserDTO> getAll();
-	UserDTO getOneById(Long id) throws MyRestPreconditionsException;
-	UserDTO getOneByUsername(String username) throws MyRestPreconditionsException;
-	UserDTO getOneByEmail(String email) throws MyRestPreconditionsException;
-	UserDTO getOneByMobile(String mobile) throws MyRestPreconditionsException;
+	UserDTO getOneById(final Long id, final String name) throws MyRestPreconditionsException;
+	UserDTO getOneByUsername(final String username, final String name) throws MyRestPreconditionsException;
+	UserDTO getOneByEmail(final String email, final String name) throws MyRestPreconditionsException;
+	UserDTO getOneByMobile(final String mobile, final String name) throws MyRestPreconditionsException;
 	
 	void delete(Long id, String username) throws MyRestPreconditionsException;
 	UserDTO create(final UserDTO model) throws MyRestPreconditionsException;
