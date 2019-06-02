@@ -34,23 +34,34 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 		// request handling
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/users").hasRole("USER")
-			.antMatchers(HttpMethod.GET, "/users/*").hasRole("USER")
-			.antMatchers(HttpMethod.POST, "/users").permitAll()  // everyone should access register-api /act/
-			.antMatchers(HttpMethod.POST, "/users/act/*").permitAll()
+			.antMatchers(HttpMethod.GET, "/users/act/*").permitAll() // everyone should be able to activate their user account
+			.antMatchers(HttpMethod.GET, "/users/**").hasRole("USER")
+			.antMatchers(HttpMethod.POST, "/users").permitAll()  // everyone should access register-api 
 			.antMatchers(HttpMethod.PATCH, "/users/*").hasRole("USER")
+			.antMatchers(HttpMethod.PATCH, "/users/cpw/*").hasRole("USER")
 			.antMatchers(HttpMethod.DELETE, "/users/*").hasRole("USER")
 			
+			.antMatchers(HttpMethod.GET, "/plot/fbva").hasRole("USER")
 			.antMatchers(HttpMethod.GET, "/plot/*").hasRole("USER")
-			.antMatchers(HttpMethod.GET, "/plot/img/**").hasRole("USER")
-			.antMatchers(HttpMethod.GET, "/plot/thumb/**").hasRole("USER")
+			.antMatchers(HttpMethod.GET, "/plot/img/*").hasRole("USER")
+			.antMatchers(HttpMethod.GET, "/plot/thumb/*").hasRole("USER")
+			.antMatchers(HttpMethod.GET, "/plot/ren/*").hasRole("USER")
+			
+			.antMatchers(HttpMethod.POST, "/plot/fbv").hasRole("USER")
+			.antMatchers(HttpMethod.POST, "/plot/fbp").hasRole("USER")
 			.antMatchers(HttpMethod.POST, "/plot").hasRole("USER")
 			.antMatchers(HttpMethod.PATCH, "/plot/*").hasRole("USER")
 			.antMatchers(HttpMethod.DELETE, "/plot/*").hasRole("USER")
+		
+			.antMatchers(HttpMethod.POST, "/watch").hasRole("USER")
+			.antMatchers(HttpMethod.GET, "/watch").hasRole("USER")
+			.antMatchers(HttpMethod.DELETE, "/watch").hasRole("USER")
 			
-			.antMatchers(HttpMethod.GET, "/adm/*").hasRole("ADMIN")
-			.antMatchers(HttpMethod.GET, "/adm/*").hasRole("SUPERADMIN")
+			.antMatchers(HttpMethod.GET, "/adm/**").hasRole("ADMIN")
+			.antMatchers(HttpMethod.GET, "/adm/**").hasRole("SUPERADMIN")
 			
 			.antMatchers(HttpMethod.POST, "/roles").permitAll() // everyone should access login-api
+			.antMatchers(HttpMethod.POST, "/refresh").hasRole("USER") // users can refresh tokens
 			;
 		
 		// disable csrf
@@ -63,8 +74,8 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 		http.addFilterBefore(credentialsFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
-	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	@Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.eraseCredentials(false)
 			.authenticationProvider(bokiAuthenticationProvider);
     }
