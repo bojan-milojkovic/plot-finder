@@ -11,11 +11,11 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.plot.finder.plot.entities.PlotDTO;
-import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.entities.metamodels.PlotJPA;
 import com.plot.finder.plot.entities.metamodels.PlotJPA_;
 import com.plot.finder.util.RestPreconditions;
-import com.plot.finder.watched.entity.WatchedJPA;
-import com.plot.finder.watched.entity.WatchedJPA_;
+import com.plot.finder.watched.entity.metamodel.WatchedJPA;
+import com.plot.finder.watched.entity.metamodel.WatchedJPA_;
 
 @Repository
 public class PlotCriteriaRepository {
@@ -53,11 +53,15 @@ public class PlotCriteriaRepository {
 										builder.greaterThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ll_y),
 										builder.lessThanOrEqualTo(croot.get(WatchedJPA_.ur_y), ur_y)));
 		
-		 List<WatchedJPA> wList = entityManagerFactory.createEntityManager()
-				.createQuery(cquerry.where(
-						builder.and(dPred, croot.get(WatchedJPA_.plotJpa).isNotNull())
-						)).getResultList();
-		 
+		// inner join to PlotJPA for order by :
+		javax.persistence.criteria.Join<WatchedJPA, PlotJPA> cjoin = croot.join(WatchedJPA_.plotJpa);
+		
+		List<WatchedJPA> wList = entityManagerFactory.createEntityManager()
+				.createQuery(cquerry.where(builder.and(dPred, croot.get(WatchedJPA_.plotJpa).isNotNull()))
+						.orderBy(builder.desc(cjoin.get(PlotJPA_.added))))
+				.setFirstResult(0)
+				.setMaxResults(40)
+				.getResultList();
 		 
 		if(wList!=null && !wList.isEmpty())	
 			return wList.stream()
@@ -72,10 +76,12 @@ public class PlotCriteriaRepository {
 		CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
 		
 		CriteriaQuery<PlotJPA> cquerry = builder.createQuery(PlotJPA.class);
+		
 		Root<PlotJPA> croot = cquerry.from(PlotJPA.class);
 		
 		cquerry.select(croot);
-		Predicate pred = builder.conjunction();
+		
+		Predicate pred = builder.isNotNull(croot.<String>get(PlotJPA_.flags));
 		
 		if(RestPreconditions.checkString(model.getCity())) {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.city), model.getCity()));
@@ -107,6 +113,17 @@ public class PlotCriteriaRepository {
 			pred = builder.and(pred, builder.greaterThanOrEqualTo(croot.get(PlotJPA_.size), model.convertSizeToM2(model.getMinSize())));
 		}
 		
-		return entityManagerFactory.createEntityManager().createQuery(cquerry.where(pred)).getResultList();
+		String bword = model.flagsToBWord();
+		if(!bword.matches("[01]0{12}")){
+			char sr = bword.toCharArray()[0];
+			pred = builder.and(pred, builder.like(croot.get(PlotJPA_.flags), 
+					bword.replaceAll("0", "_").replaceFirst("[01]", ""+sr)));
+		}
+		
+		return entityManagerFactory.createEntityManager()
+				.createQuery(cquerry.where(pred).orderBy(builder.desc(croot.get(PlotJPA_.added))))
+				.setFirstResult(0)
+				.setMaxResults(40)
+				.getResultList();
 	}
 }

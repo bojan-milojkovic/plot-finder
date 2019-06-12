@@ -2,7 +2,6 @@ package com.plot.finder.security;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,12 +12,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,7 +28,6 @@ public class JwtTokenUtil implements Serializable {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     private static final String CLAIM_KEY_AUTHORITIES = "a";
-    private static final String CLAIM_KEY_PASSWORD = "pwd";
     
     /*private static final String CLAIM_KEY_IP = "ipad";
     private static final String CLAIM_KEY_AUDIENCE = "audience";
@@ -39,8 +35,8 @@ public class JwtTokenUtil implements Serializable {
     private static final String AUDIENCE_TABLET = "tablet"; */   
 
     private static final String ROLE_USER = "1urw";
-    private static final String ROLE_ADMIN = "3arw";
-    private static final String ROLE_SUPERADMIN = "4sarwa";
+    private static final String ROLE_ADMIN = "2arw";
+    private static final String ROLE_SUPERADMIN = "3sarwa";
 
     private String secret = "MySuperSecretSneakyKeyForEncriptingAndDecriptingAuthenticationToken";
     // token is valid time in seconds :
@@ -157,14 +153,6 @@ public class JwtTokenUtil implements Serializable {
             return null;
         }
     }
-    
-    public String getPasswordFromToken(String token){
-    	try {
-    		return (String) (getClaimsFromToken(token).get(CLAIM_KEY_PASSWORD));
-    	} catch (Exception e) {
-            return null;
-        }
-    }
 
     private Claims getClaimsFromToken(String token) {
         try {
@@ -180,7 +168,6 @@ public class JwtTokenUtil implements Serializable {
     public String generateToken(UserDetails userDetails/*, Device device, HttpServletRequest request*/) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_PASSWORD, userDetails.getPassword());
         //claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
         claims.put(CLAIM_KEY_CREATED, new Date());
         
@@ -201,7 +188,7 @@ public class JwtTokenUtil implements Serializable {
         return getExpirationDateFromToken(token).after(new Date());
     }
 
-    private Boolean isTokenCreatedAfterLastPasswordReset(Date created, Date lastPasswordReset) {
+    /*private Boolean isTokenCreatedAfterLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset!=null && created.after(lastPasswordReset));
     }
     
@@ -210,7 +197,7 @@ public class JwtTokenUtil implements Serializable {
     }
     private Date convertLocalToDate(final LocalDateTime ldt){
     	return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-    }
+    }*/
 
     private Map<String, Object> generateClaims(Map<String, Object> claims, UserDetails userDetails){
     	String authorities = "";
@@ -264,18 +251,11 @@ public class JwtTokenUtil implements Serializable {
     
 
     public Boolean validateToken(String token) {
-        final String username = getUsernameFromToken(token);
-        final Date created = getCreatedDateFromToken(token);
-        
-        UserJPA userJpa = userRepository.findOneByUsername(username);
         try {
         	return ( // username is checked when getting user security
         			isTokenNotExpired(token)
-                	&& isTokenCreatedAtLastLogin(created, convertLocalToDate(userJpa.getLastLogin()))
-                	&& isTokenCreatedAfterLastPasswordReset(created, convertLocalToDate(userJpa.getLastPasswordChange()))
                 	// you can also check device, and last login ip
                 	);
-        
         } catch (Exception e) {
 			e.printStackTrace();
 			return false;

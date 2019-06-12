@@ -1,7 +1,7 @@
 package com.plot.finder.watched.service;
 
 import com.plot.finder.exception.MyRestPreconditionsException;
-import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.entities.metamodels.PlotJPA;
 import com.plot.finder.plot.entities.Vertice;
 import com.plot.finder.watched.entity.WatchedDTO;
 

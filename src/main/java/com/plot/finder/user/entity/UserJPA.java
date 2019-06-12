@@ -1,8 +1,12 @@
 package com.plot.finder.user.entity;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,10 +17,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import com.plot.finder.plot.entities.PlotJPA;
-import com.plot.finder.security.entities.RoleJPA;
-import com.plot.finder.security.entities.UserHasRolesJPA;
-import com.plot.finder.watched.entity.WatchedJPA;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.plot.finder.plot.entities.metamodels.PlotJPA;
+import com.plot.finder.watched.entity.metamodel.WatchedJPA;
 
 @Entity
 @Table(name = "user")
@@ -69,17 +74,23 @@ public class UserJPA {
 	@Column(name="last_update")
 	private LocalDateTime lastUpdate;
 	
-	@OneToMany(mappedBy="userJpa", fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<UserHasRolesJPA> userHasRolesJpa = new HashSet<UserHasRolesJPA>();
+	@Column
+	private String authorities;
 	
-	public boolean checkIfUserHasRole(final Long roleId) {
-		return userHasRolesJpa.contains(new UserHasRolesJPA(this, new RoleJPA(roleId)));
+	public List<SimpleGrantedAuthority> getRoleList(){
+		return Arrays.asList(authorities.split("#")).stream()
+				.map(a -> new SimpleGrantedAuthority(a))
+				.collect(Collectors.toList());
+	}
+	
+	public boolean checkIfUserHasAdminRole() {
+		return authorities.contains("ADMIN");
 	}
 	
 	@OneToMany(mappedBy="userJpa", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PlotJPA> plots = new HashSet<PlotJPA>();
 
-	@OneToOne(mappedBy="userJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
+	@OneToOne(mappedBy="userJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.LAZY)
 	private WatchedJPA watched;
 	
 	public Long getId() {
@@ -194,13 +205,13 @@ public class UserJPA {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public Set<UserHasRolesJPA> getUserHasRolesJpa() {
+	/*public Set<UserHasRolesJPA> getUserHasRolesJpa() {
 		return userHasRolesJpa;
 	}
 
 	public void setUserHasRolesJpa(Set<UserHasRolesJPA> userHasRolesJpa) {
 		this.userHasRolesJpa = userHasRolesJpa;
-	}
+	}*/
 
 	public Boolean getActive() {
 		return active;
@@ -232,5 +243,13 @@ public class UserJPA {
 
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+	}
+
+	public String getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(String authorities) {
+		this.authorities = authorities;
 	}
 }

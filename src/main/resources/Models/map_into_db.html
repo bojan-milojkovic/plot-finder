@@ -105,6 +105,7 @@
 			$("#form4").hide();
 		});
 	
+		var host = 'https://localhost:8443'
 		var map;
 		var line;
 		var polygon;
@@ -351,7 +352,7 @@
 		
 		function refreshToken(){
 			$.ajax({
-				url: 'http://localhost:8080/refresh',
+				url: host+'/refresh',
 				type: 'GET',
 				headers: {
 					'X-My-Security-Token': token			
@@ -377,7 +378,7 @@
 		function saveData(){
 			if(formData){
 				$.ajax({
-					url: 'http://localhost:8080/plot',
+					url: host+'/plot',
 					type: 'POST',
 					method: 'POST',
 					headers: {
@@ -408,7 +409,7 @@
 				});
 			} else {
 				$.ajax({
-					url: 'http://localhost:8080/plot',
+					url: host+'/plot',
 					type: 'POST',
 					headers: {
 						'X-My-Security-Token': token

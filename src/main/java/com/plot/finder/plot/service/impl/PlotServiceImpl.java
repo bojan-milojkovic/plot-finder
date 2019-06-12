@@ -15,16 +15,15 @@ import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.images.storage.StorageService;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.Vertice;
-import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.entities.metamodels.PlotJPA;
 import com.plot.finder.plot.repository.PlotCriteriaRepository;
 import com.plot.finder.plot.repository.PlotRepository;
 import com.plot.finder.plot.service.PlotService;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
-import com.plot.finder.watched.entity.WatchedJPA;
+import com.plot.finder.watched.entity.metamodel.WatchedJPA;
 import com.plot.finder.watched.service.WatchedService;
-
 import net.sf.geographiclib.Geodesic;
 import net.sf.geographiclib.PolygonArea;
 
@@ -74,24 +73,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setAdded(jpa.getAdded());
 		model.setExpires(jpa.getExpires());
 		
-		model.setGarage(jpa.containsFlag("garage"));
-		model.setParking(jpa.containsFlag("parking"));
-		model.setGas(jpa.containsFlag("gas"));
-		model.setInternet(jpa.containsFlag("internet"));
-		model.setPower(jpa.containsFlag("power"));
-		model.setSewer(jpa.containsFlag("sewer"));
-		model.setWater(jpa.containsFlag("water"));
-		model.setHouse(jpa.containsFlag("house"));
-		model.setFarming(jpa.containsFlag("farming"));
-		model.setGrazing(jpa.containsFlag("grazing"));
-		model.setOrchard(jpa.containsFlag("orchard"));
-		model.setForest(jpa.containsFlag("forest"));
-		
-		if(jpa.containsFlag("sale")){
-			model.setType("SALE");
-		} else {
-			model.setType("RENT");
-		}
+		model.bWordToFlags(jpa.getFlags());
 		
 		return model;
 	}
@@ -191,7 +173,7 @@ public class PlotServiceImpl implements PlotService {
 			// for add, we save flags later
 		} else {
 			jpa = plotRepo.getOne(model.getId());
-			jpa = saveFlags(jpa, model);
+			jpa.setFlags(model.flagsToBWord());
 		}
 		
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
@@ -294,26 +276,7 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	private PlotJPA saveFlags(PlotJPA jpa, PlotDTO model){
-		jpa.addRemoveFlag("garage", model.isGarage());
-		jpa.addRemoveFlag("parking", model.getParking());
-		jpa.addRemoveFlag("gas", model.isGas());
-		jpa.addRemoveFlag("internet", model.isInternet());
-		jpa.addRemoveFlag("power", model.isPower());
-		jpa.addRemoveFlag("water", model.isWater());
-		jpa.addRemoveFlag("sewer", model.getSewer());
-		jpa.addRemoveFlag("house", model.getHouse());
-		jpa.addRemoveFlag("farming", model.getFarming());
-		jpa.addRemoveFlag("grazing", model.getGrazing());
-		jpa.addRemoveFlag("orchard", model.getOrchard());
-		jpa.addRemoveFlag("forest", model.getForest());
-		
-		
-		if(RestPreconditions.checkString(model.getType())) {
-			jpa.addRemoveFlag("rent", false);
-			jpa.addRemoveFlag("sale", false);
-			jpa.addRemoveFlag(model.getType().toLowerCase(), true);
-		}
-		
+		jpa.setFlags(model.flagsToBWord());
 		return jpa;
 	}
 	

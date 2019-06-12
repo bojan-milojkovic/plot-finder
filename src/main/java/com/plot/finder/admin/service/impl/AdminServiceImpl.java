@@ -8,9 +8,6 @@ import com.plot.finder.admin.service.AdminService;
 import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.repository.PlotRepository;
-import com.plot.finder.security.entities.RoleJPA;
-import com.plot.finder.security.entities.UserHasRolesJPA;
-import com.plot.finder.security.repository.RoleRepository;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
 import com.plot.finder.util.RestPreconditions;
@@ -20,14 +17,12 @@ public class AdminServiceImpl implements AdminService {
 	
 	private UserRepository userRepo;
 	private PlotRepository plotRepo;
-	private RoleRepository roleRepo;
 	private EmailUtil emailUtil;
 	
 	@Autowired
-	public AdminServiceImpl(UserRepository userRepo, PlotRepository plotRepo, RoleRepository roleRepo, EmailUtil emailUtil) {
+	public AdminServiceImpl(UserRepository userRepo, PlotRepository plotRepo, EmailUtil emailUtil) {
 		this.userRepo = userRepo;
 		this.plotRepo = plotRepo;
-		this.roleRepo = roleRepo;
 		this.emailUtil = emailUtil;
 	}
 
@@ -69,17 +64,10 @@ public class AdminServiceImpl implements AdminService {
 		
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), "Admin user adminize", "You are already an admin");
 		
-		RestPreconditions.assertTrue(!jpa.checkIfUserHasRole(2L), "Admin user adminize", "This user is already an admin");
+		RestPreconditions.assertTrue(!jpa.checkIfUserHasAdminRole(), "Admin user adminize", "This user is already an admin");
 		
 		// security roles :
-		UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
-		RoleJPA rJpa = roleRepo.getOne(2L);
-		
-		uhrJpa.setRoleJpa(rJpa);
-		rJpa.getUserHasRolesJpa().add(uhrJpa);
-		
-		uhrJpa.setUserSecurityJpa(jpa);
-		jpa.getUserHasRolesJpa().add(uhrJpa);
+		jpa.setAuthorities(jpa.getAuthorities()+"#ROLE_ADMIN");
 		
 		userRepo.save(jpa);
 	}
@@ -90,10 +78,10 @@ public class AdminServiceImpl implements AdminService {
 		
 		RestPreconditions.assertTrue(!jpa.getUsername().equals(admin), 
 				"Admin user de-adminize", "You cannot remove your own admin privileges");
-		RestPreconditions.assertTrue(jpa.checkIfUserHasRole(2L), 
+		RestPreconditions.assertTrue(jpa.checkIfUserHasAdminRole(), 
 				"Admin user de-adminize", "User with id="+id+" has no admin privileges for you to remove");
 		
-		jpa.getUserHasRolesJpa().remove(new UserHasRolesJPA(jpa, new RoleJPA(2L)));
+		jpa.setAuthorities("ROLE_USER");
 
 		userRepo.save(jpa);
 	}

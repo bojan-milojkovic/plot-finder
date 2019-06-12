@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.2.RELEASE</version>
+		<version>2.1.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.plot.finder</groupId>
@@ -24,6 +24,18 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+			<!-- exclude spring default logging -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot</artifactId>
 		</dependency>
 
 		<dependency>
@@ -216,6 +228,13 @@
 		    <version>1.49</version>
 		</dependency>
 		
+		<!-- logging -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		
 		<!-- 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -230,7 +249,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		<!-- 
+		<!-- -->
 			<plugin>
 			    <groupId>org.bsc.maven</groupId>
 			    <artifactId>maven-processor-plugin</artifactId>
@@ -256,7 +275,7 @@
 			            <version>4.3.8.Final</version>
 			        </dependency>
 			    </dependencies>
-			</plugin>   -->
+			</plugin>    
 		</plugins>
 	</build>
 

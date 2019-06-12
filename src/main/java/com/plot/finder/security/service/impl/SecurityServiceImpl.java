@@ -1,10 +1,7 @@
 package com.plot.finder.security.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -36,18 +33,14 @@ public class SecurityServiceImpl implements SecurityService {
 		RestPreconditions.assertTrue(BCrypt.checkpw(credentials.getPassword(), jpa.getPassword()), 
 									"Authentication failed", "Passwords do not match");
 		
-		List<SimpleGrantedAuthority> authorities = jpa.getUserHasRolesJpa().stream()
-								.map(j -> new SimpleGrantedAuthority(j.getRoleJpa().getRoleName()))
-								.collect(Collectors.toList());
-		
 		String token = jwtTokenUtil.generateToken(new User(
 					jpa.getUsername(),
-					credentials.getPassword(),
+					"",
 					jpa.isActive(),
 					true,
 					true,
 					jpa.isNotLocked(),
-					authorities
+					jpa.getRoleList()
 				));
 		
 		// update last login datetime

@@ -32,7 +32,7 @@ public class CredentialsFilter extends OncePerRequestFilter{
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-My-Security-Token, Authorization, Origin, Content-Type, Version");
         response.setHeader("Access-Control-Expose-Headers", "X-Requested-With, Authorization, Origin, Content-Type");
         
-        if(!request.getRequestURI().contains("roles") && !request.getRequestURI().contains("refresh")){
+        if(!(request.getRequestURI().contains("roles") || request.getRequestURI().contains("refresh"))){
         	String token = request.getHeader("X-My-Security-Token");
         	String username = jwtTokenUtil.getUsernameFromToken(token);
 
@@ -40,7 +40,7 @@ public class CredentialsFilter extends OncePerRequestFilter{
         		UsernamePasswordAuthenticationToken 
         		authentication = new UsernamePasswordAuthenticationToken(
 		                				username, 
-		                				jwtTokenUtil.getPasswordFromToken(token), 
+		                				null, 
 		                				jwtTokenUtil.getAuthoritiesFromToken(token));
         		
         		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -49,5 +49,4 @@ public class CredentialsFilter extends OncePerRequestFilter{
         
         chain.doFilter(request, response);
 	}
-
 }

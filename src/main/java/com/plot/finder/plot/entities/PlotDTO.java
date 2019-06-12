@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -469,5 +470,73 @@ public class PlotDTO implements Serializable {
 			default:
 				return size*10000;
 		}
+	}
+	
+	private boolean checkFlag(final Boolean flag){
+		return flag!=null ? flag : false;
+	}
+	
+	public void bWordToFlags(final String bword){
+		char[] bits = bword.toCharArray();
+		
+		type = (bits[0]=='0' ? "SALE":"RENT");
+		house = bits[1]=='1';
+		power = bits[2]=='1';
+		water = bits[3]=='1';
+		sewer = bits[4]=='1';
+		internet = bits[5]=='1';
+		garage = bits[6]=='1';
+		parking = bits[7]=='1';
+		gas = bits[8]=='1';
+		farming = bits[9]=='1';
+		grazing = bits[10]=='1';
+		orchard = bits[11]=='1';
+		forest = bits[12]=='1';
+	}
+	
+	public String flagsToBWord(){
+		String[] pf = {"0","0","0","0","0","0","0","0","0","0","0","0","0"};
+		
+		if("RENT".equals(type)){
+			pf[0] = "1";
+		}
+		if(checkFlag(house)){
+			pf[1] = "1";
+		}
+		if(checkFlag(power)){
+			pf[2] = "1";
+		}
+		if(checkFlag(water)){
+			pf[3] = "1";
+		}
+		if(checkFlag(sewer)){
+			pf[4] = "1";
+		}
+		if(checkFlag(internet)){
+			pf[5] = "1";
+		}
+		if(checkFlag(garage)){
+			pf[6] = "1";
+		}
+		if(checkFlag(parking)){
+			pf[7] = "1";
+		}
+		if(checkFlag(gas)){
+			pf[8] = "1";
+		}
+		if(checkFlag(farming)){
+			pf[9] = "1";
+		}
+		if(checkFlag(grazing)){
+			pf[10] = "1";
+		}
+		if(checkFlag(orchard)){
+			pf[11] = "1";
+		}
+		if(checkFlag(forest)){
+			pf[12] = "1";
+		}
+		
+		return StringUtils.join(pf, "");
 	}
 }

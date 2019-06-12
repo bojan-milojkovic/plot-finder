@@ -3,28 +3,28 @@ package com.plot.finder.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import com.plot.finder.security.service.BokiAuthenticationProvider;
+//import com.plot.finder.security.service.BokiAuthenticationProvider;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled=true)
 public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter {
 
-	private BokiAuthenticationProvider bokiAuthenticationProvider;
+	//private BokiAuthenticationProvider bokiAuthenticationProvider;
 	private CredentialsFilter credentialsFilter;
 	
 	@Autowired
-	public MyWebSecurityConfigurarAdapter(BokiAuthenticationProvider bokiAuthenticationProvider,
+	public MyWebSecurityConfigurarAdapter(/*BokiAuthenticationProvider bokiAuthenticationProvider,*/
 			CredentialsFilter credentialsFilter) {
 		super();
-		this.bokiAuthenticationProvider = bokiAuthenticationProvider;
+		//this.bokiAuthenticationProvider = bokiAuthenticationProvider;
 		this.credentialsFilter = credentialsFilter;
 	}
 
@@ -74,9 +74,8 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 		http.addFilterBefore(credentialsFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
-	@Autowired
+	/*@Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.eraseCredentials(false)
-			.authenticationProvider(bokiAuthenticationProvider);
-    }
+		auth.authenticationProvider(bokiAuthenticationProvider);
+    }*/
 }

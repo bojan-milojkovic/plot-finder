@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.Vertice;
@@ -34,6 +38,7 @@ public class PlotController {
 
 	private PlotService plotServiceImpl;
 	private ObjectMapper objectMapper;
+	private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 	
 	@Autowired
 	public PlotController(PlotService plotServiceImpl, ObjectMapper objectMapper) {
@@ -44,7 +49,8 @@ public class PlotController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody PlotDTO getOneById(@PathVariable("id") Long id) throws MyRestPreconditionsException {
+	public @ResponseBody PlotDTO getOneById(@PathVariable("id") Long id, Principal p) throws MyRestPreconditionsException {
+		logger.debug("User "+p.getName()+" GET for plot with id = "+id);
 		return plotServiceImpl.findOneById(id);
 	}
 	
@@ -52,6 +58,7 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody PlotDTO addNew(@RequestBody @Valid PlotDTO model, Principal principal) throws MyRestPreconditionsException {
+		logger.debug("User "+principal.getName()+" POST new plot, no images");
 		return plotServiceImpl.addNew(model, principal.getName());
 	}
 	
@@ -61,6 +68,7 @@ public class PlotController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public @ResponseBody PlotDTO editPlot(@RequestBody @Valid PlotDTO model, @PathVariable("id") final Long id, Principal principal) 
 			throws MyRestPreconditionsException {
+		logger.debug("User "+principal.getName()+" PATCH plot with id = "+id+", no images");
 		return plotServiceImpl.edit(model, id, principal.getName());
 	}
 	
@@ -68,6 +76,7 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void delete(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		logger.debug("User "+principal.getName()+" DELETE plot with id = "+id);
 		plotServiceImpl.delete(id, principal.getName(), true);
 	}
 	
@@ -75,6 +84,7 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public void renew(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		logger.debug("User "+principal.getName()+" renew plot add for plot id = "+id);
 		plotServiceImpl.renewPlotAdd(id, principal.getName());
 	}
 	
@@ -83,7 +93,9 @@ public class PlotController {
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody ResponseEntity<Resource> getImageLarge(@PathVariable("id") final Long id,
 																@RequestParam(value="name", required=true) String name,
-																HttpServletRequest request) throws MyRestPreconditionsException{
+																HttpServletRequest request,
+																Principal p) throws MyRestPreconditionsException{
+		logger.debug("User "+p.getName()+" GET large image "+name+" for plot "+id);
 		return plotServiceImpl.getImage(id, name, false, request);
 	}
 	
@@ -92,7 +104,9 @@ public class PlotController {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Resource> getImageThumb(@PathVariable("id") final Long id,
 																@RequestParam(value="name", required=true) String name,
-																HttpServletRequest request) throws MyRestPreconditionsException{
+																HttpServletRequest request,
+																Principal p) throws MyRestPreconditionsException{
+		logger.debug("User "+p.getName()+" GET large image "+name+" for plot "+id);
 		return plotServiceImpl.getImage(id, name, true, request);
 	}
 	
@@ -107,6 +121,7 @@ public class PlotController {
 			@RequestParam(value="file4", required=false) final MultipartFile file4,
 			Principal principal) throws MyRestPreconditionsException {
 		
+		logger.debug("User "+principal.getName()+" POST new plot with images");
 		try{
 			PlotDTO model = objectMapper.readValue(json, PlotDTO.class);
 
@@ -135,6 +150,8 @@ public class PlotController {
 													  @RequestParam(value="file3", required=false) final MultipartFile file3,
 													  @RequestParam(value="file4", required=false) final MultipartFile file4, 
 													  @PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException {
+		
+		logger.debug("User "+principal.getName()+" POST(EDIT) plot "+id+", with images");
 		try{
 			PlotDTO model = new PlotDTO();
 			if(RestPreconditions.checkString(json)){
@@ -158,7 +175,8 @@ public class PlotController {
 	@RequestMapping(value="/fbv", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody List<PlotDTO> findPlotsByCoordinates(@RequestBody final List<Vertice> list) throws MyRestPreconditionsException{
+	public @ResponseBody List<PlotDTO> findPlotsByCoordinates(@RequestBody final List<Vertice> list, Principal p) throws MyRestPreconditionsException{
+		logger.debug("User "+p.getName()+" POST find plots by coordinates");
 		RestPreconditions.assertTrue(list.size()==2, "Find plots by coordinates error", "You must input exactly 2 vertices");
 		return plotServiceImpl.findPlotsByCoordinates(list.get(0), list.get(1));
 	}
@@ -167,15 +185,15 @@ public class PlotController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody List<PlotDTO> findPlotsInWatchedArea(Principal principal) throws MyRestPreconditionsException{
+		logger.debug("User "+principal.getName()+" GET plots in user's watched area");
 		return plotServiceImpl.findPlotsInUserWatchedArea(principal.getName());
 	}
 	
 	@RequestMapping(value="/fbp", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody List<PlotDTO> findPlotsByProperties(@RequestBody final PlotDTO model) throws MyRestPreconditionsException{
+	public @ResponseBody List<PlotDTO> findPlotsByProperties(@RequestBody final PlotDTO model, Principal p) throws MyRestPreconditionsException{
+		logger.debug("User "+p.getName()+" POST find plots by plot properties");
 		return plotServiceImpl.findPlotsByProperties(model);
 	}
-	
-	
 }

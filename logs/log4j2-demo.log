@@ -1,0 +1,780 @@
+2019-06-10 12:30:13.347  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7072 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 12:30:13.351 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 12:30:13.352  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 12:30:14.369 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 12:30:14.369 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 12:30:14.369 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 12:30:15.813 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 12:30:17.892  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.739 seconds (JVM running for 5.439)
+2019-06-10 12:30:21.779 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.u.c.UserController                 : User Lazaruss GET user with id = 1
+2019-06-10 12:30:39.416 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.u.c.UserController                 : User Lazaruss GET user with id = 10
+2019-06-10 12:30:39.428 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : You are attempting to process an invalid object.
+Unable to find com.plot.finder.user.entity.UserJPA with id 10
+2019-06-10 13:13:43.659  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 1256 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 13:13:43.664 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 13:13:43.664  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 13:13:44.679 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 13:13:44.679 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 13:13:44.679 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 13:13:46.114 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 13:13:48.278  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.813 seconds (JVM running for 5.507)
+2019-06-10 18:44:07.671  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7576 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 18:44:07.675 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 18:44:07.677  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 18:44:08.802 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 18:44:08.802 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 18:44:08.802 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 18:44:10.229 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 18:44:12.607  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.333 seconds (JVM running for 6.15)
+2019-06-10 18:44:19.970 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-10 18:45:06.480 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-10 18:45:07.979 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-10 18:45:07.979 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-10 18:45:07.981 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-10 18:45:07.986 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-10 18:45:19.288 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-10 18:45:19.290 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-10 18:45:19.290 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-10 18:45:19.303 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.303 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.304 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.305 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-10 18:45:19.309 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:25.582 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 18:45:25.585 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-10 18:45:25.587 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-10 18:45:25.587 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-10 18:58:36.287  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4388 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 18:58:36.291 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 18:58:36.292  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 18:58:37.330 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 18:58:37.330 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 18:58:37.330 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 18:58:38.715 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 18:58:41.040  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.949 seconds (JVM running for 5.627)
+2019-06-10 18:58:48.990 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-10 18:58:50.322 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-10 18:58:50.322 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-10 18:58:50.324 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-10 18:58:50.332 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-10 18:58:55.115 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 18:58:55.121 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-10 18:58:55.126 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-10 18:58:55.128 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-10 18:59:05.215 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-10 18:59:05.215 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-10 18:59:05.227 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-10 18:59:05.229 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.230 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.232 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.236 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-10 18:59:05.240 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:07:49.624  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6732 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:07:49.629 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:07:49.629  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:07:50.645 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:07:50.645 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:07:50.645 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:07:52.101 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:07:54.995  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.569 seconds (JVM running for 6.256)
+2019-06-10 19:08:01.207 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-10 19:08:02.659 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-10 19:08:02.659 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-10 19:08:02.659 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-10 19:08:02.659 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-10 19:08:04.731 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-10 19:08:04.732 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-10 19:08:04.733 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-10 19:08:04.736 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-10 19:08:04.743 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.743 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.744 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.745 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:05.598 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-10 19:08:05.598 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 19:08:05.605 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-10 19:08:05.609 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-10 19:23:41.578  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2536 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:23:41.583 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:23:41.583  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:23:42.610 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:23:42.610 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:23:42.610 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:23:44.027 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:23:46.523  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.143 seconds (JVM running for 5.828)
+2019-06-10 19:23:59.113  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6604 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:23:59.118 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:23:59.119  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:24:00.132 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:24:00.132 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:24:00.133 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:24:01.550 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:24:04.090  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.177 seconds (JVM running for 5.879)
+2019-06-10 19:24:11.845 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.046 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.058 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-10 19:24:12.096 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.138 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.185 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.229 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.269 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.298 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.335 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.389 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.462 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.493 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.521 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.588 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.612 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.671 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.696 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.723 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.763 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.787 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.812 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.872 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.896 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.953 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:12.998 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.031 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.071 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.113 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.153 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.220 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-10 19:24:13.225 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-10 19:24:13.369 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-10 19:24:13.372 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-10 19:24:13.374 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-10 19:24:13.384 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-10 19:24:14.974 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-10 19:24:14.974 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 19:24:14.983 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-10 19:24:14.983 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-10 19:24:20.622 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 19:24:20.641 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-10 19:25:26.879 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-10 19:27:50.326 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 19:29:15.760  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6296 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:29:15.765 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:29:15.765  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:29:16.778 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:29:16.779 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:29:16.779 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:29:18.190 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:29:21.101  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.542 seconds (JVM running for 6.229)
+2019-06-10 19:29:28.327 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 19:31:37.336  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7560 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:31:37.343 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:31:37.343  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:31:38.533 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:31:38.534 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:31:38.534 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:31:40.240 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:31:42.477  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.382 seconds (JVM running for 6.528)
+2019-06-10 19:31:51.294 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 19:33:11.170  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6780 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:33:11.176 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:33:11.176  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:33:12.382 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:33:12.382 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:33:12.382 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:33:14.089 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:33:16.143  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.21 seconds (JVM running for 6.104)
+2019-06-10 19:33:20.657 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 19:34:30.948  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2708 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:34:30.954 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:34:30.955  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:34:32.144 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:34:32.144 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:34:32.144 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:34:33.840 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:34:35.920  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.208 seconds (JVM running for 6.092)
+2019-06-10 19:34:46.914 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 19:50:24.884  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7124 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:50:24.889 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:50:24.890  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:50:25.920 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:50:25.920 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:50:25.920 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:50:27.365 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:50:30.324  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.629 seconds (JVM running for 6.381)
+2019-06-10 19:51:15.114  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2524 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:51:15.119 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:51:15.120  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:51:16.122 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:51:16.122 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:51:16.122 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:51:17.557 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:51:19.372  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.458 seconds (JVM running for 5.141)
+2019-06-10 19:56:20.574  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 364 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 19:56:20.578 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 19:56:20.579  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 19:56:21.591 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:56:21.591 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 19:56:21.591 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 19:56:23.024 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 19:56:25.210  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.843 seconds (JVM running for 5.54)
+2019-06-10 19:56:30.786 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-10 19:56:45.625 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 20:05:38.835  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 1492 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 20:05:38.840 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 20:05:38.840  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 20:05:39.875 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:05:39.876 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:05:39.876 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 20:05:41.263 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 20:05:43.555  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.916 seconds (JVM running for 5.591)
+2019-06-10 20:05:51.949 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 20:10:37.964  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6100 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 20:10:37.969 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 20:10:37.970  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 20:10:38.979 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:10:38.980 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:10:38.980 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 20:10:40.399 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 20:10:42.884  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.116 seconds (JVM running for 5.798)
+2019-06-10 20:10:46.492 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 20:11:24.117  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 5360 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 20:11:24.123 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 20:11:24.124  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 20:11:25.342 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:11:25.342 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 20:11:25.342 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 20:11:27.117 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 20:11:29.069  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.185 seconds (JVM running for 6.085)
+2019-06-10 20:11:32.870 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 21:45:12.024  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2256 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 21:45:12.029 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 21:45:12.029  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 21:45:13.066 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:45:13.066 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:45:13.066 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 21:45:14.496 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 21:45:16.841  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.016 seconds (JVM running for 5.704)
+2019-06-10 21:45:22.900 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-10 21:45:41.709 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 21:46:28.928  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7968 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 21:46:28.933 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 21:46:28.933  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 21:46:29.960 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:46:29.960 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:46:29.960 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 21:46:31.387 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 21:46:34.445  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.715 seconds (JVM running for 6.389)
+2019-06-10 21:48:26.629  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2268 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 21:48:26.635 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 21:48:26.636  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 21:48:27.871 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:48:27.871 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:48:27.871 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 21:48:29.580 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 21:48:32.410  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.017 seconds (JVM running for 6.891)
+2019-06-10 21:48:39.973 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 21:49:24.521 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 21:52:04.392  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6260 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-10 21:52:04.397 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-10 21:52:04.398  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-10 21:52:05.411 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:52:05.411 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-10 21:52:05.411 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-10 21:52:06.836 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-10 21:52:08.437  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.239 seconds (JVM running for 4.934)
+2019-06-10 21:52:13.007 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-10 21:53:43.868 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 20:57:06.438  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4648 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 20:57:06.449 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 20:57:06.449  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 20:57:07.962 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 20:57:07.962 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 20:57:07.962 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 20:57:10.516 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 20:57:16.128  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 10.055 seconds (JVM running for 14.627)
+2019-06-11 20:57:33.479 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-11 20:57:49.678 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:01:27.798  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 8176 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:01:27.803 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:01:27.804  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:01:29.073 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:01:29.074 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:01:29.074 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:01:31.176 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:01:34.708  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 7.225 seconds (JVM running for 10.135)
+2019-06-11 21:01:40.328 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:01:54.584 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:03:22.555  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 8032 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:03:22.561 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:03:22.561  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:03:23.780 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:03:23.780 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:03:23.780 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:03:25.553 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:03:28.815  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.494 seconds (JVM running for 7.762)
+2019-06-11 21:03:32.244 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:14:41.201  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7828 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:14:41.206 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:14:41.206  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:14:42.221 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:14:42.221 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:14:42.221 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:14:43.653 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:14:46.631  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.623 seconds (JVM running for 6.337)
+2019-06-11 21:14:54.828 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:17:33.122  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4012 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:17:33.128 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:17:33.128  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:17:34.182 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:17:34.182 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:17:34.182 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:17:35.639 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:17:37.657  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.721 seconds (JVM running for 5.565)
+2019-06-11 21:17:41.244 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:18:00.894  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 3856 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:18:00.899 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:18:00.900  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:18:01.950 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:18:01.951 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:18:01.951 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:18:03.350 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:18:06.811  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.109 seconds (JVM running for 6.792)
+2019-06-11 21:18:09.515 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.728 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.742 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:18:09.778 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.819 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.845 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.897 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:09.945 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.003 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.070 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.111 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.153 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.210 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.262 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.312 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.361 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.386 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.427 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.453 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.478 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.503 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.536 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.602 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.646 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.678 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.710 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.753 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.785 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.845 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.877 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.910 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.937 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.969 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:10.971 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:18:12.239 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.289 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.294 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:18:12.328 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.370 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.402 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.428 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.462 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.495 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:12.496 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:18:18.028 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.086 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.091 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:18:18.127 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.170 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.223 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.289 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.335 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.360 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.393 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.436 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.476 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:18:18.477 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:20:35.736  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6600 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:20:35.742 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:20:35.743  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:20:37.007 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:20:37.007 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:20:37.007 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:20:38.771 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:20:40.949  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.447 seconds (JVM running for 6.35)
+2019-06-11 21:20:43.793 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:23:56.959  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 5468 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:23:56.964 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:23:56.964  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:23:57.980 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:23:57.980 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:23:57.980 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:23:59.403 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:24:01.207  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.442 seconds (JVM running for 5.138)
+2019-06-11 21:24:09.080 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.002 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.055 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.066 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:24:21.115 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.163 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.221 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.255 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.297 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.336 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.379 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.413 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:24:21.415 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:31:53.488  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 7952 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:31:53.492 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:31:53.493  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:31:54.522 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:31:54.522 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:31:54.522 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:31:55.946 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:31:57.964  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.671 seconds (JVM running for 5.354)
+2019-06-11 21:32:05.565 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:05.732 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:05.748 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:32:05.779 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:05.862 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:05.939 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:05.987 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.045 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.095 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.144 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.177 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.203 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.237 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.280 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.311 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.353 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.386 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.410 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.436 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.461 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.486 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.518 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.553 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.586 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.612 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:32:06.614 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:32:07.506 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-11 21:32:07.506 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-11 21:32:07.506 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-11 21:32:07.515 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-11 21:32:08.527 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-11 21:32:08.531 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-11 21:32:08.532 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-11 21:32:08.536 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.540 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.542 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.543 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-11 21:32:08.548 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:09.649 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-11 21:32:09.650 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-11 21:32:09.652 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-11 21:32:09.653 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-11 21:32:20.442 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-11 21:32:38.907 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 21:37:22.648  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 5624 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 21:37:22.653 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 21:37:22.653  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 21:37:23.669 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:37:23.669 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 21:37:23.670 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 21:37:25.122 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 21:37:27.309  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.858 seconds (JVM running for 5.538)
+2019-06-11 21:37:35.581 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.749 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.759 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-11 21:37:35.796 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.832 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.864 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.913 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.947 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:35.979 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.004 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.062 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.096 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.137 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.171 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.213 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.248 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.322 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.367 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.429 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.455 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.479 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.529 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.587 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.620 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.659 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-11 21:37:36.664 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:37:37.034 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-11 21:37:37.037 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-11 21:37:37.038 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-11 21:37:37.044 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-11 21:37:38.467 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-11 21:37:39.535 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-11 21:37:40.254 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-11 21:37:40.981 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-11 21:37:56.221 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 23:54:33.065  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 1864 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 23:54:33.071 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 23:54:33.072  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 23:54:34.626 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 23:54:34.626 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 23:54:34.626 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 23:54:36.973 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 23:54:40.603  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 7.957 seconds (JVM running for 13.017)
+2019-06-11 23:54:55.226 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-11 23:55:12.116 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-11 23:55:32.656  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 5568 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-11 23:55:32.662 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-11 23:55:32.663  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-11 23:55:33.882 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 23:55:33.882 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-11 23:55:33.882 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-11 23:55:35.648 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-11 23:55:38.251  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.833 seconds (JVM running for 7.052)
+2019-06-11 23:55:46.172 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:25:05.242  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2820 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:25:05.248 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:25:05.249  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:25:09.587 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:25:09.587 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:25:09.587 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:25:12.413 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:25:14.751  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 9.854 seconds (JVM running for 14.526)
+2019-06-12 20:25:19.797 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-12 20:25:35.970 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:25:53.503 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.569 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.573 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-12 20:25:53.599 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.664 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.708 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.805 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.877 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.926 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:53.969 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:54.018 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:54.050 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:54.087 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 20:25:54.089 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-12 20:25:54.983 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-12 20:25:54.984 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-12 20:25:54.984 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-12 20:25:54.986 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-12 20:25:55.664 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-12 20:25:55.666 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-12 20:25:55.667 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-12 20:25:55.667 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.678 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:56.668 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-12 20:25:56.670 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-12 20:25:56.709 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-12 20:25:56.709 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-12 20:27:27.168 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:27:34.642 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:40:52.894  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6700 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:40:52.898 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:40:52.899  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:40:53.922 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:40:53.922 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:40:53.923 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:40:55.410 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:40:58.430  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.745 seconds (JVM running for 6.47)
+2019-06-12 20:41:03.738 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:41:16.121  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 3472 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:41:16.126 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:41:16.127  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:41:17.153 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:41:17.153 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:41:17.153 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:41:18.602 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:41:20.594  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.665 seconds (JVM running for 5.396)
+2019-06-12 20:41:27.750 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:42:00.256  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6428 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:42:00.263 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:42:00.264  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:42:01.461 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:42:01.461 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:42:01.461 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:42:03.213 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:42:06.362  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.343 seconds (JVM running for 7.575)
+2019-06-12 20:42:57.652  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6792 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:42:57.658 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:42:57.658  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:42:58.849 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:42:58.851 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:42:58.851 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:43:00.631 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:43:02.605  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.2 seconds (JVM running for 6.091)
+2019-06-12 20:43:16.649 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:44:16.087  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6052 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:44:16.093 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:44:16.094  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:44:17.282 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:44:17.282 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:44:17.283 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:44:19.027 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:44:21.627  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.781 seconds (JVM running for 6.685)
+2019-06-12 20:44:33.287 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:48:51.558  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4084 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:48:51.563 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:48:51.563  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:48:52.596 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:48:52.597 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:48:52.597 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:48:54.133 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:48:56.071  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.701 seconds (JVM running for 5.404)
+2019-06-12 20:49:13.874  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 6232 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:49:13.879 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:49:13.880  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:49:14.894 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:49:14.894 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:49:14.895 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:49:16.373 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:49:18.884  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.207 seconds (JVM running for 5.908)
+2019-06-12 20:49:23.343  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2892 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:49:23.350 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:49:23.351  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:49:24.605 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:49:24.605 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:49:24.605 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:49:26.391 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:49:29.869  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.767 seconds (JVM running for 7.66)
+2019-06-12 20:49:36.781 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:51:35.024 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 20:53:48.678  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4632 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 20:53:48.683 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 20:53:48.683  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 20:53:49.711 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:53:49.711 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 20:53:49.712 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 20:53:51.222 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 20:53:53.447  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 4.965 seconds (JVM running for 5.657)
+2019-06-12 20:54:13.217 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 21:37:37.637  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 4936 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 21:37:37.643 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 21:37:37.644  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 21:37:39.064 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 21:37:39.064 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 21:37:39.064 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 21:37:41.421 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 21:37:44.105  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 6.782 seconds (JVM running for 7.96)
+2019-06-12 21:37:53.820 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-12 21:38:13.480 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 23:39:19.141  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Starting PlotFinderApplication on HAL-9015 with PID 2264 (C:\Users\Lazaruss\git\plot-finder\target\classes started by Lazaruss in C:\Users\Lazaruss\git\plot-finder)
+2019-06-12 23:39:19.146 DEBUG HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Running with Spring Boot v2.1.5.RELEASE, Spring v5.1.7.RELEASE
+2019-06-12 23:39:19.147  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : No active profile set, falling back to default profiles: default
+2019-06-12 23:39:20.475 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 23:39:20.475 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : Code archive: C:\Users\Lazaruss\.m2\repository\org\springframework\boot\spring-boot\2.1.5.RELEASE\spring-boot-2.1.5.RELEASE.jar
+2019-06-12 23:39:20.475 DEBUG HAL-9015 --- [           main] c.p.f.c.ConnectorConfig$1                : None of the document roots [src/main/webapp, public, static] point to a directory and will be ignored.
+2019-06-12 23:39:21.915 DEBUG HAL-9015 --- [           main] c.p.f.s.CredentialsFilter                : Filter 'credentialsFilter' configured for use
+2019-06-12 23:39:24.175  INFO HAL-9015 --- [           main] c.p.f.PlotFinderApplication              : Started PlotFinderApplication in 5.263 seconds (JVM running for 6.099)
+2019-06-12 23:40:05.911 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.217 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.229 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET plots in user's watched area
+2019-06-12 23:40:06.256 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.314 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.374 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.406 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.447 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.510 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.556 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.597 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.644 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.690 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.722 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.774 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.814 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.864 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.888 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.921 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.949 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:06.997 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.022 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.073 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.099 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.121 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.148 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.172 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.222 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.263 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.330 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.356 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.388 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.414 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.438 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.464 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.488 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.539 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.563 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.589 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.613 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.640 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.680 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.722 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.780 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.840 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.880 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.893 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 13
+2019-06-12 23:40:07.898 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 13
+2019-06-12 23:40:07.900 DEBUG HAL-9015 --- [nio-8443-exec-9] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 13
+2019-06-12 23:40:07.908 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 13
+2019-06-12 23:40:07.935 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:07.989 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:08.040 DEBUG HAL-9015 --- [io-8443-exec-10] c.p.f.s.c.SecurityController             : User Lazaruss refreshing the session ... 
+2019-06-12 23:40:08.042 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-12 23:40:09.225 DEBUG HAL-9015 --- [nio-8443-exec-1] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 15
+2019-06-12 23:40:09.228 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 15
+2019-06-12 23:40:09.230 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.231 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 15
+2019-06-12 23:40:09.234 DEBUG HAL-9015 --- [nio-8443-exec-3] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 15
+2019-06-12 23:40:09.234 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.235 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.238 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:10.082 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File2 for plot 10
+2019-06-12 23:40:10.082 DEBUG HAL-9015 --- [nio-8443-exec-2] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File4 for plot 10
+2019-06-12 23:40:10.086 DEBUG HAL-9015 --- [nio-8443-exec-6] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File1 for plot 10
+2019-06-12 23:40:10.090 DEBUG HAL-9015 --- [nio-8443-exec-7] c.p.f.e.EmailUtil                        : User Lazaruss GET large image File3 for plot 10
+2019-06-12 23:40:22.859 DEBUG HAL-9015 --- [nio-8443-exec-4] c.p.f.s.c.SecurityController             : User Lazaruss logging in ... 
+2019-06-12 23:40:35.661 DEBUG HAL-9015 --- [nio-8443-exec-8] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties
+2019-06-12 23:42:18.932 DEBUG HAL-9015 --- [nio-8443-exec-5] c.p.f.e.EmailUtil                        : User Lazaruss POST find plots by plot properties

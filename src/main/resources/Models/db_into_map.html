@@ -241,6 +241,7 @@
 		</table>
 	</div>
     <script>
+    	var host = 'https://localhost:8443'
 		var json;
 		var map;
 		var plotId;
@@ -250,7 +251,7 @@
 		var curUnitSize = "m2";
 		
 		
-		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIzYXJ3IzRzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NTM5NzM2MzAzNTksInB3ZCI6IldlbGNvbWUxMSMiLCJleHAiOjE1NTM5NzU0MzB9.uCCSHryeWzaObV_5UgJ91wJV-OwtZecPHdBgQDZo9zmWCfdELrzlpBmnShcOHOOHJcA2N1CzE8z4OgKeGuE4yA';	
+		var token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJMYXphcnVzcyIsImEiOiIyYXJ3IzNzYXJ3YSMxdXJ3IyIsImNyZWF0ZWQiOjE1NjAwMjA3MTQzNjgsImV4cCI6MTU2MDAyMjUxNH0.nNIA2I-hqBQCwu_XuUvAJdh_dVtrHz6gshoCM1mS0i4G3YQCF9R_KN8dvMBwaxi1pH3WFTplhS8VgyMqv9OKGA';	
 				
 		function nextClicked(){
 			$('#infowindow'+iwIndex).hide();
@@ -543,7 +544,7 @@
 		
 		function refreshToken(){
 			$.ajax({
-				url: 'http://localhost:8080/refresh',
+				url: host+'/refresh',
 				type: 'GET',
 				headers: {
 					'X-My-Security-Token': token
@@ -559,7 +560,7 @@
 		function getThumbForPlotIdAndImageNumber(thumbId){
 			var selected = "";
 			$.ajax({
-				url: 'http://localhost:8080/plot/thumb/'+plotId+'?name=File'+thumbId,
+				url: host+'/plot/thumb/'+plotId+'?name=File'+thumbId,
 				type: 'GET',
 				headers: {
 					'X-My-Security-Token': token			
@@ -573,20 +574,18 @@
 						$(selected).click(function(e){
 							e.preventDefault();
 							$.ajax({
-								url: 'http://localhost:8080/plot/img/'+plotId+'?name=File'+thumbId,
+								url: host+'/plot/img/'+plotId+'?name=File'+thumbId,
 								type: 'GET',
 								headers: {
 									'X-My-Security-Token': token			
 								},
 								statusCode:{
 									200: function(data){
-										if (!$(selected).hasClass('selectedThumb')){
-											$('div[id^="thumb"]').removeClass('selectedThumb');
-											$(selected).addClass('selectedThumb');
-											$("#orgImg").attr('src', '');
-											$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
-											$("#fullSize").show();
-										}
+										$('div[id^="thumb"]').removeClass('selectedThumb');
+										$(selected).addClass('selectedThumb');
+										$("#orgImg").attr('src', '');
+										$("#orgImg").attr('src', 'data:application/octet-stream;base64,' + data);
+										$("#fullSize").show();
 									},
 									400: function(jqXHR){
 										alert(jqXHR.responseText);
@@ -604,7 +603,7 @@
 		
 		function getPlots(){
 			$.ajax({
-				url: 'http://localhost:8080/plot/fbwa',
+				url: host+'/plot/fbwa',
 				type: 'GET',
 				contentType: 'Application/json',
 				headers: {

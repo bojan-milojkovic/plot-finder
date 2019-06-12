@@ -9,9 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import com.plot.finder.email.EmailUtil;
 import com.plot.finder.exception.MyRestPreconditionsException;
-import com.plot.finder.security.entities.RoleJPA;
-import com.plot.finder.security.entities.UserHasRolesJPA;
-import com.plot.finder.security.repository.RoleRepository;
 import com.plot.finder.user.entity.UserDTO;
 import com.plot.finder.user.entity.UserJPA;
 import com.plot.finder.user.repository.UserRepository;
@@ -22,14 +19,12 @@ import com.plot.finder.util.RestPreconditions;
 public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepo;
-	private RoleRepository roleRepo;
 	private EmailUtil emailUtil;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepo, EmailUtil emailUtil, RoleRepository roleRepo) {
+	public UserServiceImpl(UserRepository userRepo, EmailUtil emailUtil) {
 		this.userRepo = userRepo;
 		this.emailUtil = emailUtil;
-		this.roleRepo = roleRepo;
 	}
 
 	public List<UserDTO> getAll(){
@@ -260,18 +255,20 @@ public class UserServiceImpl implements UserService {
 			jpa.setLastLogin(LocalDateTime.now());
 			jpa.setLastPasswordChange(LocalDateTime.now());
 			
-			// to get user.id for hashCode in UserHasRolesJPA :
+			jpa.setAuthorities("ROLE_USER");
+			
+			// to get user_id for hashCode in UserHasRolesJPA :
 			jpa = userRepo.save(finishConvertingModelToJpa(model, jpa));
 			
 			// security roles :
-			UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
+			/*UserHasRolesJPA uhrJpa = new UserHasRolesJPA();
 			RoleJPA rJpa = roleRepo.getOne(1L);
 			
 			uhrJpa.setRoleJpa(rJpa);
 			rJpa.getUserHasRolesJpa().add(uhrJpa);
 			
 			uhrJpa.setUserSecurityJpa(jpa);
-			jpa.getUserHasRolesJpa().add(uhrJpa);
+			jpa.getUserHasRolesJpa().add(uhrJpa);*/
 			
 			emailUtil.confirmRegistration(identifier, model.getFirstName()+" "+model.getLastName(), model.getEmail());
 		} else {
@@ -319,11 +316,13 @@ public class UserServiceImpl implements UserService {
 				RestPreconditions.checkString(model.getPhone2());
 	}
 
-	public void activateUser(String key) throws MyRestPreconditionsException {
+	public String activateUser(String key) throws MyRestPreconditionsException {
 		UserJPA jpa = RestPreconditions.checkNotNull(userRepo.findByIdentifier(key), "User activation error", "Cannot find user with that activation key");
 		
 		jpa.setIdentifier(null);
 		jpa.setActive(true);
 		userRepo.save(jpa);
+		
+		return jpa.getUsername();
 	}
 }

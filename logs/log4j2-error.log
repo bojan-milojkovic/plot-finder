@@ -1,0 +1,74 @@
+2019-06-09 18:34:18.962 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : You are attempting to process an invalid object.
+Unable to find com.plot.finder.user.entity.UserJPA with id 2
+2019-06-10 12:10:37.971 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : You are attempting to process an invalid object.
+Unable to find com.plot.finder.user.entity.UserJPA with id 10
+2019-06-10 12:19:23.808 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : You are attempting to process an invalid object.
+Unable to find com.plot.finder.user.entity.UserJPA with id 10
+2019-06-10 12:30:39.428 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : You are attempting to process an invalid object.
+Unable to find com.plot.finder.user.entity.UserJPA with id 10
+2019-06-10 18:45:19.303 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.303 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.304 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:45:19.309 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.229 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.230 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.232 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 18:59:05.240 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.743 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.743 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.744 ERROR HAL-9015 --- [nio-8443-exec-4] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:08:04.745 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-10 19:24:13.225 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:18:10.971 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:18:12.496 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:18:18.477 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:24:21.415 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:32:06.614 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-11 21:32:08.536 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.540 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.542 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:32:08.548 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-11 21:37:36.664 ERROR HAL-9015 --- [nio-8443-exec-9] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-12 20:25:54.089 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-8] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.675 ERROR HAL-9015 --- [nio-8443-exec-5] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 20:25:55.678 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:08.042 ERROR HAL-9015 --- [io-8443-exec-10] c.p.f.u.MyControllerAdvice               : Refresh session error
+Something went wrong during refresh
+2019-06-12 23:40:09.230 ERROR HAL-9015 --- [nio-8443-exec-1] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.234 ERROR HAL-9015 --- [nio-8443-exec-2] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.235 ERROR HAL-9015 --- [nio-8443-exec-6] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist
+2019-06-12 23:40:09.238 ERROR HAL-9015 --- [nio-8443-exec-3] c.p.f.u.MyControllerAdvice               : Image read error
+File path C:\Users\Lazaruss\git\plot-finder\images\5\1\ does not exist

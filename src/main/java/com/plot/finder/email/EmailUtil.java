@@ -6,18 +6,20 @@ import java.util.Map;
 import javax.mail.internet.MimeMessage;
 import org.thymeleaf.context.Context;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import com.plot.finder.plot.entities.Flags;
-import com.plot.finder.plot.entities.PlotJPA;
+import com.plot.finder.plot.entities.metamodels.PlotJPA;
 import com.plot.finder.user.entity.UserJPA;
-
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 @Component
 public class EmailUtil {
+	
+	private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
 	
 	public JavaMailSender javaMailSender;
     private VelocityEngine velocityEngine;
@@ -33,12 +35,7 @@ public class EmailUtil {
 	public void sendNewPlotEmail(final PlotJPA entity) {
 		Map<String,Object> model = new HashMap<String,Object>();
 		model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
-		for(Flags f : entity.getFlags() ){
-			if("SALE".equalsIgnoreCase(f.getFlag()) || "RENT".equalsIgnoreCase(f.getFlag())){
-				model.put("type", f.getFlag().toUpperCase());
-				break;
-			}
-		}
+		model.put("type", (entity.getFlags().charAt(0)=='0' ? "SALE" : "RENT"));
 		model.put("plot_url", hostName+"/plot/"+entity.getId());
 	
 		sendEmail("New plot notice", entity.getUserJpa().getEmail(), "new_plot_notice.vm", model);
@@ -53,7 +50,6 @@ public class EmailUtil {
 	}
 	
 	public void plotAddDeleted(final PlotJPA entity) {
-		
 		Map<String,Object> model = new HashMap<String,Object>();
 		model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
 		model.put("title", entity.getTitle());
@@ -96,6 +92,7 @@ public class EmailUtil {
 	
 	private void sendEmail(final String subject, final String to, final String templateName, final Map<String, Object> model) {
 		try {
+			logger.debug("Sending the '"+subject+"' email ...");
 			MimeMessage message = javaMailSender.createMimeMessage();
 			
 			MimeMessageHelper helper = new MimeMessageHelper(message,
