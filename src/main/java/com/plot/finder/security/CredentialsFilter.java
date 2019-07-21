@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.plot.finder.util.RestPreconditions;
+
 @Component
 public class CredentialsFilter extends OncePerRequestFilter{
 
@@ -27,7 +29,7 @@ public class CredentialsFilter extends OncePerRequestFilter{
 		
 		response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
-        /*response.setHeader("Access-Control-Max-Age", "3600");*/
+        response.setHeader("Access-Cors-Origin", "*");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-My-Security-Token, Authorization, Origin, Content-Type, Version");
         response.setHeader("Access-Control-Expose-Headers", "X-Requested-With, Authorization, Origin, Content-Type");
@@ -36,7 +38,7 @@ public class CredentialsFilter extends OncePerRequestFilter{
         	String token = request.getHeader("X-My-Security-Token");
         	String username = jwtTokenUtil.getUsernameFromToken(token);
 
-        	if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null && jwtTokenUtil.validateToken(token)){
+        	if (RestPreconditions.checkString(username) && SecurityContextHolder.getContext().getAuthentication()==null && jwtTokenUtil.validateToken(token)){
         		UsernamePasswordAuthenticationToken 
         		authentication = new UsernamePasswordAuthenticationToken(
 		                				username, 
