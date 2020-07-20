@@ -249,7 +249,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		<!-- -->
+		<!-- 
 			<plugin>
 			    <groupId>org.bsc.maven</groupId>
 			    <artifactId>maven-processor-plugin</artifactId>
@@ -275,7 +275,7 @@
 			            <version>4.3.8.Final</version>
 			        </dependency>
 			    </dependencies>
-			</plugin>    
+			</plugin>  -->  
 		</plugins>
 	</build>
 

@@ -2,6 +2,7 @@ package com.plot.finder.security;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -22,7 +23,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-
     private static final long serialVersionUID = -3301605591108950415L;
 
     private static final String CLAIM_KEY_USERNAME = "sub";
@@ -188,7 +188,7 @@ public class JwtTokenUtil implements Serializable {
         return getExpirationDateFromToken(token).after(new Date());
     }
 
-    /*private Boolean isTokenCreatedAfterLastPasswordReset(Date created, Date lastPasswordReset) {
+    private Boolean isTokenCreatedAfterLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset!=null && created.after(lastPasswordReset));
     }
     
@@ -197,7 +197,7 @@ public class JwtTokenUtil implements Serializable {
     }
     private Date convertLocalToDate(final LocalDateTime ldt){
     	return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-    }*/
+    }
 
     private Map<String, Object> generateClaims(Map<String, Object> claims, UserDetails userDetails){
     	String authorities = "";
@@ -251,9 +251,15 @@ public class JwtTokenUtil implements Serializable {
     
 
     public Boolean validateToken(String token) {
+    	final Date created = getCreatedDateFromToken(token);
+    	UserJPA jpa = userRepository.findOneByUsername(getUsernameFromToken(token));
         try {
         	return ( // username is checked when getting user security
         			isTokenNotExpired(token)
+        			&& jpa.isActive()
+        			&& jpa.isNotLocked()
+        			&& isTokenCreatedAtLastLogin(created, convertLocalToDate(jpa.getLastLogin()))
+                	&& isTokenCreatedAfterLastPasswordReset(created, convertLocalToDate(jpa.getLastPasswordChange()))
                 	// you can also check device, and last login ip
                 	);
         } catch (Exception e) {

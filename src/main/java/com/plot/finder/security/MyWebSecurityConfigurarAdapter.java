@@ -61,6 +61,7 @@ public class MyWebSecurityConfigurarAdapter extends WebSecurityConfigurerAdapter
 			.antMatchers(HttpMethod.GET, "/adm/**").hasRole("SUPERADMIN")
 			
 			.antMatchers(HttpMethod.POST, "/roles").permitAll() // everyone should access login-api
+			.antMatchers(HttpMethod.POST, "/certificate").permitAll()
 			.antMatchers(HttpMethod.POST, "/refresh").hasRole("USER") // users can refresh tokens
 			;
 		

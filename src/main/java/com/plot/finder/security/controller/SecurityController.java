@@ -29,6 +29,12 @@ public class SecurityController {
 		this.securityServiceImpl = securityServiceImpl;
 		this.jwtTokenUtil = jwtTokenUtil;
 	}
+	
+	@RequestMapping(value = "/certificate", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public @ResponseBody String testCertificate(){
+		return "OK";
+	}
 
 	@RequestMapping(value = "/roles", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
