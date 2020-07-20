@@ -27,12 +27,11 @@ public class CredentialsFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 		
-		response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
-        response.setHeader("Access-Cors-Origin", "*");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-My-Security-Token, Authorization, Origin, Content-Type, Version");
-        response.setHeader("Access-Control-Expose-Headers", "X-Requested-With, Authorization, Origin, Content-Type");
+        response.addHeader("Access-Control-Allow-Methods", "*");
+        response.addHeader("Access-Cors-Origin", "*");
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "X-Requested-With, X-My-Security-Token, Access-Cors-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Authorization, Origin, Content-type, Version");
+        response.addHeader("Access-Control-Expose-Headers", "X-Requested-With, Authorization, Origin, Content-type");
         
         if(!(request.getRequestURI().contains("roles") || request.getRequestURI().contains("refresh"))){
         	String token = request.getHeader("X-My-Security-Token");
