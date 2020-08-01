@@ -55,7 +55,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody UserDTO getUserById(@PathVariable("id") final Long id, Principal principal) throws MyRestPreconditionsException{
 		logger.debug("User "+principal.getName()+" GET user with id = "+id);
-		return userServiceImpl.getOneById(id, principal.getName());
+		return userServiceImpl.getOneById(id);
 	}
 	
 	@RequestMapping(value = "/un", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -63,7 +63,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody UserDTO getUserByUsername(@RequestParam(value="username") final String username, Principal principal) throws MyRestPreconditionsException {
 		logger.debug("User "+principal.getName()+" GET user with username = "+username);
-		return userServiceImpl.getOneByUsername(username, principal.getName());
+		return userServiceImpl.getOneByUsername(username);
 	}
 	
 	@RequestMapping(value = "/e", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -71,15 +71,7 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody UserDTO getUserByEmail(@RequestParam(value="email") final String email, Principal principal) throws MyRestPreconditionsException {
 		logger.debug("User "+principal.getName()+" GET user with email = "+email);
-		return userServiceImpl.getOneByEmail(email, principal.getName());
-	}
-	
-	@RequestMapping(value = "/m", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@PreAuthorize("hasRole('ROLE_USER')")
-	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody UserDTO getUserByMobile(@RequestParam(value="mobile") final String mobile, Principal principal) throws MyRestPreconditionsException {
-		logger.debug("User "+principal.getName()+" GET user with mobile = "+mobile);
-		return userServiceImpl.getOneByMobile(mobile, principal.getName());
+		return userServiceImpl.getOneByEmail(email);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,

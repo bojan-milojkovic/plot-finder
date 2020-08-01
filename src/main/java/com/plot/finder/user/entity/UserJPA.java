@@ -38,20 +38,8 @@ public class UserJPA {
 	@Column
 	private String password;
 	
-	@Column(name="first_name")
-	private String firstName;
-	
-	@Column(name="last_name")
-	private String lastName;
-	
 	@Column
 	private String email;
-	
-	@Column
-	private String phone1;
-	
-	@Column
-	private String phone2;
 	
 	@Column
 	private Boolean active;
@@ -101,22 +89,6 @@ public class UserJPA {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public LocalDateTime getRegistration() {
 		return registration;
 	}
@@ -131,22 +103,6 @@ public class UserJPA {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public String getPhone1() {
-		return phone1;
-	}
-
-	public void setPhone1(String phone1) {
-		this.phone1 = phone1;
-	}
-
-	public String getPhone2() {
-		return phone2;
-	}
-
-	public void setPhone2(String phone2) {
-		this.phone2 = phone2;
 	}
 
 	public String getUsername() {

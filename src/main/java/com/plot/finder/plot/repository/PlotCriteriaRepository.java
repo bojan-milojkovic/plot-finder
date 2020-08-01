@@ -10,6 +10,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.plot.finder.exception.MyRestPreconditionsException;
 import com.plot.finder.plot.entities.PlotDTO;
 import com.plot.finder.plot.entities.metamodels.PlotJPA;
 import com.plot.finder.plot.entities.metamodels.PlotJPA_;
@@ -72,7 +74,7 @@ public class PlotCriteriaRepository {
 		return new ArrayList<PlotJPA>();
 	}
 	
-	public List<PlotJPA> getPlotByProperties(final PlotDTO model){
+	public List<PlotJPA> getPlotByProperties(final PlotDTO model) throws MyRestPreconditionsException {
 		CriteriaBuilder builder = entityManagerFactory.getCriteriaBuilder();
 		
 		CriteriaQuery<PlotJPA> cquerry = builder.createQuery(PlotJPA.class);
@@ -85,6 +87,11 @@ public class PlotCriteriaRepository {
 		
 		if(RestPreconditions.checkString(model.getCity())) {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.city), model.getCity()));
+		}
+		if(RestPreconditions.checkString(model.getPhone())) {
+			RestPreconditions.verifyStringFormat(model.getPhone(), "^([+][0-9]{1,3})?[0-9 -]+$", 
+					"User create error", "mobile number is in invalid format");
+			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.phone), model.getPhone()));
 		}
 		if(RestPreconditions.checkString(model.getCountry())) {
 			pred = builder.and(pred, builder.equal(croot.get(PlotJPA_.country), model.getCountry()));

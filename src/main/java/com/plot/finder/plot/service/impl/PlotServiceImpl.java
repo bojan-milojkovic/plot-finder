@@ -63,6 +63,7 @@ public class PlotServiceImpl implements PlotService {
 		model.setAddress2(jpa.getAddress2());
 		model.setDistrict(jpa.getDistrict());
 		model.setCity(jpa.getCity());
+		model.setPhone(jpa.getPhone());
 		model.setCountry(jpa.getCountry());
 		model.setDescription(jpa.getDescription());
 		model.setTitle(jpa.getTitle());
@@ -163,7 +164,7 @@ public class PlotServiceImpl implements PlotService {
 		}
 	}
 	
-	private PlotJPA convertModelToJpa(final PlotDTO model) {
+	private PlotJPA convertModelToJpa(final PlotDTO model) throws MyRestPreconditionsException {
 		PlotJPA jpa = null;
 		
 		if(model.getId()==null) {
@@ -190,6 +191,11 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(RestPreconditions.checkString(model.getCity())) {
 			jpa.setCity(model.getCity());
+		}
+		if(RestPreconditions.checkString(model.getPhone())) {
+			RestPreconditions.verifyStringFormat(model.getPhone(), "^([+][0-9]{1,3})?[0-9 -]+$", 
+					"User create error", "mobile number is in invalid format");
+			jpa.setPhone(model.getPhone());
 		}
 		if(RestPreconditions.checkString(model.getCountry())) {
 			jpa.setCountry(model.getCountry());
@@ -241,6 +247,9 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(!RestPreconditions.checkString(model.getDescription())) {
 			e.getErrors().add("description is mandatory");
+		}
+		if(!RestPreconditions.checkString(model.getPhone())) {
+			e.getErrors().add("Contact telephone number is mandatory");
 		}
 		if(!RestPreconditions.checkString(model.getAddress1())) {
 			e.getErrors().add("Address1 is mandatory");
@@ -361,6 +370,7 @@ public class PlotServiceImpl implements PlotService {
 		return RestPreconditions.checkString(model.getAddress1()) ||
 				RestPreconditions.checkString(model.getAddress2()) ||
 				RestPreconditions.checkString(model.getCity()) ||
+				RestPreconditions.checkString(model.getPhone()) ||
 				RestPreconditions.checkString(model.getCountry()) ||
 				RestPreconditions.checkString(model.getDescription()) ||
 				RestPreconditions.checkString(model.getTitle()) ||

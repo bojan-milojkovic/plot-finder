@@ -29,23 +29,12 @@ public class UserDTO {
 	@Pattern(regexp="^[^ ;]{6,}$", message="New password cannot contain a white space or ; and must be at least 6 characters long")
 	private String newPassword;
 	
-	private String firstName;
-	
-	private String lastName;
-	
 	private String email;
-	
-	@Pattern(regexp="^[0-9 +-]+$", message="Phone number must consist of digits, blank spaces, + and -")
-	private String phone1;
-	
-	@Pattern(regexp="^[0-9 +-]+$", message="Secong phone number must consist of digits, blank spaces, + and -")
-	private String phone2;
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	@JsonFormat(shape=Shape.STRING, pattern = "yyyy-MM-dd") // initialize LocalDate object from json string
 	private LocalDateTime registerred;
 	
-
 	public Long getId() {
 		return id;
 	}
@@ -62,44 +51,12 @@ public class UserDTO {
 		this.username = username;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	
-	public String getPhone1() {
-		return phone1;
-	}
-
-	public void setPhone1(String phone1) {
-		this.phone1 = phone1;
-	}
-
-	public String getPhone2() {
-		return phone2;
-	}
-
-	public void setPhone2(String phone2) {
-		this.phone2 = phone2;
 	}
 
 	public LocalDateTime getRegisterred() {

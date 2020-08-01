@@ -28,32 +28,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<UserDTO> getAll(){
-		return userRepo.findAll().stream().map(j -> convertJpaToModel(j, null)).collect(Collectors.toList());
+		return userRepo.findAll().stream().map(j -> convertJpaToModel(j)).collect(Collectors.toList());
 	}
 	
-	public UserDTO getOneById(final Long id, final String name) throws MyRestPreconditionsException {
+	public UserDTO getOneById(final Long id) throws MyRestPreconditionsException {
 		RestPreconditions.checkId(id);
 		
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.getOne(id), 
-				"Find user by id failed", "That user does not exist in our database"), name);
+				"Find user by id failed", "That user does not exist in our database"));
 	}
 	
-	public UserDTO getOneByUsername(final String username, final String name) throws MyRestPreconditionsException {
+	public UserDTO getOneByUsername(final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(username, "Find user by username failed");
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
-				"Find user by username failed", "That user does not exist in our database"), name);
+				"Find user by username failed", "That user does not exist in our database"));
 	}
 	
-	public UserDTO getOneByEmail(final String email, final String name) throws MyRestPreconditionsException {
+	public UserDTO getOneByEmail(final String email) throws MyRestPreconditionsException {
 		RestPreconditions.checkStringIsValid(email, "Find user by email failed");
 		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByEmail(email), 
-				"Find user by email failed", "That user does not exist in our database"), name);
-	}
-	
-	public UserDTO getOneByMobile(final String mobile, final String name) throws MyRestPreconditionsException {
-		RestPreconditions.checkStringIsValid(mobile, "Find user by mobile phone number failed");
-		return convertJpaToModel(RestPreconditions.checkNotNull(userRepo.findOneByPhone(mobile), 
-				"Find user by mobile failed", "That user does not exist in our database"), name);
+				"Find user by email failed", "That user does not exist in our database"));
 	}
 	
 	public void delete(Long id, String username) throws MyRestPreconditionsException {
@@ -82,23 +76,8 @@ public class UserServiceImpl implements UserService {
 			// check email unique :
 			RestPreconditions.assertTrue(userRepo.findOneByEmail(model.getEmail())==null, "User create error", 
 					"User with that email already exists");
-			// check mobile format :
-			RestPreconditions.verifyStringFormat(model.getPhone1(), "^([+][0-9]{1,3})?[0-9 -]+$", 
-									"User create error","mobile number is in invalid format");
-			// check mobile unique :
-			RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone1())==null, "User create error", 
-					"User with that mobile phone number already exists");
 			
-			if(model.getPhone2() != null) { // next line checks that it is not empty string
-				// check mobile format :
-				RestPreconditions.verifyStringFormat(model.getPhone2(), "^([+][0-9]{1,3})?[0-9 -]+$", 
-										"User create error","mobile number is in invalid format");
-				// check mobile unique :
-				RestPreconditions.assertTrue(userRepo.findOneByPhone(model.getPhone2())==null, "User create error", 
-						"User with that mobile phone number already exists");
-			}
-			
-			return convertJpaToModel(userRepo.save(convertModelToJpa(model)), model.getUsername());
+			return convertJpaToModel(userRepo.save(convertModelToJpa(model)));
 		}
 		
 		MyRestPreconditionsException e = new MyRestPreconditionsException("User create error", 
@@ -109,17 +88,8 @@ public class UserServiceImpl implements UserService {
 		if(RestPreconditions.checkString(model.getPassword())) {
 			e.getErrors().add("Password is mandatory");
 		}
-		if(RestPreconditions.checkString(model.getFirstName())) {
-			e.getErrors().add("First name is mandatory");
-		}
-		if(RestPreconditions.checkString(model.getLastName())) {
-			e.getErrors().add("Last name is mandatory");
-		}
 		if(RestPreconditions.checkString(model.getEmail())) {
 			e.getErrors().add("Email is mandatory");
-		}
-		if(RestPreconditions.checkString(model.getPhone1())) {
-			e.getErrors().add("User's phone number is mandatory");
 		}
 		throw e;
 	}
@@ -156,23 +126,10 @@ public class UserServiceImpl implements UserService {
 						  id,
 						  "^[^@]+@[^@.]+(([.][a-z]{3})|(([.][a-z]{2}){1,2}))$",
 						  userRepo.findOneByEmail(model.getEmail()) );
-			// check phone1 :
-			checkProperty(model.getPhone1(),
-					  "Phone number 1",
-					  id,
-					  "^([+][0-9]{1,3})?[0-9 -]+$",
-					  userRepo.findOneByPhone(model.getPhone1()) );
-			
-			// check phone2 :
-			checkProperty(model.getPhone2(),
-					  "Phone number 2",
-					  id,
-					  "^([+][0-9]{1,3})?[0-9 -]+$",
-					  userRepo.findOneByPhone(model.getPhone2()) );
 			
 			UserJPA jpa = userRepo.save(convertModelToJpa(model));
 			
-			return convertJpaToModel(jpa, jpa.getUsername());
+			return convertJpaToModel(jpa);
 		} else {
 			throw new MyRestPreconditionsException("Edit user error",
 					"You must provide some editable data.");
@@ -219,20 +176,13 @@ public class UserServiceImpl implements UserService {
 		userRepo.save(jpa);
 	}
 	
-	public UserDTO convertJpaToModel(UserJPA jpa, final String name) {
+	public UserDTO convertJpaToModel(UserJPA jpa) {
 		UserDTO model = new UserDTO();
 		
 		model.setId(jpa.getId());
 		model.setUsername(jpa.getUsername());
 		model.setRegisterred(jpa.getRegistration());
-		model.setFirstName(jpa.getFirstName());
-		
-		if(jpa.getUsername().equals(name)){
-			model.setLastName(jpa.getLastName());
-			model.setEmail(jpa.getEmail());
-			model.setPhone1(jpa.getPhone1());
-			model.setPhone2(jpa.getPhone2());
-		}
+		model.setEmail(jpa.getEmail());
 		
 		return model;
 	}
@@ -270,7 +220,7 @@ public class UserServiceImpl implements UserService {
 			uhrJpa.setUserSecurityJpa(jpa);
 			jpa.getUserHasRolesJpa().add(uhrJpa);*/
 			
-			emailUtil.confirmRegistration(identifier, model.getFirstName()+" "+model.getLastName(), model.getEmail());
+			emailUtil.confirmRegistration(identifier, model.getEmail(), model.getEmail());
 		} else {
 			jpa = finishConvertingModelToJpa(model, userRepo.getOne(model.getId()));
 		}
@@ -284,36 +234,17 @@ public class UserServiceImpl implements UserService {
 		if(RestPreconditions.checkString(model.getEmail())) {
 			jpa.setEmail(model.getEmail());
 		}
-		if(RestPreconditions.checkString(model.getFirstName())) {
-			jpa.setFirstName(model.getFirstName());
-		}
-		if(RestPreconditions.checkString(model.getLastName())) {
-			jpa.setLastName(model.getLastName());
-		}
-		if(RestPreconditions.checkString(model.getPhone1())) {
-			jpa.setPhone1(model.getPhone1());
-		}
-		if(RestPreconditions.checkString(model.getPhone2())) {
-			jpa.setPhone2(model.getPhone2());
-		}
 		return jpa;
 	}
 	
 	private boolean checkPostDataPresent(UserDTO model) {
 		return RestPreconditions.checkString(model.getUsername()) &&
 				RestPreconditions.checkString(model.getPassword()) &&
-				RestPreconditions.checkString(model.getFirstName()) &&
-				RestPreconditions.checkString(model.getLastName()) &&
-				RestPreconditions.checkString(model.getEmail()) &&
-				RestPreconditions.checkString(model.getPhone1());
+				RestPreconditions.checkString(model.getEmail());
 	}
 	
 	private boolean checkPatchDataPresent(UserDTO model) {
-		return RestPreconditions.checkString(model.getFirstName()) ||
-				RestPreconditions.checkString(model.getLastName()) ||
-				RestPreconditions.checkString(model.getEmail()) ||
-				RestPreconditions.checkString(model.getPhone1()) ||
-				RestPreconditions.checkString(model.getPhone2());
+		return RestPreconditions.checkString(model.getEmail());
 	}
 
 	public String activateUser(String key) throws MyRestPreconditionsException {

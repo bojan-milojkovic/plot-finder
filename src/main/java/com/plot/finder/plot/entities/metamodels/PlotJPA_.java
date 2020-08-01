@@ -20,6 +20,7 @@ public abstract class PlotJPA_ {
 	public static volatile SingularAttribute<PlotJPA, String> address1;
 	public static volatile SingularAttribute<PlotJPA, String> description;
 	public static volatile SingularAttribute<PlotJPA, UserJPA> userJpa;
+	public static volatile SingularAttribute<PlotJPA, String> phone;
 	public static volatile SingularAttribute<PlotJPA, WatchedJPA> wa;
 	public static volatile SingularAttribute<PlotJPA, String> title;
 	public static volatile SingularAttribute<PlotJPA, String> polygon;

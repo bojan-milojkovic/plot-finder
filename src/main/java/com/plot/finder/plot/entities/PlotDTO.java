@@ -43,6 +43,9 @@ public class PlotDTO implements Serializable {
 	private String description;
 	
 	@JsonProperty(access = Access.READ_WRITE)
+	private String phone;
+	
+	@JsonProperty(access = Access.READ_WRITE)
 	private String address1;
 	
 	@JsonProperty(access = Access.READ_WRITE)
@@ -183,6 +186,14 @@ public class PlotDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getAddress1() {

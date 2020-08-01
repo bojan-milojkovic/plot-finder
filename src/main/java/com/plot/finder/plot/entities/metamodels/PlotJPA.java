@@ -31,6 +31,9 @@ public class PlotJPA {
 	@JoinColumn(name="user_id")
 	private UserJPA userJpa;
 	
+	@Column
+	private String phone;
+	
 	@OneToOne(mappedBy="plotJpa", cascade=CascadeType.ALL, orphanRemoval=true, fetch=FetchType.EAGER)
 	private WatchedJPA wa;
 	
@@ -107,6 +110,14 @@ public class PlotJPA {
 
 	public void setUserJpa(UserJPA userJpa) {
 		this.userJpa = userJpa;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getTitle() {

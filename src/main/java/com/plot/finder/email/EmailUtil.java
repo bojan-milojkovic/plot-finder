@@ -34,7 +34,7 @@ public class EmailUtil {
 
 	public void sendNewPlotEmail(final PlotJPA entity) {
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+		model.put("name", entity.getUserJpa().getUsername());
 		model.put("type", (entity.getFlags().charAt(0)=='0' ? "SALE" : "RENT"));
 		model.put("plot_url", hostName+"/plot/"+entity.getId());
 	
@@ -43,7 +43,7 @@ public class EmailUtil {
 	
 	public void plotAddAboutToExpire(final PlotJPA entity) {
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+		model.put("name", entity.getUserJpa().getUsername());
 		model.put("plot_url", hostName+"/plot/"+entity.getId());
 		
 		sendEmail("Your plot is about to expire", entity.getUserJpa().getEmail(), "plot_will_expire.vm", model);
@@ -51,7 +51,7 @@ public class EmailUtil {
 	
 	public void plotAddDeleted(final PlotJPA entity) {
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", entity.getUserJpa().getFirstName()+" "+entity.getUserJpa().getLastName());
+		model.put("name", entity.getUserJpa().getUsername());
 		model.put("title", entity.getTitle());
 		
 		sendEmail("Your plot has been deleted", entity.getUserJpa().getEmail(), "plot_deleted.vm", model);
@@ -59,21 +59,21 @@ public class EmailUtil {
 	
 	public void userLocked(final UserJPA jpa){
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", jpa.getFirstName()+" "+jpa.getLastName());
+		model.put("name", jpa.getUsername());
 		
 		sendEmail("Your user account is locked", jpa.getEmail(), "account_locked_notice.vm", model);
 	}
 	
 	public void userUnlocked(final UserJPA jpa){
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", jpa.getFirstName()+" "+jpa.getLastName());
+		model.put("name", jpa.getUsername());
 		
 		sendEmail("Your user account is unlocked", jpa.getEmail(), "account_unlocked_notice.vm", model);
 	}
 	
 	public void userAccountDeleted(UserJPA jpa){
 		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("name", jpa.getFirstName()+" "+jpa.getLastName());
+		model.put("name", jpa.getUsername());
 		
 		sendEmail("Your user account is deleted", jpa.getEmail(), "user_account_deleted.vm", model);
 	}
