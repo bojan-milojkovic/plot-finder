@@ -9,6 +9,8 @@ import javax.validation.constraints.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -137,6 +139,9 @@ public class PlotDTO implements Serializable {
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate expires;
+	
+	@JsonIgnore
+	private String username;
 
 	public PlotDTO() {
 		super();
@@ -165,6 +170,14 @@ public class PlotDTO implements Serializable {
 
 	public List<Vertice> getVertices() {
 		return vertices;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	//@JsonDeserialize(using = VerticeListDeserializer.class)

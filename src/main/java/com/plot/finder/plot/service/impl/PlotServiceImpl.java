@@ -173,8 +173,17 @@ public class PlotServiceImpl implements PlotService {
 			jpa.setExpires(LocalDate.now().plusDays(30));
 			// for add, we save flags later
 		} else {
-			jpa = plotRepo.getOne(model.getId());
-			jpa.setFlags(model.flagsToBWord());
+			jpa = RestPreconditions.checkNotNull(plotRepo.getOne(model.getId()), "Edit plot error", 
+					"You are trying to edit a plot that doesn't exist in our database");
+			RestPreconditions.assertTrue(
+					// check plot exists
+					jpa.getUserJpa().getUsername().equals(model.getUsername()), 
+										"Edit plot error", "You are trying to edit someone else's plot");
+			
+			String bword = model.flagsToBWord();
+			if(!bword.matches("[0]+")){
+				jpa.setFlags(bword);
+			}
 		}
 		
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
@@ -194,7 +203,7 @@ public class PlotServiceImpl implements PlotService {
 		}
 		if(RestPreconditions.checkString(model.getPhone())) {
 			RestPreconditions.verifyStringFormat(model.getPhone(), "^([+][0-9]{1,3})?[0-9 -]+$", 
-					"User create error", "mobile number is in invalid format");
+					"Plot creation error", "mobile number is in invalid format");
 			jpa.setPhone(model.getPhone());
 		}
 		if(RestPreconditions.checkString(model.getCountry())) {
@@ -284,11 +293,6 @@ public class PlotServiceImpl implements PlotService {
 		}
 	}
 	
-	private PlotJPA saveFlags(PlotJPA jpa, PlotDTO model){
-		jpa.setFlags(model.flagsToBWord());
-		return jpa;
-	}
-	
 	private void checkFiles(PlotDTO model) throws MyRestPreconditionsException {
 		storageServiceImpl.checkFile(model.getFile1());
 		storageServiceImpl.checkFile(model.getFile2());
@@ -317,17 +321,16 @@ public class PlotServiceImpl implements PlotService {
 		//TODO: check that it doesn't overlap with other plots in db :
 		
 		//check how many plots the user is currently selling :
-		UserJPA ujpa = userRepo.findOneByUsername(username);
+		UserJPA ujpa = RestPreconditions.checkNotNull(userRepo.findOneByUsername(username), 
+				"Create new plot error",
+				"User with username "+username+" doesn't exist.");
 		RestPreconditions.assertTrue(
-				(RestPreconditions.checkNotNull(ujpa, 
-												"Create new plot error",
-												"User with username "+username+" doesn't exist.")) // this returns UserJPA
-									.getPlots().size()<MAX_NUM_PLOTS, 
+				ujpa.getPlots().size()<MAX_NUM_PLOTS, 
 									"Create new plot error","You have reached the maximum number of plots you can create.");
 		
 		PlotJPA jpa = convertModelToJpa(model);
 		jpa.setUserJpa(ujpa);
-		ujpa.getPlots().add(jpa);
+		jpa.setFlags(model.flagsToBWord());
 		
 		saveAll(jpa, model);
 		
@@ -402,12 +405,9 @@ public class PlotServiceImpl implements PlotService {
 	}
 	
 	@Transactional
-	private PlotJPA saveAll(PlotJPA jpa, PlotDTO model) throws MyRestPreconditionsException{
-		saveModelFiles(model, 
-				(plotRepo.save(
-							saveFlags(jpa.getId()==null ? plotRepo.save(jpa) : jpa, model) // so jpa would have id for flags to use in hashCode
-										)).getId());
-		
+	private PlotJPA saveAll(PlotJPA jpa, PlotDTO model) throws MyRestPreconditionsException {
+		jpa = plotRepo.save(jpa);
+		saveModelFiles(model, jpa.getId());
 		return jpa;
 	}
 	
@@ -431,6 +431,7 @@ public class PlotServiceImpl implements PlotService {
 	public PlotDTO edit(PlotDTO model, final Long id, final String username) throws MyRestPreconditionsException {
 		RestPreconditions.checkNotNull(model, "Edit plot error", "You cannot edit plot with an empty object in request.");// can happen
 		RestPreconditions.checkId(id);
+		model.setUsername(username);
 		
 		// check vertices are convex and the number of vertices
 		if(model.getVertices()!=null && !model.getVertices().isEmpty()) {
@@ -448,19 +449,8 @@ public class PlotServiceImpl implements PlotService {
 		
 		RestPreconditions.assertTrue(checkPatchDataPresent(model), 
 				"Edit plot error","You must provide some editable data");
-			
-		RestPreconditions.assertTrue(
-				// check plot exists
-				(RestPreconditions.checkNotNull(plotRepo.getOne(id), "Edit plot error", 
-												"You are trying to edit a plot that doesn't exist in our database")) // returns PlotJPA
-									// check user is editing his plot and not someone else's
-									.getUserJpa().getUsername().equals(username), 
-									"Edit plot error", "You are trying to edit someone else's plot");
 		
 		//TODO: check that it doesn't overlap with other plots in db :
-		
-		// save images :
-		saveModelFiles(model, id);
 		
 		return convertJpaToModel(saveAll(convertModelToJpa(model), model));
 	}
