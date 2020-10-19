@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `plotfinder` /*!40100 DEFAULT CHARACTER SET utf8m
 USE `plotfinder`;
 -- MySQL dump 10.16  Distrib 10.1.37-MariaDB, for Win32 (AMD64)
 --
--- Host: 127.0.0.1    Database: plotfinder
+-- Host: plotfinder-db.ca66wkqpiwhs.eu-west-3.rds.amazonaws.com    Database: plotfinder
 -- ------------------------------------------------------
 -- Server version	10.1.37-MariaDB
 
@@ -16,6 +16,43 @@ USE `plotfinder`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `not_locked` tinyint(1) NOT NULL,
+  `reg_date` datetime NOT NULL,
+  `last_login` datetime NOT NULL,
+  `last_password_change` datetime NOT NULL,
+  `last_update` datetime NOT NULL,
+  `identifier` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `authorities` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  UNIQUE KEY `identifier` (`identifier`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `active`, `not_locked`, `reg_date`, `last_login`, `last_password_change`, `last_update`, `identifier`, `authorities`) VALUES (1,'Lazaruss','$2a$10$AjG7dmyZbFW8mIcHVCoJAet62tmMvygjatoT0dsGZInPAiiKc4XK6','lord_lazaruss@yahoo.com',1,1,'2019-02-04 22:26:08','2020-08-01 20:26:00','2019-02-04 22:26:08','2019-02-04 22:26:08',NULL,'ROLE_USER#ROLE_ADMIN#ROLE_SUPERADMIN'),(3,'Kale01','$2a$10$S8.heFA539GoDdf/aVtsRezwdidrATzUZ2kWTOczOwO8pq/Y4iAF2','lord_lazaruss@gmail.com',1,1,'2019-03-10 13:43:29','2019-03-10 13:43:29','2019-03-10 13:43:29','2019-03-17 11:59:22',NULL,'ROLE_USER'),(4,'kanlic','$2a$10$0uKzUSjpgqy02OBvbovJ7eu0syZ2edUSnwN/p25h4WBXxNpzdRKha','lord.lazaruss@gmail.com',1,0,'2019-04-24 20:27:00','2019-04-24 20:27:00','2019-04-24 20:27:00','2019-06-09 13:23:02','6a13e3a0-e829-4a0c-9e42-922a1e6ef2ca','ROLE_USER'),(5,'LazarDj','$2a$10$EWZFRmCDXCu8.pxDAKlHoOUPEhxQtEA6XoS/hQupWDrchpRX1sFB2','djordjeviclazar90@gmail.com',1,1,'2019-06-08 22:35:52','2019-06-08 22:35:52','2019-06-08 22:35:52','2019-06-08 22:35:52',NULL,'ROLE_USER');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `plot`
@@ -63,43 +100,6 @@ LOCK TABLES `plot` WRITE;
 /*!40000 ALTER TABLE `plot` DISABLE KEYS */;
 INSERT INTO `plot` (`id`, `polygon`, `user_id`, `phone`, `title`, `description`, `address1`, `address2`, `district`, `city`, `country`, `price`, `currency`, `size`, `added`, `expires`, `size_unit`, `flags`) VALUES (10,'41.883907#-85.30149@41.638058#-85.31248@41.613422#-84.99387@41.843#-84.94993@',1,'060 337 12 45','tttt','rwtrtsf','hdgdgsh',NULL,NULL,'hdhrgdh','hdfgf',12556754,'EUR',42,'2019-02-23','2019-04-02','m2','0111100000000'),(13,'42.69014#-85.83543@42.374405#-85.91233@42.38252#-85.47288@42.66591#-85.56077@',1,'060 337 12 45','Usvojite me !!!','yyhsetg','dsdfgds',NULL,NULL,'tgghdfg','Serbia',364,'EUR',2100,'2019-04-18','2019-05-18','Ar','1000000000001'),(15,'42.360603#-86.10789@42.21431#-86.12986@42.222446#-85.91013@42.352486#-85.91013@',1,'060 337 12 45','Latest plot','fhdfgdfg','asdfsd',NULL,'gdsgsdfg','gdfsghsdfg','Srbija',364,'EUR',4300,'2019-04-30','2019-05-30','Ar','1000000100001');
 /*!40000 ALTER TABLE `plot` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `not_locked` tinyint(1) NOT NULL,
-  `reg_date` datetime NOT NULL,
-  `last_login` datetime NOT NULL,
-  `last_password_change` datetime NOT NULL,
-  `last_update` datetime NOT NULL,
-  `identifier` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `authorities` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `username_UNIQUE` (`username`),
-  UNIQUE KEY `identifier` (`identifier`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_id`, `username`, `password`, `email`, `active`, `not_locked`, `reg_date`, `last_login`, `last_password_change`, `last_update`, `identifier`, `authorities`) VALUES (1,'Lazaruss','$2a$10$AjG7dmyZbFW8mIcHVCoJAet62tmMvygjatoT0dsGZInPAiiKc4XK6','lord_lazaruss@yahoo.com',1,1,'2019-02-04 22:26:08','2020-08-01 20:26:00','2019-02-04 22:26:08','2019-02-04 22:26:08',NULL,'ROLE_USER#ROLE_ADMIN#ROLE_SUPERADMIN'),(3,'Kale01','$2a$10$S8.heFA539GoDdf/aVtsRezwdidrATzUZ2kWTOczOwO8pq/Y4iAF2','lord_lazaruss@gmail.com',1,1,'2019-03-10 13:43:29','2019-03-10 13:43:29','2019-03-10 13:43:29','2019-03-17 11:59:22',NULL,'ROLE_USER'),(4,'kanlic','$2a$10$0uKzUSjpgqy02OBvbovJ7eu0syZ2edUSnwN/p25h4WBXxNpzdRKha','lord.lazaruss@gmail.com',1,0,'2019-04-24 20:27:00','2019-04-24 20:27:00','2019-04-24 20:27:00','2019-06-09 13:23:02','6a13e3a0-e829-4a0c-9e42-922a1e6ef2ca','ROLE_USER'),(5,'LazarDj','$2a$10$EWZFRmCDXCu8.pxDAKlHoOUPEhxQtEA6XoS/hQupWDrchpRX1sFB2','djordjeviclazar90@gmail.com',1,1,'2019-06-08 22:35:52','2019-06-08 22:35:52','2019-06-08 22:35:52','2019-06-08 22:35:52',NULL,'ROLE_USER');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
