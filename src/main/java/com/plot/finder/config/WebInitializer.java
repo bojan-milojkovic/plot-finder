@@ -33,10 +33,10 @@ public class WebInitializer implements WebApplicationInitializer{
 		FilterRegistration.Dynamic multipartFilter = sc.addFilter("multipartFilter", MultipartFilter.class);
         multipartFilter.addMappingForUrlPatterns(null, true, "/*");
 		
-		HttpConstraintElement forceHttpsConstraint = new HttpConstraintElement(
+		/*HttpConstraintElement forceHttpsConstraint = new HttpConstraintElement(
 				ServletSecurity.TransportGuarantee.CONFIDENTIAL);
 		ServletSecurityElement servletSecurityElement = new ServletSecurityElement(forceHttpsConstraint);
-		apiSR.setServletSecurity(servletSecurityElement);
+		apiSR.setServletSecurity(servletSecurityElement);*/
 	}
 
 }

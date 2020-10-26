@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 
-@Configuration
+//@Configuration
 public class ConnectorConfig {
 
 	@Bean
